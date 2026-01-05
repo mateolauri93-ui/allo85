@@ -4,16 +4,17 @@
 <meta charset="UTF-8">
 <title>ALLO85</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --bg:#0b0f0c;
-  --card:#131a16;
+  --panel:#111814;
+  --card:#161d18;
   --gold:#d4af37;
   --text:#e5e7eb;
-  --accent:#22c55e;
+  --muted:#9ca3af;
 }
 
 *{box-sizing:border-box}
@@ -21,39 +22,42 @@
 body{
   margin:0;
   font-family:'Inter',sans-serif;
-  background:radial-gradient(circle at top,#111,#000);
+  background:var(--bg);
   color:var(--text);
 }
 
 /* HEADER */
 .header{
-  position:sticky;
-  top:0;
+  position:fixed;
+  top:0;left:0;right:0;
   background:#000;
   border-bottom:1px solid rgba(212,175,55,.25);
   padding:14px;
   text-align:center;
+  z-index:10;
 }
 .header h1{
   margin:0;
   letter-spacing:3px;
+  font-size:18px;
 }
-
-/* BACK */
 #backBtn{
   position:absolute;
-  left:14px;
-  top:14px;
+  left:12px;
+  top:10px;
+  padding:6px 10px;
+  border-radius:999px;
   border:1px solid var(--gold);
   background:none;
   color:var(--gold);
-  padding:6px 10px;
-  border-radius:999px;
   display:none;
 }
 
 /* SCREENS */
-.screen{display:none;padding-bottom:120px}
+.screen{
+  display:none;
+  padding:90px 16px 140px;
+}
 .screen.active{display:block}
 
 /* GRID */
@@ -61,7 +65,6 @@ body{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:16px;
-  padding:16px;
 }
 
 /* CARD */
@@ -73,19 +76,22 @@ body{
   box-shadow:0 10px 25px rgba(0,0,0,.6);
   text-align:center;
 }
-.card h3{margin:8px 0 14px}
+.card h3{
+  margin:6px 0 14px;
+  font-size:16px;
+}
 
 /* OPTION */
 .option{
-  margin-bottom:10px;
   padding:10px;
+  margin-bottom:8px;
   border-radius:999px;
   border:1px solid var(--gold);
   color:var(--gold);
   cursor:pointer;
 }
 .option:hover{
-  background:rgba(212,175,55,.1);
+  background:rgba(212,175,55,.15);
 }
 
 /* WELCOME */
@@ -94,25 +100,37 @@ body{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  height:70vh;
+  height:100vh;
+  padding:0;
 }
 #welcome h2{
   font-size:28px;
-  margin-bottom:24px;
+  margin-bottom:30px;
+}
+#welcome button{
+  padding:14px 44px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  background:none;
+  color:var(--gold);
+  font-size:16px;
 }
 
 /* CART BAR */
 #cartBar{
   position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
+  bottom:0;left:0;right:0;
   background:#020617;
   border-top:1px solid rgba(212,175,55,.3);
   padding:12px 16px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  z-index:10;
+}
+#cartBar span{
+  font-size:14px;
+  color:var(--muted);
 }
 #cartBar button{
   border:1px solid var(--gold);
@@ -129,6 +147,7 @@ body{
   background:#000;
   padding:20px;
   display:none;
+  z-index:20;
 }
 .cart-item{
   display:flex;
@@ -160,10 +179,10 @@ body{
   <h1>ALLO85</h1>
 </div>
 
-<!-- WELCOME -->
+<!-- ACCUEIL -->
 <div id="welcome" class="screen active">
   <h2>Bienvenue</h2>
-  <button class="option" onclick="go('home')">Entrer</button>
+  <button onclick="start()">Entrer</button>
 </div>
 
 <!-- HOME -->
@@ -190,13 +209,13 @@ body{
   </div>
 </div>
 
-<!-- PRODUCTS TEMPLATE -->
+<!-- PRODUITS -->
 <div id="jaune" class="screen"></div>
 <div id="filtre" class="screen"></div>
 <div id="local" class="screen"></div>
 <div id="cali" class="screen"></div>
 
-<!-- CART -->
+<!-- PANIER -->
 <div id="cart">
   <h2>Panier</h2>
   <div id="cartItems"></div>
@@ -204,53 +223,50 @@ body{
   <button class="option" onclick="closeCart()">Fermer</button>
 </div>
 
-<!-- CART BAR -->
 <div id="cartBar">
   <span><span id="count">0</span> article(s)</span>
   <button onclick="openCart()">Voir panier</button>
 </div>
 
 <script>
-Telegram.WebApp.ready();
+let stack=[];
+let cart=[];
 
-const prices={
-  '5g':50,
-  '10g':90,
-  '20€':20
-};
-
-const screens=['jaune','filtre','local','cali'];
-screens.forEach(id=>{
-  document.getElementById(id).innerHTML=`
+const prices={'5g':50,'10g':90,'20€':20};
+['jaune','filtre','local','cali'].forEach(cat=>{
+  document.getElementById(cat).innerHTML=`
     <div class="grid">
-      ${Object.keys(prices).map(k=>`
+      ${Object.entries(prices).map(([label,price])=>`
         <div class="card">
-          <h3>${k}</h3>
-          <div class="option" onclick="add('${id} ${k}',${prices[k]})">
-            Ajouter — ${prices[k]}€
+          <h3>${label}</h3>
+          <div class="option" onclick="addItem('${cat} ${label}',${price})">
+            Ajouter — ${price}€
           </div>
-        </div>
-      `).join('')}
+        </div>`).join('')}
     </div>`;
 });
 
-let history=[];
-let cart=[];
+function start(){
+  document.getElementById('welcome').classList.remove('active');
+  go('home',true);
+}
 
-function go(id){
-  const cur=document.querySelector('.screen.active');
-  if(cur) history.push(cur.id);
+function go(id,reset=false){
+  if(!reset){
+    const current=document.querySelector('.screen.active');
+    if(current) stack.push(current.id);
+  }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('backBtn').style.display=id==='welcome'?'none':'block';
+  document.getElementById('backBtn').style.display=stack.length?'block':'none';
 }
 
 function goBack(){
-  const prev=history.pop();
-  if(prev) go(prev);
+  const prev=stack.pop();
+  if(prev) go(prev,true);
 }
 
-function add(name,price){
+function addItem(name,price){
   const item=cart.find(i=>i.name===name);
   if(item) item.qty++;
   else cart.push({name,price,qty:1});
@@ -268,13 +284,19 @@ function renderCart(){
       <div class="cart-item">
         <span>${i.name} x${i.qty}</span>
         <span>
-          <button onclick="i.qty++;renderCart()">+</button>
-          <button onclick="i.qty--;if(i.qty<=0)cart.splice(${idx},1);renderCart()">−</button>
+          <button onclick="changeQty(${idx},1)">+</button>
+          <button onclick="changeQty(${idx},-1)">−</button>
         </span>
       </div>`;
   });
   document.getElementById('total').innerText=total;
   document.getElementById('count').innerText=count;
+}
+
+function changeQty(idx,delta){
+  cart[idx].qty+=delta;
+  if(cart[idx].qty<=0) cart.splice(idx,1);
+  renderCart();
 }
 
 function openCart(){document.getElementById('cart').style.display='block'}
