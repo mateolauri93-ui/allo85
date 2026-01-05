@@ -20,7 +20,7 @@
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
   background:linear-gradient(180deg,var(--bg2),var(--bg));
   color:var(--text);
 }
@@ -81,7 +81,6 @@ header{
   text-align:center;
   font-size:17px;
   margin-bottom:12px;
-  letter-spacing:.4px;
 }
 
 /* GRID */
@@ -213,16 +212,16 @@ textarea{
 <section id="choco" class="page">
   <div class="page-title">🍫 Sélection</div>
   <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡<br><small>Jaune</small></div>
-    <div class="card" onclick="go('filtre')">🔍<br><small>Filtré</small></div>
+    <div class="card" onclick="go('jaune')">🟡<small>Jaune</small></div>
+    <div class="card" onclick="go('filtre')">🔍<small>Filtré</small></div>
   </div>
 </section>
 
 <section id="green" class="page">
   <div class="page-title">🥦 Sélection</div>
   <div class="grid">
-    <div class="card" onclick="go('local')">🌱<br><small>Local</small></div>
-    <div class="card" onclick="go('cali')">🇺🇸<br><small>Cali</small></div>
+    <div class="card" onclick="go('local')">🌱<small>Local</small></div>
+    <div class="card" onclick="go('cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
@@ -356,19 +355,35 @@ function render(){
 }
 
 function sendOrder(){
+  if(cart.length===0){
+    alert("Le panier est vide");
+    return;
+  }
+  if(delivery && !address.value.trim()){
+    alert("Merci de renseigner l’adresse de livraison");
+    return;
+  }
+
   let msg="🧾 COMMANDE ALLO85\n\n";
   cart.forEach(i=>{
     msg+=`• ${i.qty} × ${i.size} ${i.cat} = ${i.price*i.qty}€\n`;
   });
   if(delivery){
-    msg+=`\n🚚 Livraison +20€\n📍 ${address.value}\n`;
+    msg+=`\n🚚 Livraison : +20€\n📍 ${address.value}\n`;
   }else{
     msg+=`\n📍 Sur place\n`;
   }
   msg+=`\nTOTAL : ${totalSpan.textContent}€`;
 
-  const url=`https://t.me/allo856?text=${encodeURIComponent(msg)}`;
-  window.open(url,"_blank");
+  const tgLink =
+    "tg://resolve?domain=allo856&text=" +
+    encodeURIComponent(msg);
+
+  if(window.Telegram && Telegram.WebApp){
+    Telegram.WebApp.openTelegramLink(tgLink);
+  }else{
+    location.href = tgLink;
+  }
 }
 
 const totalSpan=document.getElementById("total");
