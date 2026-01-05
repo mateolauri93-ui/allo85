@@ -2,320 +2,195 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ALLO85</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<title>ALLO85</title>
 
 <style>
-:root{
-  --bg:#0b0f0c;
-  --panel:#111814;
-  --card:#161d18;
-  --gold:#d4af37;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:'Inter',sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  font-family:Arial, sans-serif;
+  background:#0b0f0c;
+  color:white;
 }
+.hidden{display:none}
 
-/* HEADER */
-.header{
+header{
   position:fixed;
   top:0;left:0;right:0;
-  background:#000;
-  border-bottom:1px solid rgba(212,175,55,.25);
-  padding:14px;
+  background:black;
+  padding:12px;
   text-align:center;
-  z-index:10;
-}
-.header h1{
-  margin:0;
-  letter-spacing:3px;
-  font-size:18px;
 }
 #backBtn{
   position:absolute;
-  left:12px;
+  left:10px;
   top:10px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  display:none;
 }
 
-/* SCREENS */
-.screen{
-  display:none;
-  padding:90px 16px 140px;
-}
-.screen.active{display:block}
-
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
+main{
+  padding:80px 16px 120px;
 }
 
-/* CARD */
 .card{
-  background:linear-gradient(145deg,#111,#020617);
-  border-radius:18px;
-  padding:18px;
-  border:1px solid rgba(212,175,55,.3);
-  box-shadow:0 10px 25px rgba(0,0,0,.6);
+  background:#111814;
+  border-radius:10px;
+  padding:16px;
+  margin-bottom:14px;
   text-align:center;
 }
-.card h3{
-  margin:6px 0 14px;
-  font-size:16px;
-}
 
-/* OPTION */
-.option{
-  padding:10px;
-  margin-bottom:8px;
-  border-radius:999px;
-  border:1px solid var(--gold);
-  color:var(--gold);
+button{
+  padding:10px 18px;
+  border-radius:20px;
+  border:none;
   cursor:pointer;
 }
-.option:hover{
-  background:rgba(212,175,55,.15);
+.primary{
+  background:#d4af37;
+  color:black;
+}
+.secondary{
+  background:#333;
+  color:white;
 }
 
-/* WELCOME */
-#welcome{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  padding:0;
-}
-#welcome h2{
-  font-size:28px;
-  margin-bottom:30px;
-}
-#welcome button{
-  padding:14px 44px;
-  border-radius:999px;
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  font-size:16px;
-}
-
-/* CART BAR */
 #cartBar{
   position:fixed;
   bottom:0;left:0;right:0;
-  background:#020617;
-  border-top:1px solid rgba(212,175,55,.3);
-  padding:12px 16px;
+  background:black;
+  padding:12px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  z-index:10;
-}
-#cartBar span{
-  font-size:14px;
-  color:var(--muted);
-}
-#cartBar button{
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  padding:8px 16px;
-  border-radius:999px;
-}
-
-/* CART */
-#cart{
-  position:fixed;
-  inset:0;
-  background:#000;
-  padding:20px;
-  display:none;
-  z-index:20;
-}
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
-}
-.cart-item button{
-  margin-left:6px;
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  padding:4px 10px;
-  border-radius:6px;
-}
-.total{
-  margin-top:20px;
-  font-size:22px;
-  color:var(--gold);
-  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <button id="backBtn" onclick="goBack()">⬅</button>
-  <h1>ALLO85</h1>
-</div>
+<header>
+  <button id="backBtn" class="secondary hidden" onclick="goBack()">⬅</button>
+  <b>ALLO85</b>
+</header>
 
 <!-- ACCUEIL -->
-<div id="welcome" class="screen active">
-  <h2>Bienvenue</h2>
-  <button onclick="startApp()">Entrer</button>
-</div>
+<main id="welcome">
+  <div class="card">
+    <h2>Bienvenue</h2>
+    <button class="primary" onclick="go('home')">Entrer</button>
+  </div>
+</main>
 
 <!-- HOME -->
-<div id="home" class="screen">
-  <div class="grid">
-    <div class="card" onclick="go('choco')"><h3>🍫</h3></div>
-    <div class="card" onclick="go('green')"><h3>🥦</h3></div>
-  </div>
-</div>
+<main id="home" class="hidden">
+  <div class="card" onclick="go('choco')">🍫 Catégorie</div>
+  <div class="card" onclick="go('green')">🥦 Catégorie</div>
+</main>
 
 <!-- 🍫 -->
-<div id="choco" class="screen">
-  <div class="grid">
-    <div class="card" onclick="go('jaune')"><h3>🟡 Jaune</h3></div>
-    <div class="card" onclick="go('filtre')"><h3>🔍 Filtré</h3></div>
-  </div>
-</div>
+<main id="choco" class="hidden">
+  <div class="card" onclick="go('jaune')">🟡 Jaune</div>
+  <div class="card" onclick="go('filtre')">🔍 Filtré</div>
+</main>
 
 <!-- 🥦 -->
-<div id="green" class="screen">
-  <div class="grid">
-    <div class="card" onclick="go('local')"><h3>🌱 Local</h3></div>
-    <div class="card" onclick="go('cali')"><h3>🇺🇸 Cali</h3></div>
-  </div>
-</div>
+<main id="green" class="hidden">
+  <div class="card" onclick="go('local')">🌱 Local</div>
+  <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
+</main>
 
 <!-- PRODUITS -->
-<div id="jaune" class="screen"></div>
-<div id="filtre" class="screen"></div>
-<div id="local" class="screen"></div>
-<div id="cali" class="screen"></div>
+<main id="jaune" class="hidden"></main>
+<main id="filtre" class="hidden"></main>
+<main id="local" class="hidden"></main>
+<main id="cali" class="hidden"></main>
 
 <!-- PANIER -->
-<div id="cart">
-  <h2>Panier</h2>
+<main id="cart" class="hidden">
+  <h3>Panier</h3>
   <div id="cartItems"></div>
-  <div class="total">Total : <span id="total">0</span> €</div>
-  <button class="option" onclick="closeCart()">Fermer</button>
-</div>
+  <p>Total : <b><span id="total">0</span> €</b></p>
+</main>
 
 <div id="cartBar">
   <span><span id="count">0</span> article(s)</span>
-  <button onclick="openCart()">Voir panier</button>
+  <button class="secondary" onclick="go('cart')">Panier</button>
 </div>
 
 <script>
-/* ===== LOGIQUE TESTÉE ===== */
+/* ETAT */
+let history=[];
+let cart=[];
 
-let navStack = [];
-let cart = [];
-
+/* PRIX */
 const prices = {
-  '5g': 50,
-  '10g': 90,
-  '20€': 20
+  "5g":50,
+  "10g":90,
+  "20€":20
 };
 
-['jaune','filtre','local','cali'].forEach(cat=>{
-  document.getElementById(cat).innerHTML = `
-    <div class="grid">
-      ${Object.entries(prices).map(([label,price])=>`
-        <div class="card">
-          <h3>${label}</h3>
-          <div class="option" onclick="addItem('${cat} ${label}',${price})">
-            Ajouter — ${price}€
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `;
+/* GENERATION PRODUITS */
+["jaune","filtre","local","cali"].forEach(cat=>{
+  document.getElementById(cat).innerHTML =
+    Object.entries(prices).map(([label,price])=>`
+      <div class="card">
+        <b>${label}</b><br><br>
+        <button class="primary" onclick="add('${cat} ${label}',${price})">
+          Ajouter ${price}€
+        </button>
+      </div>
+    `).join("");
 });
 
 /* NAVIGATION */
-function startApp(){
-  navStack = [];
-  showScreen('home');
-}
-
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById('backBtn').style.display =
-    navStack.length ? 'block' : 'none';
+function show(id){
+  document.querySelectorAll("main").forEach(m=>m.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  document.getElementById("backBtn").classList.toggle("hidden",history.length===0);
 }
 
 function go(id){
-  const current = document.querySelector('.screen.active');
-  if(current) navStack.push(current.id);
-  showScreen(id);
+  const current=[...document.querySelectorAll("main")].find(m=>!m.classList.contains("hidden"));
+  if(current) history.push(current.id);
+  show(id);
 }
 
 function goBack(){
-  const prev = navStack.pop();
-  if(prev) showScreen(prev);
+  const prev=history.pop();
+  if(prev) show(prev);
 }
 
 /* PANIER */
-function addItem(name, price){
-  const item = cart.find(i=>i.name===name);
+function add(name,price){
+  const item=cart.find(i=>i.name===name);
   if(item) item.qty++;
-  else cart.push({name, price, qty:1});
+  else cart.push({name,price,qty:1});
   renderCart();
 }
 
 function renderCart(){
-  let total = 0, count = 0;
-  const el = document.getElementById('cartItems');
-  el.innerHTML = '';
-  cart.forEach((i, idx)=>{
-    total += i.price * i.qty;
-    count += i.qty;
-    el.innerHTML += `
-      <div class="cart-item">
-        <span>${i.name} x${i.qty}</span>
-        <span>
-          <button onclick="changeQty(${idx},1)">+</button>
-          <button onclick="changeQty(${idx},-1)">−</button>
-        </span>
+  let total=0,count=0;
+  const el=document.getElementById("cartItems");
+  el.innerHTML="";
+  cart.forEach((i,idx)=>{
+    total+=i.price*i.qty;
+    count+=i.qty;
+    el.innerHTML+=`
+      <div class="card">
+        ${i.name} x${i.qty}<br><br>
+        <button onclick="change(${idx},1)">+</button>
+        <button onclick="change(${idx},-1)">−</button>
       </div>
     `;
   });
-  document.getElementById('total').innerText = total;
-  document.getElementById('count').innerText = count;
+  document.getElementById("total").innerText=total;
+  document.getElementById("count").innerText=count;
 }
 
-function changeQty(idx, delta){
-  cart[idx].qty += delta;
-  if(cart[idx].qty <= 0) cart.splice(idx,1);
+function change(idx,delta){
+  cart[idx].qty+=delta;
+  if(cart[idx].qty<=0) cart.splice(idx,1);
   renderCart();
 }
-
-function openCart(){ document.getElementById('cart').style.display='block'; }
-function closeCart(){ document.getElementById('cart').style.display='none'; }
 </script>
 
 </body>
