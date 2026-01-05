@@ -11,7 +11,6 @@
   --bg2:#151a17;
   --card:#141816;
   --gold:#f2c94c;
-  --gold-soft:#ffe08a;
   --text:#f5f5f5;
   --muted:#9ca3af;
 }
@@ -20,19 +19,15 @@
 
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
   background:linear-gradient(180deg,var(--bg2),var(--bg));
   color:var(--text);
-  display:flex;
-  justify-content:center;
 }
 
-/* WRAPPER MOBILE */
 .app{
-  width:100%;
   max-width:420px;
+  margin:auto;
   min-height:100vh;
-  position:relative;
 }
 
 /* HEADER */
@@ -41,35 +36,35 @@ header{
   top:0;
   width:100%;
   max-width:420px;
+  height:52px;
   background:#000;
-  padding:10px 12px;
-  text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
   z-index:10;
 }
 
 #backBtn{
   position:absolute;
-  left:8px;
-  top:8px;
-  padding:6px 10px;
-  border-radius:999px;
-  border:1px solid var(--gold);
+  left:10px;
   background:none;
+  border:1px solid var(--gold);
   color:var(--gold);
-  font-size:14px;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:13px;
   display:none;
 }
 
 .logo{
-  width:90px;
-  margin:auto;
-  display:block;
+  height:26px;
 }
 
 /* PAGES */
 .page{
   display:none;
-  padding:80px 12px 110px;
+  padding:70px 12px 90px;
   min-height:100vh;
 }
 .page.active{display:block}
@@ -77,9 +72,8 @@ header{
 /* TITRES */
 .page-title{
   text-align:center;
-  font-size:18px;
+  font-size:17px;
   margin-bottom:12px;
-  letter-spacing:.5px;
 }
 
 /* GRID */
@@ -98,22 +92,20 @@ header{
 }
 
 .card small{
-  display:block;
-  margin-top:4px;
-  color:var(--muted);
   font-size:12px;
+  color:var(--muted);
 }
 
 /* BUTTONS */
 button{
   border:none;
   border-radius:999px;
-  padding:8px 14px;
+  padding:7px 14px;
   font-size:14px;
 }
 
 .primary{
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  background:linear-gradient(135deg,var(--gold),#ffe08a);
   color:#000;
 }
 
@@ -121,33 +113,54 @@ button{
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:10px;
-  margin-top:8px;
+  gap:8px;
+  margin-top:6px;
 }
 
 .qty button{
-  width:30px;
-  height:30px;
+  width:28px;
+  height:28px;
   border-radius:50%;
-  font-size:18px;
   background:var(--gold);
   color:#000;
+  font-size:16px;
 }
 
-.qty span{font-size:16px}
-
-/* CART BAR */
+/* FOOTER PANIER */
 #cartBar{
   position:fixed;
   bottom:0;
   width:100%;
   max-width:420px;
+  height:56px;
   background:#000;
-  padding:10px 12px;
+  border-top:1px solid rgba(255,255,255,.1);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  z-index:10;
+}
+
+#cartBar .info{
+  font-size:13px;
+  color:var(--muted);
+}
+
+#cartBar .cta{
+  background:linear-gradient(135deg,var(--gold),#ffe08a);
+  color:#000;
+  padding:8px 16px;
+  border-radius:999px;
+  font-weight:600;
+}
+
+/* PANIER */
+.cart-item{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-size:14px;
+  margin-bottom:10px;
 }
 </style>
 </head>
@@ -164,7 +177,7 @@ button{
 <!-- BIENVENUE -->
 <section id="welcome" class="page active">
   <div class="card">
-    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo" style="width:140px"><br>
+    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
@@ -173,8 +186,8 @@ button{
 <section id="home" class="page">
   <div class="page-title">Catégories</div>
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
-    <div class="card" onclick="go('green')">🥦<small>Local / Cali</small></div>
+    <div class="card" onclick="go('choco')">🍫<br><small>Jaune / Filtré</small></div>
+    <div class="card" onclick="go('green')">🥦<br><small>Local / Cali</small></div>
   </div>
 </section>
 
@@ -182,8 +195,8 @@ button{
 <section id="choco" class="page">
   <div class="page-title">🍫</div>
   <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="go('filtre')">🔍<small>Filtré</small></div>
+    <div class="card" onclick="go('jaune')">🟡<br><small>Jaune</small></div>
+    <div class="card" onclick="go('filtre')">🔍<br><small>Filtré</small></div>
   </div>
 </section>
 
@@ -191,8 +204,8 @@ button{
 <section id="green" class="page">
   <div class="page-title">🥦</div>
   <div class="grid">
-    <div class="card" onclick="go('local')">🌱<small>Local</small></div>
-    <div class="card" onclick="go('cali')">🇺🇸<small>Cali</small></div>
+    <div class="card" onclick="go('local')">🌱<br><small>Local</small></div>
+    <div class="card" onclick="go('cali')">🇺🇸<br><small>Cali</small></div>
   </div>
 </section>
 
@@ -211,9 +224,12 @@ button{
   </div>
 </section>
 
+<!-- FOOTER -->
 <div id="cartBar">
-  <span><span id="count">0</span> article(s)</span>
-  <button onclick="go('cart')">Panier</button>
+  <div class="info">
+    <span id="count">0</span> article(s) · <span id="totalBar">0</span> €
+  </div>
+  <button class="cta" onclick="go('cart')">Panier</button>
 </div>
 
 </div>
@@ -234,7 +250,7 @@ const products=[];
     `<div class="grid">`+
     products.filter(p=>p.cat===cat).map(p=>`
       <div class="card">
-        <b>${p.label}</b><small>${p.price} €</small>
+        <b>${p.label}</b><br><small>${p.price} €</small>
         <div id="btn-${p.id}"></div>
       </div>`).join("")+
     `</div>`;
@@ -276,6 +292,7 @@ function render(){
   let total=0,count=0;
   cart.forEach(i=>{total+=i.price*i.qty;count+=i.qty});
   totalSpan.textContent=total;
+  totalBar.textContent=total;
   countSpan.textContent=count;
 
   products.forEach(p=>{
@@ -292,12 +309,14 @@ function render(){
   });
 
   cartItems.innerHTML=cart.map(i=>`
-    <div class="card">
-      ${i.label} x${i.qty} — ${i.price*i.qty} €
+    <div class="cart-item">
+      <span>${i.label} x${i.qty}</span>
+      <span>${i.price*i.qty} €</span>
     </div>`).join("");
 }
 
 const totalSpan=document.getElementById("total");
+const totalBar=document.getElementById("totalBar");
 const countSpan=document.getElementById("count");
 </script>
 
