@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* === STYLE IDENTIQUE À LA VERSION VALIDÉE === */
 :root{
   --sand:#f7f1e3;--sky:#e6f3ff;--sun:#ffd56b;--sun2:#ffef9c;
   --sea:#7fd1e8;--ink:#1f2937;--card:#ffffffdd;
@@ -41,6 +40,8 @@ footer button{border:none;border-radius:999px;padding:10px 20px;background:linea
 .qty button{width:32px;height:32px;border:none;border-radius:50%;background:var(--sun);font-size:18px;font-weight:700}
 textarea{width:100%;border-radius:16px;padding:12px}
 .primary{width:100%;border:none;border-radius:999px;padding:16px;font-family:'Fredoka';background:linear-gradient(135deg,var(--sun),var(--sun2))}
+h2{text-align:center;font-family:Fredoka}
+.notice{color:green;text-align:center;margin-top:10px}
 </style>
 </head>
 
@@ -57,7 +58,8 @@ textarea{width:100%;border-radius:16px;padding:12px}
 <section id="welcome" class="page active">
   <div style="text-align:center">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" width="200"><br><br>
-    <h1 style="font-family:Fredoka">Bienvenue</h1>
+    <h2>Bienvenue</h2>
+    <p>Commande simple & solaire 🌴</p>
     <button class="primary" onclick="enterApp()">Entrer</button>
   </div>
 </section>
@@ -71,38 +73,41 @@ textarea{width:100%;border-radius:16px;padding:12px}
 </section>
 
 <section id="choco" class="page">
+  <h2>🍫 Chocolat</h2>
   <div class="grid">
-    <div class="card" onclick="openProducts('jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="openProducts('filtre')">🔍<small>Filtré</small></div>
+    <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
+    <div class="card" onclick="openProducts('Filtré')">🔍<small>Filtré</small></div>
   </div>
 </section>
 
 <section id="green" class="page">
+  <h2>🥦 Green</h2>
   <div class="grid">
-    <div class="card" onclick="openProducts('cali')">🇺🇸<small>Cali</small></div>
+    <div class="card" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
 <section id="products" class="page">
-  <h2 id="productTitle" style="font-family:Fredoka;text-align:center"></h2>
+  <h2 id="productTitle"></h2>
   <div class="grid" id="productGrid"></div>
 </section>
 
 <section id="cart" class="page">
-  <h2 style="font-family:Fredoka">Panier</h2>
+  <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
 
   <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label><br>
   <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison +20€</label>
 
   <div id="addressBox" style="display:none;margin-top:10px">
-    <textarea id="address" placeholder="Adresse"></textarea>
+    <textarea id="address" placeholder="Adresse de livraison"></textarea>
   </div>
 
   <p><b>Total : <span id="totalCart">0</span> €</b></p>
-  <button class="primary" onclick="finalize()">Finaliser</button>
-  <p id="copyNotice" style="display:none;color:green">Commande copiée ✔️</p>
-  <button class="primary" onclick="openTelegram()">Ouvrir Telegram</button>
+
+  <button class="primary" onclick="finalize()">Finaliser la commande</button>
+  <div id="copyNotice" class="notice" style="display:none">Commande copiée ✔️</div>
+  <button class="primary" onclick="openTelegram()">Ouvrir Telegram @allo856</button>
 </section>
 
 <footer id="appFooter">
@@ -115,19 +120,16 @@ textarea{width:100%;border-radius:16px;padding:12px}
 <script>
 let historyStack=[],cart=[],delivery=false;
 const catalog={
-  jaune:[
-    {g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}
-  ],
-  filtre:[
-    {g:"2.8g",p:20},{g:"5g",p:40},{g:"10g",p:70}
-  ],
-  cali:[
-    {g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}
-  ]
+  Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
+  Filtré:[{g:"2.8g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
+  Cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
 };
 
 function enterApp(){
-  welcome.remove();appHeader.style.display="flex";appFooter.style.display="flex";go("home");
+  welcome.remove();
+  appHeader.style.display="flex";
+  appFooter.style.display="flex";
+  go("home");
 }
 function go(id){
   const cur=document.querySelector(".page.active");
@@ -143,14 +145,14 @@ function goBack(){
   backBtn.style.display=historyStack.length?"block":"none";
 }
 function openProducts(type){
-  productTitle.innerText=type.toUpperCase();
+  productTitle.innerText=type;
   productGrid.innerHTML="";
   catalog[type].forEach(it=>{
     const id=type+it.g;
     const c=cart.find(x=>x.id===id);
     productGrid.innerHTML+=`
       <div class="card">
-        ${it.g} – ${it.p} €
+        ${it.g} — ${it.p} €
         <div class="qty">
           ${c?`<button onclick="chg('${id}',-1)">−</button><span>${c.q}</span><button onclick="chg('${id}',1)">+</button>`:
           `<button onclick="add('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`}
@@ -165,7 +167,7 @@ function setDelivery(v){delivery=v;addressBox.style.display=v?"block":"none";upd
 function upd(){
   let c=0,t=0;cartItems.innerHTML="";
   cart.forEach(i=>{c+=i.q;t+=i.q*i.p;
-    cartItems.innerHTML+=`<div>${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€</div>`;
+    cartItems.innerHTML+=`<div>${i.q}× ${i.g} ${i.t} — ${i.q*i.p} €</div>`;
   });
   if(delivery)t+=20;
   cartCount.innerText=c;cartTotal.innerText=t;totalCart.innerText=t;
@@ -174,9 +176,9 @@ function finalize(){
   if(cart.length===0)return alert("Panier vide");
   if(delivery&&!address.value.trim())return alert("Adresse requise");
   let msg="🧾 COMMANDE ALLO85\n\n";
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p}€\n`);
+  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p} €\n`);
   msg+=delivery?`\n🚚 Livraison +20€\n📍 ${address.value}`:`\n📍 Sur place`;
-  msg+=`\nTOTAL : ${totalCart.innerText}€`;
+  msg+=`\n\nTOTAL : ${totalCart.innerText} €`;
   navigator.clipboard.writeText(msg);
   copyNotice.style.display="block";
 }
