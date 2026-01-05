@@ -6,164 +6,68 @@
 <title>ALLO85</title>
 
 <style>
-:root{
-  --bg:#0b0f0c;
-  --bg2:#151a17;
-  --card:#141816;
-  --gold:#f2c94c;
-  --text:#f5f5f5;
-  --muted:#9ca3af;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg2),var(--bg));
-  color:var(--text);
+  background:#0b0f0c;
+  color:#fff;
 }
-
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-}
-
-/* HEADER */
+.app{max-width:420px;margin:auto;min-height:100vh}
 header{
-  position:fixed;
-  top:0;
-  width:100%;
-  max-width:420px;
-  height:52px;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  z-index:10;
+  position:fixed;top:0;left:0;right:0;
+  height:52px;background:#000;
+  display:flex;align-items:center;justify-content:center;
 }
-
 #backBtn{
-  position:absolute;
-  left:10px;
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  padding:4px 10px;
-  border-radius:999px;
-  font-size:13px;
+  position:absolute;left:10px;
+  border:1px solid #f2c94c;
+  background:none;color:#f2c94c;
+  padding:4px 10px;border-radius:20px;
   display:none;
 }
-
 .logo{height:26px}
-
-/* PAGES */
 .page{
-  position:absolute;
-  top:0;left:0;right:0;
+  display:none;
   padding:70px 12px 90px;
   min-height:100vh;
-  opacity:0;
-  transform:translateX(20px);
-  pointer-events:none;
-  transition:.25s;
 }
-.page.active{
-  opacity:1;
-  transform:none;
-  pointer-events:auto;
+.page.active{display:block}
+.card{
+  background:#141816;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
 }
-
-.page-title{
-  text-align:center;
-  font-size:17px;
-  margin-bottom:12px;
-}
-
-/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:10px;
 }
-
-/* CARD */
-.card{
-  background:linear-gradient(145deg,#161b18,#0c0f0d);
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
-}
-
-.card small{color:var(--muted);font-size:12px}
-
-/* BUTTONS */
 button{
-  border:none;
-  border-radius:999px;
-  padding:7px 14px;
-  font-size:14px;
+  border:none;border-radius:20px;
+  padding:8px 14px;font-size:14px;
 }
-
-.primary{
-  background:linear-gradient(135deg,var(--gold),#ffe08a);
-  color:#000;
-}
-
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  margin-top:6px;
-}
+.primary{background:#f2c94c;color:#000}
+.qty{display:flex;justify-content:center;gap:8px;margin-top:6px}
 .qty button{
-  width:28px;height:28px;
-  border-radius:50%;
-  background:var(--gold);
-  color:#000;
+  width:28px;height:28px;border-radius:50%;
+  background:#f2c94c;color:#000
 }
-
-/* INPUT */
-textarea{
-  width:100%;
-  background:#0c0f0d;
-  color:#fff;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;
-  padding:10px;
-  resize:none;
-}
-
-/* FOOTER */
 #cartBar{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  max-width:420px;
-  height:56px;
-  background:#000;
-  border-top:1px solid rgba(255,255,255,.08);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 14px;
+  position:fixed;bottom:0;left:0;right:0;
+  height:56px;background:#000;
+  display:flex;justify-content:space-between;
+  align-items:center;padding:0 14px;
 }
-
-#cartBar .cta{
-  background:linear-gradient(135deg,var(--gold),#ffe08a);
-  color:#000;
-  padding:8px 16px;
-  border-radius:999px;
-  font-weight:600;
+textarea{
+  width:100%;background:#0c0f0d;color:#fff;
+  border:1px solid #333;border-radius:10px;
+  padding:10px;
 }
 </style>
 </head>
 
 <body>
-
 <div class="app">
 
 <header>
@@ -171,7 +75,6 @@ textarea{
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
-<!-- BIENVENUE -->
 <section id="welcome" class="page active">
   <div class="card" style="text-align:center">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
@@ -179,28 +82,24 @@ textarea{
   </div>
 </section>
 
-<!-- HOME -->
 <section id="home" class="page">
-  <div class="page-title">Catégories</div>
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<br><small>Jaune / Filtré</small></div>
-    <div class="card" onclick="go('green')">🥦<br><small>Local / Cali</small></div>
+    <div class="card" onclick="go('choco')">🍫<br>Jaune / Filtré</div>
+    <div class="card" onclick="go('green')">🥦<br>Local / Cali</div>
   </div>
 </section>
 
 <section id="choco" class="page">
-  <div class="page-title">🍫</div>
   <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="go('filtre')">🔍<small>Filtré</small></div>
+    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
+    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
   </div>
 </section>
 
 <section id="green" class="page">
-  <div class="page-title">🥦</div>
   <div class="grid">
-    <div class="card" onclick="go('local')">🌱<small>Local</small></div>
-    <div class="card" onclick="go('cali')">🇺🇸<small>Cali</small></div>
+    <div class="card" onclick="go('local')">🌱 Local</div>
+    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
   </div>
 </section>
 
@@ -209,50 +108,37 @@ textarea{
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
 
-<!-- PANIER -->
 <section id="cart" class="page">
-  <div class="page-title">🛒 Panier</div>
   <div id="cartItems"></div>
 
   <div class="card">
-    <b>Livraison</b><br><br>
-    <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label><br>
-    <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison (+20€)</label>
-    <div id="addressBox" style="display:none;margin-top:10px">
+    <label><input type="radio" name="delivery" checked onclick="setDelivery(false)"> Sur place</label><br>
+    <label><input type="radio" name="delivery" onclick="setDelivery(true)"> Livraison (+20€)</label>
+    <div id="addrBox" style="display:none;margin-top:8px">
       <textarea id="address" placeholder="Adresse de livraison"></textarea>
     </div>
   </div>
 
-  <div class="card">
-    Total : <b><span id="total">0</span> €</b>
-  </div>
-
-  <button class="primary" style="width:100%" onclick="confirmOrder()">Confirmer la commande</button>
-</section>
-
-<!-- CONFIRMATION -->
-<section id="confirm" class="page">
-  <div class="page-title">✅ Confirmation</div>
-  <div class="card" id="confirmText"></div>
+  <div class="card"><b>Total : <span id="total">0</span> €</b></div>
+  <button class="primary" style="width:100%" onclick="sendOrder()">Confirmer la commande</button>
 </section>
 
 <div id="cartBar">
   <div><span id="count">0</span> article(s)</div>
-  <button class="cta" onclick="go('cart')">Panier</button>
+  <button class="primary" onclick="go('cart')">Panier</button>
 </div>
 
 </div>
 
 <script>
-let stack=[], cart=[];
-let delivery=false, deliveryFee=20;
-
+let stack=[], cart=[], delivery=false;
+const deliveryFee=20;
 const prices={"5g":50,"10g":90,"20€":20};
 const products=[];
 
 ["jaune","filtre","local","cali"].forEach(cat=>{
-  Object.entries(prices).forEach(([label,price])=>{
-    products.push({id:`${cat}-${label}`,cat,label,price});
+  Object.entries(prices).forEach(([size,price])=>{
+    products.push({id:`${cat}-${size}`,cat,size,price});
   });
 });
 
@@ -261,7 +147,7 @@ const products=[];
     `<div class="grid">`+
     products.filter(p=>p.cat===cat).map(p=>`
       <div class="card">
-        <b>${p.label}</b><br><small>${p.price} €</small>
+        <b>${p.size}</b><br>${p.price} €
         <div id="btn-${p.id}"></div>
       </div>`).join("")+
     `</div>`;
@@ -287,7 +173,8 @@ function goBack(){
 
 function add(id){
   const p=products.find(x=>x.id===id);
-  cart.push({...p,qty:1});
+  const it=cart.find(x=>x.id===id);
+  it?it.qty++:cart.push({...p,qty:1});
   render();
 }
 function change(id,d){
@@ -296,18 +183,25 @@ function change(id,d){
   if(it.qty<=0) cart=cart.filter(x=>x.id!==id);
   render();
 }
-
 function setDelivery(v){
   delivery=v;
-  addressBox.style.display=v?'block':'none';
+  addrBox.style.display=v?'block':'none';
   render();
 }
 
 function render(){
   let total=0,count=0;
-  cart.forEach(i=>{total+=i.price*i.qty;count+=i.qty});
+  cartItems.innerHTML='';
+  cart.forEach(i=>{
+    const label=`${i.qty} × ${i.size} ${i.cat}`;
+    const line=i.price*i.qty;
+    total+=line;count+=i.qty;
+    cartItems.innerHTML+=`
+      <div class="card">
+        ${label}<br>${line} €
+      </div>`;
+  });
   if(delivery) total+=deliveryFee;
-
   totalSpan.textContent=total;
   countSpan.textContent=count;
 
@@ -323,27 +217,21 @@ function render(){
            <button onclick="change('${p.id}',1)">+</button>
          </div>`;
   });
-
-  cartItems.innerHTML=cart.map(i=>`
-    <div class="card">
-      ${i.label} x${i.qty} — ${i.price*i.qty} €
-    </div>`).join("");
 }
 
-function confirmOrder(){
-  let text="🧾 Commande<br><br>";
+function sendOrder(){
+  let msg="🧾 COMMANDE ALLO85\n\n";
   cart.forEach(i=>{
-    text+=`${i.label} x${i.qty} = ${i.price*i.qty} €<br>`;
+    msg+=`• ${i.qty} × ${i.size} ${i.cat} = ${i.price*i.qty}€\n`;
   });
   if(delivery){
-    text+=`<br>🚚 Livraison : +20 €<br>`;
-    text+=`📍 ${address.value}<br>`;
+    msg+=`\n🚚 Livraison +20€\n📍 ${address.value}\n`;
   }else{
-    text+=`<br>📍 Sur place<br>`;
+    msg+=`\n📍 Sur place\n`;
   }
-  text+=`<br><b>Total : ${totalSpan.textContent} €</b>`;
-  confirmText.innerHTML=text;
-  go('confirm');
+  msg+=`\nTOTAL : ${totalSpan.textContent}€`;
+  const url=`https://t.me/allo85?text=${encodeURIComponent(msg)}`;
+  window.open(url,"_blank");
 }
 
 const totalSpan=document.getElementById("total");
