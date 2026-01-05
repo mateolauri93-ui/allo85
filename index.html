@@ -7,8 +7,7 @@
 
 <style>
 :root{
-  --bg-dark:#0b0f0c;
-  --bg-mid:#151a17;
+  --bg:#0b0f0c;
   --card:#141816;
   --gold:#f2c94c;
   --gold-soft:#ffe08a;
@@ -21,7 +20,7 @@
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg-mid),var(--bg-dark));
+  background:linear-gradient(180deg,#151a17,#0b0f0c);
   color:var(--text);
 }
 
@@ -29,19 +28,19 @@ body{
 header{
   position:fixed;
   top:0;left:0;right:0;
-  background:linear-gradient(180deg,#000,rgba(0,0,0,.85));
-  padding:14px 16px 18px;
+  background:#000;
+  padding:14px;
   text-align:center;
-  border-bottom:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.1);
   z-index:10;
 }
 
 #backBtn{
   position:absolute;
   left:12px;
-  top:14px;
-  background:none;
+  top:12px;
   border:1px solid var(--gold);
+  background:none;
   color:var(--gold);
   padding:6px 12px;
   border-radius:999px;
@@ -49,16 +48,11 @@ header{
 }
 
 /* LOGO */
-.logo-img{
-  display:block;
-  margin:0 auto;
+.logo{
   width:120px;
-  max-width:70%;
-  filter:
-    drop-shadow(0 6px 14px rgba(0,0,0,.6))
-    drop-shadow(0 0 18px rgba(255,200,80,.25));
+  margin:auto;
+  display:block;
 }
-.logo-big{width:200px}
 
 /* PAGES */
 .page{
@@ -68,26 +62,11 @@ header{
 }
 .page.active{display:block}
 
-/* INTRO */
-#intro{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  animation:fadeOut 1s ease forwards;
-  animation-delay:2.3s;
-}
-@keyframes fadeOut{to{opacity:0;visibility:hidden}}
-
-.fade-in{animation:fadeIn 1s ease forwards}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
 /* TITRES */
 .page-title{
   text-align:center;
   font-size:22px;
   margin-bottom:22px;
-  letter-spacing:1px;
 }
 
 /* CARDS */
@@ -97,43 +76,51 @@ header{
   padding:22px;
   margin-bottom:18px;
   text-align:center;
-  box-shadow:
-    0 12px 30px rgba(0,0,0,.6),
-    inset 0 0 0 1px rgba(255,255,255,.06);
 }
-.card:active{transform:scale(.97)}
-.card small{color:var(--muted)}
 
 /* BUTTONS */
 button{
-  padding:12px 26px;
+  padding:10px 18px;
   border-radius:999px;
   border:none;
-  font-size:15px;
+  font-size:14px;
   cursor:pointer;
 }
+
 .primary{
   background:linear-gradient(135deg,var(--gold),var(--gold-soft));
   color:#000;
 }
-.secondary{
-  background:rgba(255,255,255,.08);
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.15);
+
+.qty{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+}
+
+.qty button{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:18px;
+  background:var(--gold);
+  color:#000;
+}
+
+.qty span{
+  font-size:18px;
 }
 
 /* CART BAR */
 #cartBar{
   position:fixed;
   bottom:0;left:0;right:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.9),#000);
-  padding:14px 18px;
+  background:#000;
+  padding:14px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  border-top:1px solid rgba(255,255,255,.1);
 }
-#cartBar span{color:var(--muted);font-size:14px}
 </style>
 </head>
 
@@ -141,19 +128,14 @@ button{
 
 <header>
   <button id="backBtn" onclick="goBack()">⬅</button>
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-img">
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
-<!-- INTRO -->
-<section id="intro">
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-img logo-big">
-</section>
-
 <!-- BIENVENUE -->
-<section id="welcome" class="page">
-  <div class="card fade-in">
-    <h2>Bienvenue</h2>
-    <small>Interface claire · rapide · intuitive</small><br><br>
+<section id="welcome" class="page active">
+  <div class="card">
+    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo" style="width:180px">
+    <br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
@@ -161,8 +143,8 @@ button{
 <!-- HOME -->
 <section id="home" class="page">
   <div class="page-title">Choisis ta catégorie</div>
-  <div class="card" onclick="go('choco')">🍫<br><small>Sélection Jaune & Filtré</small></div>
-  <div class="card" onclick="go('green')">🥦<br><small>Local & Cali</small></div>
+  <div class="card" onclick="go('choco')">🍫</div>
+  <div class="card" onclick="go('green')">🥦</div>
 </section>
 
 <!-- 🍫 -->
@@ -185,31 +167,17 @@ button{
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
 
-<!-- PANIER -->
-<section id="cart" class="page">
-  <div class="page-title">🛒 Panier</div>
-  <div id="cartItems"></div>
-  <div class="card">Total : <b><span id="total">0</span> €</b></div>
-</section>
-
 <div id="cartBar">
   <span><span id="count">0</span> article(s)</span>
-  <button class="secondary" onclick="go('cart')">Voir panier</button>
+  <button onclick="go('cart')">Panier</button>
 </div>
 
 <script>
 let stack=[], cart=[];
 
-/* INTRO */
-setTimeout(()=>{
-  document.getElementById('intro').style.display='none';
-  document.getElementById('welcome').classList.add('active');
-},2300);
-
-/* NAV */
 function go(id){
-  const current=document.querySelector('.page.active');
-  if(current) stack.push(current.id);
+  const cur=document.querySelector('.page.active');
+  if(cur) stack.push(cur.id);
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   backBtn.style.display=stack.length?'block':'none';
@@ -223,48 +191,51 @@ function goBack(){
   backBtn.style.display=stack.length?'block':'none';
 }
 
-/* PRODUITS */
 const prices={"5g":50,"10g":90,"20€":20};
+
 ["jaune","filtre","local","cali"].forEach(cat=>{
-  document.getElementById(cat).innerHTML=
+  document.getElementById(cat).innerHTML =
     Object.entries(prices).map(([l,p])=>`
-      <div class="card">
-        <b>${l}</b><br><small>${p} €</small><br><br>
-        <button class="primary" onclick="add('${cat} ${l}',${p})">Ajouter</button>
+      <div class="card" id="${cat}-${l}">
+        <b>${l}</b><br>${p} €<br><br>
+        <div class="action"></div>
       </div>
     `).join("");
+  renderProducts();
 });
 
-/* PANIER */
-function add(name,price){
-  const it=cart.find(i=>i.name===name);
-  it?it.qty++:cart.push({name,price,qty:1});
-  render();
-}
-function render(){
-  let total=0,count=0;
-  cartItems.innerHTML='';
-  cart.forEach((i,idx)=>{
-    total+=i.price*i.qty;
-    count+=i.qty;
-    cartItems.innerHTML+=`
-      <div class="card">
-        ${i.name} x${i.qty}<br><br>
-        <button onclick="chg(${idx},1)">+</button>
-        <button onclick="chg(${idx},-1)">−</button>
-      </div>`;
+function renderProducts(){
+  document.querySelectorAll(".card").forEach(card=>{
+    const id=card.id;
+    if(!id) return;
+    const item=cart.find(i=>i.id===id);
+    const action=card.querySelector(".action");
+    if(!item){
+      action.innerHTML=`<button class="primary" onclick="add('${id}')">Ajouter</button>`;
+    }else{
+      action.innerHTML=`
+        <div class="qty">
+          <button onclick="change('${id}',-1)">−</button>
+          <span>${item.qty}</span>
+          <button onclick="change('${id}',1)">+</button>
+        </div>`;
+    }
   });
-  totalSpan.textContent=total;
-  countSpan.textContent=count;
-}
-function chg(i,d){
-  cart[i].qty+=d;
-  if(cart[i].qty<=0) cart.splice(i,1);
-  render();
 }
 
-const totalSpan=document.getElementById('total');
-const countSpan=document.getElementById('count');
+function add(id){
+  cart.push({id,qty:1});
+  renderProducts(); updateCount();
+}
+function change(id,d){
+  const it=cart.find(i=>i.id===id);
+  it.qty+=d;
+  if(it.qty<=0) cart=cart.filter(i=>i.id!==id);
+  renderProducts(); updateCount();
+}
+function updateCount(){
+  count.innerText=cart.reduce((a,b)=>a+b.qty,0);
+}
 </script>
 
 </body>
