@@ -32,7 +32,7 @@ body{
   overflow:hidden;
 }
 
-/* DECOR */
+/* DÉCO */
 .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
 .b1{width:180px;height:180px;top:-60px;left:-60px}
 .b2{width:90px;height:90px;top:160px;right:-30px}
@@ -64,6 +64,7 @@ header, footer{
 header{
   top:0;height:56px;justify-content:center;
   border-bottom:1px solid rgba(0,0,0,.05);
+  display:none;
 }
 #backBtn{
   position:absolute;left:10px;
@@ -78,6 +79,7 @@ footer{
   bottom:0;height:62px;
   justify-content:space-between;padding:0 16px;
   border-top:1px solid rgba(0,0,0,.05);
+  display:none;
 }
 footer span{font-size:14px}
 footer button{
@@ -91,23 +93,40 @@ footer button{
 .page{display:none;padding:90px 20px 120px;min-height:100vh}
 .page.active{display:block}
 
+/* ACCUEIL */
+#welcome{
+  display:flex;flex-direction:column;
+  justify-content:center;align-items:center;
+  text-align:center;padding:0 28px;
+}
+.logo-big{width:200px;margin-bottom:26px}
+#welcome h1{
+  font-family:'Fredoka',cursive;
+  font-size:36px;margin:0 0 12px;
+}
+#welcome p{font-size:17px;opacity:.85;margin-bottom:40px}
+#welcome button{
+  font-family:'Fredoka',cursive;
+  border:none;border-radius:999px;
+  padding:18px 44px;font-size:18px;
+  background:linear-gradient(135deg,var(--sun),var(--sun2));
+  box-shadow:0 12px 30px rgba(0,0,0,.18);
+}
+
 /* CARTES */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);
   border-radius:26px;
-  padding:28px 16px;
+  padding:34px 18px;
   text-align:center;
   font-family:'Fredoka',cursive;
-  font-size:22px;
+  font-size:26px;
   box-shadow:0 20px 45px rgba(0,0,0,.1);
 }
 .card small{
-  display:block;
-  font-family:'Inter';
-  font-size:14px;
-  margin-top:8px;
-  opacity:.7;
+  display:block;font-family:'Inter';
+  font-size:14px;margin-top:10px;opacity:.7;
 }
 
 /* PRODUITS */
@@ -117,10 +136,6 @@ footer button{
   padding:22px 16px;
   text-align:center;
   box-shadow:0 20px 45px rgba(0,0,0,.1);
-}
-.product b{
-  font-family:'Fredoka',cursive;
-  font-size:22px;
 }
 .qty{
   display:flex;
@@ -136,8 +151,6 @@ footer button{
   font-size:18px;
   font-weight:700;
 }
-
-/* TITRE */
 .title{
   font-family:'Fredoka',cursive;
   font-size:28px;
@@ -158,12 +171,21 @@ footer button{
 <div class="bubble b4"></div>
 <div class="wave"></div>
 
-<header>
+<header id="appHeader">
   <button id="backBtn" onclick="goBack()">⬅</button>
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG">
 </header>
 
-<section id="home" class="page active">
+<!-- PAGE D’ACCUEIL -->
+<section id="welcome" class="page active">
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
+  <h1>Bienvenue</h1>
+  <p>Une expérience solaire, fun et inoubliable 🌴</p>
+  <button onclick="enterApp()">Entrer</button>
+</section>
+
+<!-- CATÉGORIES -->
+<section id="home" class="page">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
     <div class="card" onclick="go('green')">🥦<small>Local / Cali</small></div>
@@ -189,7 +211,7 @@ footer button{
   <div class="grid" id="productGrid"></div>
 </section>
 
-<footer>
+<footer id="appFooter">
   <span>🛒 <span id="cartCount">0</span> article · <span id="cartTotal">0</span> €</span>
   <button>Panier</button>
 </footer>
@@ -205,6 +227,13 @@ const prices=[
   {label:"10g",price:90}
 ];
 
+function enterApp(){
+  document.getElementById("welcome").remove();
+  document.getElementById("appHeader").style.display="flex";
+  document.getElementById("appFooter").style.display="flex";
+  go("home");
+}
+
 function go(id){
   const current=document.querySelector(".page.active");
   if(current) historyStack.push(current.id);
@@ -212,6 +241,7 @@ function go(id){
   document.getElementById(id).classList.add("active");
   backBtn.style.display = historyStack.length ? "block":"none";
 }
+
 function goBack(){
   const prev=historyStack.pop();
   if(!prev) return;
@@ -221,13 +251,12 @@ function goBack(){
 }
 
 function openProducts(type){
-  document.getElementById("productTitle").innerText=type;
-  const grid=document.getElementById("productGrid");
-  grid.innerHTML="";
+  productTitle.innerText=type;
+  productGrid.innerHTML="";
   prices.forEach(p=>{
     const id=type+"-"+p.label;
     const item=cart.find(i=>i.id===id);
-    grid.innerHTML+=`
+    productGrid.innerHTML+=`
       <div class="product">
         <b>${p.label}</b><br><small>${p.price} €</small>
         <div class="qty">
@@ -256,7 +285,6 @@ function change(id,d){
   updateCart();
   openProducts(it.type);
 }
-
 function updateCart(){
   let count=0,total=0;
   cart.forEach(i=>{
