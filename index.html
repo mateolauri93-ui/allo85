@@ -10,69 +10,141 @@
 
 <style>
 :root{
-  --bg:#e6f3ff;--card:#ffffffee;--text:#1f2937;--accent:#ffd56b;
+  --bg:#e6f3ff;
+  --card:#ffffffee;
+  --text:#1f2937;
+  --accent:#ffd56b;
 }
 body.night{
-  --bg:#0f172a;--card:#1e293b;--text:#f8fafc;
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:#f8fafc;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;font-family:Inter,sans-serif;
-  background:var(--bg);color:var(--text);
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
-.app{max-width:420px;margin:auto;min-height:100vh}
+.app{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+}
 
 /* HEADER / FOOTER */
 header,footer{
-  position:fixed;left:0;right:0;max-width:420px;margin:auto;
-  background:var(--card);display:flex;align-items:center;z-index:10
+  position:fixed;
+  left:0;right:0;
+  max-width:420px;
+  margin:auto;
+  background:var(--card);
+  display:flex;
+  align-items:center;
+  z-index:10;
 }
-header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
-footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
+header{
+  top:0;
+  height:56px;
+  justify-content:space-between;
+  padding:0 12px;
+  display:none;
+}
+footer{
+  bottom:0;
+  height:62px;
+  justify-content:space-between;
+  padding:0 16px;
+  display:none;
+}
 header button,footer button{
-  border:none;border-radius:999px;padding:8px 14px;
-  background:var(--accent);font-family:Fredoka
+  border:none;
+  border-radius:999px;
+  padding:8px 14px;
+  background:var(--accent);
+  font-family:Fredoka;
 }
 
 /* PAGES */
-.page{display:none;padding:90px 20px 140px}
+.page{
+  display:none;
+  padding:90px 20px 140px;
+}
 .page.active{display:block}
 
 /* UI */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.card{
-  background:var(--card);border-radius:22px;padding:18px;
-  box-shadow:0 15px 40px rgba(0,0,0,.15);
-  text-align:center;font-family:Fredoka;font-size:18px;
-  position:relative
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
 }
-.card small{display:block;font-size:14px;font-family:Inter;opacity:.7}
+.card{
+  background:var(--card);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 15px 40px rgba(0,0,0,.15);
+  text-align:center;
+  font-family:Fredoka;
+  position:relative;
+}
+.card small{
+  display:block;
+  font-size:14px;
+  font-family:Inter;
+  opacity:.7;
+}
 .badge{
-  position:absolute;top:8px;right:8px;
-  background:#ff6b6b;color:#fff;font-size:11px;
-  padding:4px 8px;border-radius:999px
+  position:absolute;
+  top:8px;
+  right:8px;
+  background:#ff6b6b;
+  color:#fff;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
 }
 .qty{
-  display:flex;justify-content:center;gap:10px;margin-top:10px
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
 }
 .qty button{
-  width:28px;height:28px;border:none;border-radius:50%;
-  background:var(--accent)
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:50%;
+  background:var(--accent);
 }
 .primary{
-  width:100%;border:none;border-radius:999px;
-  padding:14px;background:var(--accent);font-family:Fredoka
+  width:100%;
+  border:none;
+  border-radius:999px;
+  padding:14px;
+  background:var(--accent);
+  font-family:Fredoka;
 }
 input,textarea{
-  width:100%;padding:12px;border-radius:14px;
-  border:1px solid #ccc;margin-top:10px
+  width:100%;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid #ccc;
+  margin-top:10px;
 }
 .notice{
-  background:#f1f5f9;border-radius:14px;padding:12px;
-  font-size:14px;text-align:center;margin:16px 0
+  background:#f1f5f9;
+  border-radius:14px;
+  padding:12px;
+  font-size:14px;
+  text-align:center;
+  margin:16px 0;
 }
 body.night .notice{background:#334155}
-h2{text-align:center;font-family:Fredoka}
+h2{
+  text-align:center;
+  font-family:Fredoka;
+}
 </style>
 </head>
 
@@ -81,7 +153,7 @@ h2{text-align:center;font-family:Fredoka}
 <div class="app">
 
 <header id="header">
-  <button onclick="back()">⬅</button>
+  <button onclick="goBack()">⬅</button>
   <strong>ALLO85</strong>
   <button onclick="toggleNight()">🌙</button>
 </header>
@@ -91,41 +163,47 @@ h2{text-align:center;font-family:Fredoka}
   <button onclick="go('cart')">Panier</button>
 </footer>
 
-<!-- ACCUEIL -->
+<!-- PAGE D’ACCUEIL (INDÉPENDANTE) -->
 <section id="welcome" class="page active">
   <div class="card">
     <h2>🔥🌴 Commande simple et rapide 🌴🔥</h2>
-    <button class="primary" onclick="enter()">Entrer</button>
+    <button class="primary" onclick="enterApp()">Entrer</button>
   </div>
 </section>
 
+<!-- HOME -->
 <section id="home" class="page">
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
-    <div class="card" onclick="go('green')">🥦<small>Cali</small></div>
+    <div class="card" onclick="go('choco')">🍫<small>Chocolat</small></div>
+    <div class="card" onclick="go('green')">🥦<small>Green</small></div>
   </div>
 </section>
 
+<!-- 🍫 -->
 <section id="choco" class="page">
   <div class="grid">
     <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
     <div class="card" onclick="openProducts('Filtré')">
-      🔍<small>Filtré</small><div class="badge">🔥</div>
+      🔍<small>Filtré</small>
+      <div class="badge">🔥</div>
     </div>
   </div>
 </section>
 
+<!-- 🥦 -->
 <section id="green" class="page">
   <div class="grid">
     <div class="card" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
+<!-- PRODUITS -->
 <section id="products" class="page">
   <h2 id="productTitle"></h2>
   <div class="grid" id="productGrid"></div>
 </section>
 
+<!-- AVANTAGES -->
 <section id="advantages" class="page">
   <h2>⭐ Avantages</h2>
 
@@ -142,6 +220,7 @@ h2{text-align:center;font-family:Fredoka}
   </div>
 </section>
 
+<!-- PANIER -->
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
@@ -158,11 +237,11 @@ h2{text-align:center;font-family:Fredoka}
     📲 La commande sera envoyée à<br>
     <b>@allo856</b><br><br>
     1️⃣ Vérifie ta commande<br>
-    2️⃣ Appuie sur envoyer<br>
-    3️⃣ Clique sur “Envoyer” dans Telegram
+    2️⃣ Clique sur envoyer<br>
+    3️⃣ Appuie sur “Envoyer” dans Telegram
   </div>
 
-  <button class="primary" onclick="checkout()">📤 Envoyer la commande à @allo856</button>
+  <button class="primary" onclick="sendOrder()">📤 Envoyer la commande à @allo856</button>
 </section>
 
 </div>
@@ -171,7 +250,6 @@ h2{text-align:center;font-family:Fredoka}
 const tg = Telegram.WebApp;
 const userId = tg.initDataUnsafe?.user?.id || "GUEST";
 const referral = "ALLO85-" + userId;
-
 document.getElementById("referral").innerText = referral;
 
 let orders = parseInt(localStorage.getItem("orders_"+userId) || "0");
@@ -196,11 +274,11 @@ function go(id){
   if(cur)history.push(cur.id);
   show(id);
 }
-function back(){
+function goBack(){
   const prev=history.pop();
   if(prev)show(prev);
 }
-function enter(){
+function enterApp(){
   show("home");
   header.style.display="flex";
   footer.style.display="flex";
@@ -215,29 +293,38 @@ function openProducts(type){
       <div class="card">
         ${it.g} — ${it.p} €
         <div class="qty">
-          ${c?`<button onclick="chg('${id}',-1)">−</button>${c.q}<button onclick="chg('${id}',1)">+</button>`:
-          `<button onclick="add('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`}
+          ${c
+            ? `<button onclick="changeQty('${id}',-1)">−</button>${c.q}<button onclick="changeQty('${id}',1)">+</button>`
+            : `<button onclick="addItem('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`
+          }
         </div>
       </div>`;
   });
   go("products");
 }
-function add(id,t,g,p){cart.push({id,t,g,p,q:1});update();openProducts(t)}
-function chg(id,d){
+function addItem(id,t,g,p){
+  cart.push({id,t,g,p,q:1});
+  updateCart();
+  openProducts(t);
+}
+function changeQty(id,d){
   const i=cart.find(x=>x.id===id);
-  i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);
-  update();openProducts(i.t);
+  i.q+=d;
+  if(i.q<=0)cart=cart.filter(x=>x.id!==id);
+  updateCart();
+  openProducts(i.t);
 }
 function setDelivery(v){
   delivery=v;
   address.style.display=v?"block":"none";
-  update();
+  updateCart();
 }
-function update(){
+function updateCart(){
   let c=0,t=0;
   cartItems.innerHTML="";
   cart.forEach(i=>{
-    c+=i.q;t+=i.q*i.p;
+    c+=i.q;
+    t+=i.q*i.p;
     cartItems.innerHTML+=`${i.q}× ${i.g} ${i.t} — ${i.q*i.p} €<br>`;
   });
   if(delivery)t+=20;
@@ -245,21 +332,20 @@ function update(){
   cartTotal.innerText=t;
   total.innerText=t;
 }
-function checkout(){
+function sendOrder(){
   if(cart.length===0)return alert("Panier vide");
   if(delivery && !address.value.trim())return alert("Adresse requise");
 
   orders++;
   localStorage.setItem("orders_"+userId,orders);
 
-  let msg=`🧾 COMMANDE ALLO85\nID:${userId}\nCode:${referral}\n`;
+  let msg=`🧾 COMMANDE ALLO85\nID:${userId}\nCode client:${referral}\n`;
   if(usedCode.value.trim())msg+=`Code parrain utilisé:${usedCode.value}\n`;
   cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t}\n`);
   msg+=delivery?`🚚 Livraison +20€\n${address.value}\n`:`📍 Sur place\n`;
   msg+=`TOTAL:${total.innerText}€`;
 
-  const url="https://t.me/share/url?text="+encodeURIComponent(msg);
-  window.open(url,"_blank");
+  window.open("https://t.me/share/url?text="+encodeURIComponent(msg),"_blank");
 }
 function toggleNight(){
   document.body.classList.toggle("night");
