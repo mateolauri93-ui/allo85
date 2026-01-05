@@ -18,17 +18,39 @@ body{
   background:linear-gradient(180deg,var(--sky),var(--sand));
 }
 .app{max-width:420px;margin:auto;min-height:100vh;position:relative;overflow:hidden}
+
+/* HEADER / FOOTER */
 header,footer{
   position:fixed;left:0;right:0;max-width:420px;margin:auto;
   backdrop-filter:blur(10px);background:rgba(255,255,255,.85);
   display:flex;align-items:center;z-index:10
 }
-header{top:0;height:56px;justify-content:center;display:none}
-#backBtn{position:absolute;left:10px;border:none;border-radius:999px;padding:6px 12px}
-footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
-footer button{border:none;border-radius:999px;padding:10px 20px;background:linear-gradient(135deg,var(--sun),var(--sun2));font-weight:700}
+header{
+  top:0;height:56px;justify-content:center;display:none
+}
+header .left, header .right{
+  position:absolute;top:0;bottom:0;display:flex;align-items:center
+}
+header .left{left:8px}
+header .right{right:8px}
+header button{
+  border:none;border-radius:999px;
+  padding:6px 10px;font-size:13px;
+  background:rgba(0,0,0,.08)
+}
+footer{
+  bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none
+}
+footer button{
+  border:none;border-radius:999px;padding:10px 20px;
+  background:linear-gradient(135deg,var(--sun),var(--sun2));font-weight:700
+}
+
+/* PAGES */
 .page{display:none;padding:90px 20px 140px}
 .page.active{display:block}
+
+/* UI */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);border-radius:26px;padding:24px 16px;
@@ -37,9 +59,16 @@ footer button{border:none;border-radius:999px;padding:10px 20px;background:linea
 }
 .card small{display:block;font-family:'Inter';font-size:14px;margin-top:6px;opacity:.7}
 .qty{display:flex;justify-content:center;gap:12px;margin-top:10px}
-.qty button{width:32px;height:32px;border:none;border-radius:50%;background:var(--sun);font-size:18px;font-weight:700}
+.qty button{
+  width:32px;height:32px;border:none;border-radius:50%;
+  background:var(--sun);font-size:18px;font-weight:700
+}
+.primary{
+  width:100%;border:none;border-radius:999px;
+  padding:16px;font-family:'Fredoka';
+  background:linear-gradient(135deg,var(--sun),var(--sun2))
+}
 textarea{width:100%;border-radius:16px;padding:12px}
-.primary{width:100%;border:none;border-radius:999px;padding:16px;font-family:'Fredoka';background:linear-gradient(135deg,var(--sun),var(--sun2))}
 h2{text-align:center;font-family:Fredoka}
 .notice{color:green;text-align:center;margin-top:10px}
 </style>
@@ -50,8 +79,13 @@ h2{text-align:center;font-family:Fredoka}
 <div class="app">
 
 <header id="appHeader">
-  <button id="backBtn" onclick="goBack()">⬅</button>
+  <div class="left">
+    <button onclick="goBack()">⬅</button>
+  </div>
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" height="28">
+  <div class="right">
+    <button onclick="go('advantages')">⭐ Avantages</button>
+  </div>
 </header>
 
 <!-- ACCUEIL -->
@@ -64,7 +98,7 @@ h2{text-align:center;font-family:Fredoka}
   </div>
 </section>
 
-<!-- CATÉGORIES -->
+<!-- HOME -->
 <section id="home" class="page">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
@@ -92,6 +126,29 @@ h2{text-align:center;font-family:Fredoka}
   <div class="grid" id="productGrid"></div>
 </section>
 
+<!-- AVANTAGES -->
+<section id="advantages" class="page">
+  <h2>⭐ Avantages</h2>
+
+  <div class="card">
+    🎁 <b>Parrainage</b>
+    <small>
+      Invite un ami à commander chez ALLO85.<br>
+      Lorsqu’il passe commande, tu gagnes un avantage.
+    </small>
+  </div>
+
+  <div class="card">
+    🔁 <b>Fidélité</b>
+    <small>
+      Plus tu commandes, plus tu es récompensé.<br><br>
+      <b>Commandes effectuées :</b> <span id="orderCount">0</span><br>
+      <i>Des surprises arrivent bientôt…</i>
+    </small>
+  </div>
+</section>
+
+<!-- PANIER -->
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
@@ -119,6 +176,8 @@ h2{text-align:center;font-family:Fredoka}
 
 <script>
 let historyStack=[],cart=[],delivery=false;
+let orderCount=0;
+
 const catalog={
   Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
   Filtré:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
@@ -131,19 +190,21 @@ function enterApp(){
   appFooter.style.display="flex";
   go("home");
 }
+
 function go(id){
   const cur=document.querySelector(".page.active");
   if(cur)historyStack.push(cur.id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  backBtn.style.display=historyStack.length?"block":"none";
 }
+
 function goBack(){
-  const prev=historyStack.pop();if(!prev)return;
+  const prev=historyStack.pop();
+  if(!prev)return;
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(prev).classList.add("active");
-  backBtn.style.display=historyStack.length?"block":"none";
 }
+
 function openProducts(type){
   productTitle.innerText=type;
   productGrid.innerHTML="";
@@ -161,28 +222,54 @@ function openProducts(type){
   });
   go("products");
 }
+
 function add(id,t,g,p){cart.push({id,t,g,p,q:1});upd();openProducts(t)}
-function chg(id,d){const i=cart.find(x=>x.id===id);i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);upd();openProducts(i.t)}
-function setDelivery(v){delivery=v;addressBox.style.display=v?"block":"none";upd()}
+function chg(id,d){
+  const i=cart.find(x=>x.id===id);
+  i.q+=d;
+  if(i.q<=0)cart=cart.filter(x=>x.id!==id);
+  upd();openProducts(i.t);
+}
+
+function setDelivery(v){
+  delivery=v;
+  addressBox.style.display=v?"block":"none";
+  upd();
+}
+
 function upd(){
-  let c=0,t=0;cartItems.innerHTML="";
-  cart.forEach(i=>{c+=i.q;t+=i.q*i.p;
+  let c=0,t=0;
+  cartItems.innerHTML="";
+  cart.forEach(i=>{
+    c+=i.q;t+=i.q*i.p;
     cartItems.innerHTML+=`<div>${i.q}× ${i.g} ${i.t} — ${i.q*i.p} €</div>`;
   });
   if(delivery)t+=20;
-  cartCount.innerText=c;cartTotal.innerText=t;totalCart.innerText=t;
+  cartCount.innerText=c;
+  cartTotal.innerText=t;
+  totalCart.innerText=t;
 }
+
 function finalize(){
   if(cart.length===0)return alert("Panier vide");
   if(delivery&&!address.value.trim())return alert("Adresse requise");
+
+  orderCount++;
+  document.getElementById("orderCount").innerText=orderCount;
+
   let msg="🧾 COMMANDE ALLO85\n\n";
   cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p} €\n`);
   msg+=delivery?`\n🚚 Livraison +20€\n📍 ${address.value}`:`\n📍 Sur place`;
   msg+=`\n\nTOTAL : ${totalCart.innerText} €`;
+
   navigator.clipboard.writeText(msg);
   copyNotice.style.display="block";
 }
-function openTelegram(){window.open("https://t.me/allo856","_blank")}
+
+function openTelegram(){
+  window.open("https://t.me/allo856","_blank");
+}
+
 upd();
 </script>
 
