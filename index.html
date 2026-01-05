@@ -7,30 +7,29 @@
 
 <style>
 /* =====================
-   VARIABLES VISUELLES
+   PALETTE & BASE
 ===================== */
 :root{
-  --sand:#f6f1e7;
-  --sky:#e9f4ff;
-  --sun:#ffd86b;
+  --sand:#f7f1e3;
+  --sky:#e6f3ff;
+  --sun:#ffd56b;
+  --sun2:#ffef9c;
   --sea:#7fd1e8;
   --ink:#1f2937;
-  --card:#ffffffcc;
+  --card:#ffffffd9;
 }
 
-/* =====================
-   RESET
-===================== */
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
-  color:var(--ink);
   background:linear-gradient(180deg,var(--sky),var(--sand));
+  color:var(--ink);
 }
 
 /* =====================
-   APP CONTAINER
+   APP
 ===================== */
 .app{
   max-width:420px;
@@ -41,116 +40,109 @@ body{
 }
 
 /* =====================
-   DECORATION (BULLES)
+   DÉCO PLAGE
 ===================== */
 .bubble{
   position:absolute;
   border-radius:50%;
-  background:rgba(255,255,255,.35);
+  background:rgba(255,255,255,.45);
   filter:blur(1px);
 }
-.b1{width:120px;height:120px;top:-30px;left:-30px}
-.b2{width:80px;height:80px;top:120px;right:-20px}
-.b3{width:160px;height:160px;bottom:-60px;left:40px}
+.b1{width:160px;height:160px;top:-40px;left:-40px}
+.b2{width:90px;height:90px;top:140px;right:-30px}
+.b3{width:200px;height:200px;bottom:-80px;left:20px}
+.b4{width:120px;height:120px;bottom:120px;right:-40px}
+
+.wave{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:140px;
+  background:radial-gradient(circle at top, var(--sea), transparent 70%);
+  opacity:.35;
+}
 
 /* =====================
-   HEADER APP
+   HEADER / FOOTER APP
 ===================== */
-header{
+header, footer{
   position:fixed;
-  top:0;left:0;right:0;
-  height:54px;
-  background:rgba(255,255,255,.75);
+  left:0;right:0;
+  max-width:420px;
+  margin:auto;
   backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.8);
+  z-index:10;
   display:flex;
   align-items:center;
+}
+header{
+  top:0;
+  height:54px;
   justify-content:center;
   border-bottom:1px solid rgba(0,0,0,.05);
-  z-index:10;
 }
-#backBtn{
-  position:absolute;
-  left:10px;
-  border:none;
-  background:rgba(0,0,0,.05);
-  border-radius:999px;
-  padding:6px 12px;
-  font-size:14px;
-  display:none;
-}
-.logo-small{
-  height:26px;
-}
-
-/* =====================
-   FOOTER (PANIER BASE)
-===================== */
 footer{
-  position:fixed;
-  bottom:0;left:0;right:0;
-  height:58px;
-  background:rgba(255,255,255,.85);
-  backdrop-filter:blur(8px);
-  border-top:1px solid rgba(0,0,0,.05);
-  display:flex;
-  align-items:center;
+  bottom:0;
+  height:60px;
   justify-content:space-between;
   padding:0 14px;
-  z-index:10;
+  border-top:1px solid rgba(0,0,0,.05);
 }
-footer span{
-  font-size:14px;
-}
+header img{height:26px}
 footer button{
   border:none;
   border-radius:999px;
-  padding:8px 16px;
-  background:var(--sun);
-  font-weight:600;
+  padding:10px 18px;
+  background:linear-gradient(135deg,var(--sun),var(--sun2));
+  font-weight:700;
 }
+footer span{font-size:14px}
 
 /* =====================
    PAGES
 ===================== */
 .page{
   display:none;
-  padding:80px 16px 100px;
+  padding:84px 18px 110px;
   min-height:100vh;
 }
 .page.active{display:block}
 
 /* =====================
-   ACCUEIL (PAGE 0)
+   ACCUEIL
 ===================== */
 #welcome{
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
-  padding:0 24px;
+  padding:0 26px;
 }
 .logo-big{
-  width:180px;
-  margin-bottom:20px;
+  width:190px;
+  margin-bottom:22px;
 }
 #welcome h1{
-  font-size:28px;
-  font-weight:700;
+  font-size:32px;
   margin:0 0 10px;
+  letter-spacing:.5px;
 }
 #welcome p{
   font-size:16px;
-  opacity:.8;
-  margin-bottom:30px;
+  opacity:.85;
+  margin-bottom:36px;
 }
 #welcome button{
   border:none;
   border-radius:999px;
-  padding:14px 32px;
-  font-size:16px;
-  font-weight:600;
-  background:linear-gradient(135deg,var(--sun),#ffef9f);
+  padding:16px 40px;
+  font-size:17px;
+  font-weight:700;
+  background:linear-gradient(135deg,var(--sun),var(--sun2));
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
 
 /* =====================
@@ -159,22 +151,22 @@ footer button{
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:14px;
+  gap:18px;
 }
 .card{
   background:var(--card);
-  border-radius:18px;
-  padding:24px 16px;
+  border-radius:22px;
+  padding:30px 16px;
   text-align:center;
-  font-size:18px;
-  font-weight:600;
-  box-shadow:0 10px 25px rgba(0,0,0,.05);
+  font-size:22px;
+  font-weight:700;
+  box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 .card small{
   display:block;
-  font-size:13px;
-  font-weight:400;
-  margin-top:6px;
+  font-size:14px;
+  font-weight:500;
+  margin-top:8px;
   opacity:.7;
 }
 </style>
@@ -184,26 +176,27 @@ footer button{
 
 <div class="app">
 
-<!-- DECOR -->
+<!-- DÉCO -->
 <div class="bubble b1"></div>
 <div class="bubble b2"></div>
 <div class="bubble b3"></div>
+<div class="bubble b4"></div>
+<div class="wave"></div>
 
 <!-- HEADER -->
 <header id="appHeader" style="display:none">
-  <button id="backBtn" onclick="goBack()">⬅</button>
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-small">
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG">
 </header>
 
 <!-- ACCUEIL -->
 <section id="welcome" class="page active">
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
   <h1>Bienvenue</h1>
-  <p>Une expérience simple, fluide et solaire 🌴</p>
+  <p>Une expérience solaire, fluide et unique 🌴</p>
   <button onclick="enterApp()">Entrer</button>
 </section>
 
-<!-- HOME APP -->
+<!-- CATÉGORIES -->
 <section id="home" class="page">
   <div class="grid">
     <div class="card">🍫<small>Jaune / Filtré</small></div>
@@ -220,17 +213,11 @@ footer button{
 </div>
 
 <script>
-let history=[];
-
 function enterApp(){
   document.getElementById("welcome").classList.remove("active");
   document.getElementById("home").classList.add("active");
   document.getElementById("appHeader").style.display="flex";
   document.getElementById("appFooter").style.display="flex";
-}
-
-function goBack(){
-  // logique ajoutée plus tard
 }
 </script>
 
