@@ -12,53 +12,88 @@
 body{
   margin:0;
   font-family:'Baloo 2',cursive;
-  background:linear-gradient(180deg,#7dd3fc,#fef08a);
+  background:linear-gradient(180deg,#38bdf8 0%, #fef08a 60%, #fde68a 100%);
+  min-height:100vh;
   padding:20px;
 }
 
-.logo{text-align:center}
-.logo img{width:140px}
+.logo{
+  text-align:center;
+  margin-bottom:10px;
+}
+.logo img{
+  width:150px;
+}
 
-h1{text-align:center;color:#ff6f91;text-shadow:2px 2px #fff}
+h1{
+  text-align:center;
+  color:#fff;
+  text-shadow:3px 3px 0 #0284c7;
+  font-size:38px;
+  margin-bottom:20px;
+}
 
+/* CARTES */
 .card{
   background:#fff;
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 8px 20px rgba(0,0,0,.15)
+  border-radius:24px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.2);
 }
 
-button{
+/* BOUTONS */
+.big-btn{
   width:100%;
-  padding:15px;
-  margin-top:12px;
+  padding:22px;
+  font-size:22px;
+  border-radius:20px;
   border:none;
-  border-radius:999px;
-  font-size:18px;
+  margin-bottom:15px;
   color:#fff;
-  background:linear-gradient(90deg,#38bdf8,#22c55e)
+  background:linear-gradient(135deg,#22c55e,#16a34a);
 }
 
-button.secondary{
-  background:linear-gradient(90deg,#facc15,#fb7185)
+.info-btn{
+  background:linear-gradient(135deg,#38bdf8,#2563eb);
+}
+
+.order-btn{
+  background:linear-gradient(135deg,#facc15,#fb7185);
+}
+
+/* FORM */
+select,input{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:2px solid #38bdf8;
+  margin-top:8px;
+  font-family:'Baloo 2';
+  font-size:16px;
+}
+
+label{
+  display:block;
+  margin-top:14px;
+}
+
+.total{
+  font-size:26px;
+  text-align:center;
+  margin-top:16px;
+  background:#fef08a;
+  padding:10px;
+  border-radius:16px;
 }
 
 .hidden{display:none}
 
-select,input{
-  width:100%;
-  padding:12px;
-  margin-top:6px;
+.option{
+  background:#f1f5f9;
+  padding:10px;
   border-radius:12px;
-  border:2px solid #38bdf8;
-  font-family:'Baloo 2'
-}
-
-.total{
-  font-size:22px;
-  text-align:center;
-  margin-top:12px;
+  margin-top:8px;
 }
 </style>
 </head>
@@ -66,46 +101,67 @@ select,input{
 <body>
 
 <div class="logo">
-  <img src="logo.png">
+  <img src="logo.png" alt="Allo85">
 </div>
 
-<h1>✨ Allo85</h1>
+<h1>🌴 Allo85</h1>
 
 <!-- ACCUEIL -->
 <div id="home" class="card">
-  <button onclick="show('order')">▶️ Continuer</button>
+  <button class="big-btn">👋 Bienvenue</button>
+  <button class="big-btn info-btn" onclick="show('infos')">ℹ️ Infos</button>
+  <button class="big-btn order-btn" onclick="show('commandes')">📦 Commandes</button>
 </div>
 
-<!-- COMMANDE -->
-<div id="order" class="card hidden">
-<h3>Choisis un critère</h3>
+<!-- INFOS -->
+<div id="infos" class="card hidden">
+  <h2>ℹ️ Infos</h2>
+  <p>
+    🕒 <b>Ouvert 7j/7</b><br>
+    Lundi → Dimanche<br>
+    <b>14h à 2h</b><br><br>
 
-<select id="type" onchange="calc()">
-  <option value="choco">🍫</option>
-  <option value="green">🥦</option>
-</select>
+    📍 Disponible sur <b>Montaigu</b><br><br>
 
-<h3>Options</h3>
-<label><input type="checkbox" value="Option A" data-price="2" onchange="calc()"> Option A (+2€)</label><br>
-<label><input type="checkbox" value="Option B" data-price="3" onchange="calc()"> Option B (+3€)</label><br>
-<label><input type="checkbox" value="Option C" data-price="5" onchange="calc()"> Option C (+5€)</label>
+    🚚 Livraison possible<br>
+    <b>+20€</b>
+  </p>
+  <button class="big-btn info-btn" onclick="back()">⬅️ Retour</button>
+</div>
 
-<h3>Quantité</h3>
-<input type="number" id="qty" value="1" min="1" onchange="calc()">
+<!-- COMMANDES -->
+<div id="commandes" class="card hidden">
+  <h2>📦 Commandes</h2>
 
-<div class="total">Total : <span id="total">10</span> €</div>
+  <label>Catégorie</label>
+  <select id="type" onchange="calc()">
+    <option value="choco">🍫</option>
+    <option value="green">🥦</option>
+  </select>
 
-<button class="secondary" onclick="sendData()">Valider</button>
-<button onclick="back()">⬅️ Retour</button>
+  <label>Options</label>
+  <div class="option">
+    <label><input type="checkbox" data-price="5" onchange="calc()"> Option 1 (+5€)</label>
+  </div>
+  <div class="option">
+    <label><input type="checkbox" data-price="10" onchange="calc()"> Option 2 (+10€)</label>
+  </div>
+
+  <label>Quantité</label>
+  <input type="number" id="qty" value="1" min="1" onchange="calc()">
+
+  <div class="total">
+    Total : <span id="total">50</span> €
+  </div>
+
+  <button class="big-btn order-btn" onclick="sendOrder()">Valider</button>
+  <button class="big-btn info-btn" onclick="back()">⬅️ Retour</button>
 </div>
 
 <script>
 Telegram.WebApp.ready();
 
-const basePrices={
-  choco:10,
-  green:12
-};
+const prices={choco:50,green:60};
 
 function show(id){
   document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
@@ -115,22 +171,22 @@ function show(id){
 function back(){show('home')}
 
 function calc(){
-  let total=basePrices[type.value];
+  let total=prices[type.value];
   document.querySelectorAll('input[type=checkbox]:checked')
     .forEach(o=>total+=parseFloat(o.dataset.price));
   total*=qty.value;
-  document.getElementById('total').innerText=total.toFixed(2);
+  document.getElementById('total').innerText=total;
 }
 
-function sendData(){
+function sendOrder(){
   let opts=[];
   document.querySelectorAll('input[type=checkbox]:checked')
-    .forEach(o=>opts.push(o.value));
+    .forEach(o=>opts.push(o.parentElement.innerText.trim()));
 
   const msg=
-`📦 Nouvelle demande
+`📦 COMMANDE ALLO85
 
-Critère : ${type.value === 'choco' ? '🍫' : '🥦'}
+Catégorie : ${type.value === 'choco' ? '🍫' : '🥦'}
 Options : ${opts.join(', ') || 'Aucune'}
 Quantité : ${qty.value}
 Total : ${document.getElementById('total').innerText} €`;
