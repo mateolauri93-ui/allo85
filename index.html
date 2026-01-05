@@ -6,79 +6,73 @@
 <title>ALLO85</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+:root{
+  --bg:#e6f3ff;--card:#ffffffee;--text:#1f2937;--accent:#ffd56b;
+}
+body.night{
+  --bg:#0f172a;--card:#1e293b;--text:#f8fafc;
+}
+*{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:Inter,sans-serif;
-  background:#e6f3ff;
+  margin:0;font-family:Inter,sans-serif;
+  background:var(--bg);color:var(--text);
 }
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-}
+.app{max-width:420px;margin:auto;min-height:100vh}
+
+/* HEADER / FOOTER */
 header,footer{
-  position:fixed;
-  left:0;right:0;
-  max-width:420px;
-  margin:auto;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  z-index:10;
+  position:fixed;left:0;right:0;max-width:420px;margin:auto;
+  background:var(--card);display:flex;align-items:center;z-index:10
 }
-header{
-  top:0;height:56px;
-  justify-content:space-between;
-  padding:0 12px;
-  display:none;
+header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
+footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
+header button,footer button{
+  border:none;border-radius:999px;padding:8px 14px;
+  background:var(--accent);font-family:Fredoka
 }
-footer{
-  bottom:0;height:60px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-button{
-  border:none;
-  border-radius:999px;
-  padding:12px 18px;
-  font-family:Fredoka;
-  background:#ffd56b;
-}
-.page{
-  display:none;
-  padding:80px 20px 120px;
-}
+
+/* PAGES */
+.page{display:none;padding:90px 20px 140px}
 .page.active{display:block}
+
+/* UI */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .card{
-  background:#fff;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:16px;
-  text-align:center;
-  font-family:Fredoka;
+  background:var(--card);border-radius:22px;padding:18px;
+  box-shadow:0 15px 40px rgba(0,0,0,.15);
+  text-align:center;font-family:Fredoka;font-size:18px;
+  position:relative
+}
+.card small{display:block;font-size:14px;font-family:Inter;opacity:.7}
+.badge{
+  position:absolute;top:8px;right:8px;
+  background:#ff6b6b;color:#fff;font-size:11px;
+  padding:4px 8px;border-radius:999px
 }
 .qty{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:10px;
+  display:flex;justify-content:center;gap:10px;margin-top:10px
 }
 .qty button{
-  width:32px;height:32px;
-  padding:0;
+  width:28px;height:28px;border:none;border-radius:50%;
+  background:var(--accent)
+}
+.primary{
+  width:100%;border:none;border-radius:999px;
+  padding:14px;background:var(--accent);font-family:Fredoka
+}
+input,textarea{
+  width:100%;padding:12px;border-radius:14px;
+  border:1px solid #ccc;margin-top:10px
 }
 .notice{
-  background:#f1f5f9;
-  border-radius:14px;
-  padding:12px;
-  font-size:14px;
-  text-align:center;
-  margin:16px 0;
+  background:#f1f5f9;border-radius:14px;padding:12px;
+  font-size:14px;text-align:center;margin:16px 0
 }
+body.night .notice{background:#334155}
+h2{text-align:center;font-family:Fredoka}
 </style>
 </head>
 
@@ -89,6 +83,7 @@ button{
 <header id="header">
   <button onclick="back()">⬅</button>
   <strong>ALLO85</strong>
+  <button onclick="toggleNight()">🌙</button>
 </header>
 
 <footer id="footer">
@@ -100,38 +95,62 @@ button{
 <section id="welcome" class="page active">
   <div class="card">
     <h2>🔥🌴 Commande simple et rapide 🌴🔥</h2>
-    <button onclick="enter()">Entrer</button>
+    <button class="primary" onclick="enter()">Entrer</button>
   </div>
 </section>
 
 <section id="home" class="page">
-  <div class="card" onclick="go('products')">
-    Voir les produits
+  <div class="grid">
+    <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
+    <div class="card" onclick="go('green')">🥦<small>Cali</small></div>
+  </div>
+</section>
+
+<section id="choco" class="page">
+  <div class="grid">
+    <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
+    <div class="card" onclick="openProducts('Filtré')">
+      🔍<small>Filtré</small><div class="badge">🔥</div>
+    </div>
+  </div>
+</section>
+
+<section id="green" class="page">
+  <div class="grid">
+    <div class="card" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
 <section id="products" class="page">
-  <h2>Produits</h2>
+  <h2 id="productTitle"></h2>
+  <div class="grid" id="productGrid"></div>
+</section>
+
+<section id="advantages" class="page">
+  <h2>⭐ Avantages</h2>
 
   <div class="card">
-    Produit A — 20 €
-    <div class="qty">
-      <button onclick="add(20)">Ajouter</button>
-    </div>
+    🔑 <b>Ton code parrain</b><br>
+    <span id="referral"></span>
   </div>
 
   <div class="card">
-    Produit B — 50 €
-    <div class="qty">
-      <button onclick="add(50)">Ajouter</button>
-    </div>
+    🔁 <b>Fidélité</b><br>
+    Commandes : <span id="orders">0</span><br>
+    <span id="level"></span><br>
+    <small>Plus tu commandes, plus tu es récompensé.</small>
   </div>
 </section>
 
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
-
   <div id="cartItems"></div>
+
+  <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
+  <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
+
+  <textarea id="address" placeholder="Adresse de livraison" style="display:none"></textarea>
+  <input id="usedCode" placeholder="Code parrain utilisé (optionnel)">
 
   <p><b>Total : <span id="total">0</span> €</b></p>
 
@@ -139,11 +158,11 @@ button{
     📲 La commande sera envoyée à<br>
     <b>@allo856</b><br><br>
     1️⃣ Vérifie ta commande<br>
-    2️⃣ Clique sur envoyer<br>
-    3️⃣ Appuie sur “Envoyer” dans Telegram
+    2️⃣ Appuie sur envoyer<br>
+    3️⃣ Clique sur “Envoyer” dans Telegram
   </div>
 
-  <button onclick="send()">📤 Envoyer la commande à @allo856</button>
+  <button class="primary" onclick="checkout()">📤 Envoyer la commande à @allo856</button>
 </section>
 
 </div>
@@ -151,10 +170,22 @@ button{
 <script>
 const tg = Telegram.WebApp;
 const userId = tg.initDataUnsafe?.user?.id || "GUEST";
+const referral = "ALLO85-" + userId;
 
-let history=[];
-let cartCount=0;
-let cartTotal=0;
+document.getElementById("referral").innerText = referral;
+
+let orders = parseInt(localStorage.getItem("orders_"+userId) || "0");
+document.getElementById("orders").innerText = orders;
+document.getElementById("level").innerText =
+  orders>=10?"🟡 Or":orders>=5?"⚪ Argent":"🟤 Bronze";
+
+const catalog={
+  Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
+  Filtré:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
+  Cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
+};
+
+let history=[],cart=[],delivery=false;
 
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -174,25 +205,64 @@ function enter(){
   header.style.display="flex";
   footer.style.display="flex";
 }
-function add(price){
-  cartCount++;
-  cartTotal+=price;
-  updateCart();
+function openProducts(type){
+  productTitle.innerText=type;
+  productGrid.innerHTML="";
+  catalog[type].forEach(it=>{
+    const id=type+it.g;
+    const c=cart.find(x=>x.id===id);
+    productGrid.innerHTML+=`
+      <div class="card">
+        ${it.g} — ${it.p} €
+        <div class="qty">
+          ${c?`<button onclick="chg('${id}',-1)">−</button>${c.q}<button onclick="chg('${id}',1)">+</button>`:
+          `<button onclick="add('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`}
+        </div>
+      </div>`;
+  });
+  go("products");
 }
-function updateCart(){
-  cartCountSpan.innerText=cartCount;
-  cartTotalSpan.innerText=cartTotal;
-  total.innerText=cartTotal;
-  cartItems.innerHTML=`${cartCount} article(s)`;
+function add(id,t,g,p){cart.push({id,t,g,p,q:1});update();openProducts(t)}
+function chg(id,d){
+  const i=cart.find(x=>x.id===id);
+  i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);
+  update();openProducts(i.t);
 }
-function send(){
-  if(cartCount===0){
-    alert("Panier vide");
-    return;
-  }
-  const msg=`🧾 COMMANDE ALLO85\nID:${userId}\nArticles:${cartCount}\nTOTAL:${cartTotal}€`;
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  update();
+}
+function update(){
+  let c=0,t=0;
+  cartItems.innerHTML="";
+  cart.forEach(i=>{
+    c+=i.q;t+=i.q*i.p;
+    cartItems.innerHTML+=`${i.q}× ${i.g} ${i.t} — ${i.q*i.p} €<br>`;
+  });
+  if(delivery)t+=20;
+  cartCount.innerText=c;
+  cartTotal.innerText=t;
+  total.innerText=t;
+}
+function checkout(){
+  if(cart.length===0)return alert("Panier vide");
+  if(delivery && !address.value.trim())return alert("Adresse requise");
+
+  orders++;
+  localStorage.setItem("orders_"+userId,orders);
+
+  let msg=`🧾 COMMANDE ALLO85\nID:${userId}\nCode:${referral}\n`;
+  if(usedCode.value.trim())msg+=`Code parrain utilisé:${usedCode.value}\n`;
+  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t}\n`);
+  msg+=delivery?`🚚 Livraison +20€\n${address.value}\n`:`📍 Sur place\n`;
+  msg+=`TOTAL:${total.innerText}€`;
+
   const url="https://t.me/share/url?text="+encodeURIComponent(msg);
   window.open(url,"_blank");
+}
+function toggleNight(){
+  document.body.classList.toggle("night");
 }
 </script>
 
