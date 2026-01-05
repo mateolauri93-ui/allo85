@@ -36,18 +36,6 @@ header{
   z-index:10;
 }
 
-.logo{
-  font-weight:800;
-  font-size:20px;
-  letter-spacing:2px;
-  color:var(--gold);
-  text-shadow:0 2px 6px rgba(0,0,0,.6);
-}
-
-.logo span{
-  color:var(--gold-soft);
-}
-
 #backBtn{
   position:absolute;
   left:12px;
@@ -57,16 +45,36 @@ header{
   color:var(--gold);
   padding:6px 12px;
   border-radius:999px;
+  display:none;
+}
+
+/* LOGO */
+.logo-img{
+  display:block;
+  margin:0 auto;
+  width:120px;
+  max-width:70%;
+  height:auto;
+  filter:
+    drop-shadow(0 6px 14px rgba(0,0,0,.6))
+    drop-shadow(0 0 18px rgba(255,200,80,.25));
+}
+
+.logo-big{
+  width:200px;
+  margin-bottom:20px;
 }
 
 /* PAGES */
 .page{
   display:none;
   min-height:100vh;
-  padding:110px 18px 140px;
+  padding:120px 18px 140px;
 }
 
-.page.active{display:block}
+.page.active{
+  display:block;
+}
 
 /* TITRES */
 .page-title{
@@ -132,21 +140,53 @@ button{
   color:var(--muted);
   font-size:14px;
 }
+
+/* FADE INTRO */
+#intro{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  animation:fadeOut 1s ease forwards;
+  animation-delay:2.2s;
+}
+
+@keyframes fadeOut{
+  to{opacity:0;visibility:hidden}
+}
+
+.fade-in{
+  animation:fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <button id="backBtn" onclick="goBack()" style="display:none">⬅</button>
-  <div class="logo">ALLO <span>85</span></div>
+  <button id="backBtn" onclick="goBack()">⬅</button>
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" alt="ALLO85" class="logo-img">
 </header>
 
+<!-- INTRO LOGO -->
+<section id="intro">
+  <img
+    src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG"
+    alt="ALLO85"
+    class="logo-img logo-big"
+  >
+</section>
+
 <!-- BIENVENUE -->
-<section id="welcome" class="page active">
-  <div class="card">
-    <div class="logo" style="font-size:28px;margin-bottom:10px">ALLO <span>85</span></div>
-    <small>Service rapide & discret</small><br>
+<section id="welcome" class="page">
+  <div class="card fade-in">
+    <h2>Bienvenue</h2>
+    <small>Service rapide & discret</small><br><br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
@@ -154,8 +194,8 @@ button{
 <!-- HOME -->
 <section id="home" class="page">
   <div class="page-title">Choisis ta catégorie</div>
-  <div class="card" onclick="go('choco')">🍫<br><small>Gourmand & sélection</small></div>
-  <div class="card" onclick="go('green')">🥦<br><small>Naturel & premium</small></div>
+  <div class="card" onclick="go('choco')">🍫<small>Gourmand & sélection</small></div>
+  <div class="card" onclick="go('green')">🥦<small>Naturel & premium</small></div>
 </section>
 
 <!-- 🍫 -->
@@ -182,9 +222,7 @@ button{
 <section id="cart" class="page">
   <div class="page-title">🛒 Panier</div>
   <div id="cartItems"></div>
-  <div class="card">
-    Total : <b><span id="total">0</span> €</b>
-  </div>
+  <div class="card">Total : <b><span id="total">0</span> €</b></div>
 </section>
 
 <div id="cartBar">
@@ -196,6 +234,13 @@ button{
 let stack=[];
 let cart=[];
 
+/* INTRO -> BIENVENUE */
+setTimeout(()=>{
+  document.getElementById('intro').style.display='none';
+  document.getElementById('welcome').classList.add('active');
+},2300);
+
+/* NAVIGATION */
 function go(id){
   const current=document.querySelector('.page.active');
   if(current) stack.push(current.id);
@@ -213,6 +258,7 @@ function goBack(){
   document.getElementById('backBtn').style.display=stack.length?'block':'none';
 }
 
+/* PRODUITS */
 const prices={"5g":50,"10g":90,"20€":20};
 ["jaune","filtre","local","cali"].forEach(cat=>{
   document.getElementById(cat).innerHTML=
@@ -224,6 +270,7 @@ const prices={"5g":50,"10g":90,"20€":20};
     `).join("");
 });
 
+/* PANIER */
 function add(name,price){
   const item=cart.find(i=>i.name===name);
   if(item) item.qty++;
