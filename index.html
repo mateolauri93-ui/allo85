@@ -1,180 +1,145 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Allo85</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8">
+<title>Allo85</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Police bulle -->
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Baloo 2', cursive;
-      background: linear-gradient(180deg, #7dd3fc, #fef08a);
-      padding: 20px;
-    }
+<style>
+body{
+  margin:0;
+  font-family:'Baloo 2',cursive;
+  background:linear-gradient(180deg,#7dd3fc,#fef08a);
+  padding:20px;
+}
 
-    .logo {
-      text-align: center;
-      margin-bottom: 5px;
-    }
+.logo{text-align:center}
+.logo img{width:140px}
 
-    .logo img {
-      width: 150px;
-      max-width: 70%;
-    }
+h1{text-align:center;color:#ff6f91;text-shadow:2px 2px #fff}
 
-    h1 {
-      text-align: center;
-      font-size: 34px;
-      color: #ff6f91;
-      margin: 5px 0 15px;
-      text-shadow: 2px 2px #fff;
-    }
+.card{
+  background:#fff;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,.15)
+}
 
-    .subtitle {
-      text-align: center;
-      color: #0284c7;
-      margin-bottom: 20px;
-    }
+button{
+  width:100%;
+  padding:15px;
+  margin-top:12px;
+  border:none;
+  border-radius:999px;
+  font-size:18px;
+  color:#fff;
+  background:linear-gradient(90deg,#38bdf8,#22c55e)
+}
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
+button.secondary{
+  background:linear-gradient(90deg,#facc15,#fb7185)
+}
 
-    button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 12px;
-      font-size: 18px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(90deg, #38bdf8, #22c55e);
-      color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
+.hidden{display:none}
 
-    button.secondary {
-      background: linear-gradient(90deg, #facc15, #fb7185);
-    }
+select,input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:12px;
+  border:2px solid #38bdf8;
+  font-family:'Baloo 2'
+}
 
-    button.dark {
-      background: linear-gradient(90deg, #0ea5e9, #2563eb);
-    }
-
-    select, input {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      border-radius: 12px;
-      border: 2px solid #38bdf8;
-      font-size: 16px;
-      font-family: 'Baloo 2', cursive;
-    }
-
-    label {
-      display: block;
-      margin-top: 12px;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+.total{
+  font-size:22px;
+  text-align:center;
+  margin-top:12px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- LOGO -->
-  <div class="logo">
-    <img src="logo.png" alt="Allo85">
-  </div>
+<div class="logo">
+  <img src="logo.png">
+</div>
 
-  <h1>🌴 Allo85</h1>
-  <p class="subtitle">☀️ Commande rapide & saveurs d’été</p>
+<h1>✨ Allo85</h1>
 
-  <!-- ACCUEIL -->
-  <div id="home" class="card">
-    <p>👋 Bienvenue ! Choisis une option :</p>
-    <button onclick="show('menu')">📋 Voir le menu</button>
-    <button onclick="show('order')" class="secondary">📦 Commander</button>
-    <button onclick="show('info')" class="dark">ℹ️ Infos</button>
-  </div>
+<!-- ACCUEIL -->
+<div id="home" class="card">
+  <button onclick="show('order')">▶️ Continuer</button>
+</div>
 
-  <!-- MENU -->
-  <div id="menu" class="card hidden">
-    <h3>🍔 Menu</h3>
-    <p>
-      🥙 Kebab<br>
-      🌯 Tacos<br>
-      🍔 Burger<br>
-      🍟 Frites<br>
-      🥤 Boissons
-    </p>
-    <button onclick="back()">⬅️ Retour</button>
-  </div>
+<!-- COMMANDE -->
+<div id="order" class="card hidden">
+<h3>Choisis un critère</h3>
 
-  <!-- COMMANDE -->
-  <div id="order" class="card hidden">
-    <h3>📦 Commander</h3>
+<select id="type" onchange="calc()">
+  <option value="choco">🍫</option>
+  <option value="green">🥦</option>
+</select>
 
-    <label>🍔 Produit :</label>
-    <select id="product">
-      <option value="Kebab">🥙 Kebab</option>
-      <option value="Tacos">🌯 Tacos</option>
-      <option value="Burger">🍔 Burger</option>
-    </select>
+<h3>Options</h3>
+<label><input type="checkbox" value="Option A" data-price="2" onchange="calc()"> Option A (+2€)</label><br>
+<label><input type="checkbox" value="Option B" data-price="3" onchange="calc()"> Option B (+3€)</label><br>
+<label><input type="checkbox" value="Option C" data-price="5" onchange="calc()"> Option C (+5€)</label>
 
-    <label>🔢 Quantité :</label>
-    <input type="number" id="qty" value="1" min="1">
+<h3>Quantité</h3>
+<input type="number" id="qty" value="1" min="1" onchange="calc()">
 
-    <button class="secondary" onclick="sendOrder()">Envoyer la commande</button>
-    <button onclick="back()">⬅️ Retour</button>
-  </div>
+<div class="total">Total : <span id="total">10</span> €</div>
 
-  <!-- INFOS -->
-  <div id="info" class="card hidden">
-    <h3>ℹ️ Infos</h3>
-    <p>
-      📍 Boufféré<br><br>
-      🕒 11h–14h / 17h30–22h<br><br>
-      📞 06 XX XX XX XX
-    </p>
-    <button onclick="back()">⬅️ Retour</button>
-  </div>
+<button class="secondary" onclick="sendData()">Valider</button>
+<button onclick="back()">⬅️ Retour</button>
+</div>
 
 <script>
-  Telegram.WebApp.ready();
+Telegram.WebApp.ready();
 
-  function show(id) {
-    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-  }
+const basePrices={
+  choco:10,
+  green:12
+};
 
-  function back() {
-    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-    document.getElementById('home').classList.remove('hidden');
-  }
+function show(id){
+  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
 
-  function sendOrder() {
-    const product = document.getElementById('product').value;
-    const qty = document.getElementById('qty').value;
+function back(){show('home')}
 
-    const message =
-      `📦 Nouvelle commande Allo85\n\n` +
-      `🍔 Produit : ${product}\n` +
-      `🔢 Quantité : ${qty}`;
+function calc(){
+  let total=basePrices[type.value];
+  document.querySelectorAll('input[type=checkbox]:checked')
+    .forEach(o=>total+=parseFloat(o.dataset.price));
+  total*=qty.value;
+  document.getElementById('total').innerText=total.toFixed(2);
+}
 
-    Telegram.WebApp.sendData(message);
-    Telegram.WebApp.close();
-  }
+function sendData(){
+  let opts=[];
+  document.querySelectorAll('input[type=checkbox]:checked')
+    .forEach(o=>opts.push(o.value));
+
+  const msg=
+`📦 Nouvelle demande
+
+Critère : ${type.value === 'choco' ? '🍫' : '🥦'}
+Options : ${opts.join(', ') || 'Aucune'}
+Quantité : ${qty.value}
+Total : ${document.getElementById('total').innerText} €`;
+
+  Telegram.WebApp.sendData(msg);
+  Telegram.WebApp.close();
+}
+
+calc();
 </script>
 
 </body>
