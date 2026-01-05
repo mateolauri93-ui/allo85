@@ -32,7 +32,7 @@ body{
   overflow:hidden;
 }
 
-/* DÉCO */
+/* DECOR */
 .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
 .b1{width:180px;height:180px;top:-60px;left:-60px}
 .b2{width:90px;height:90px;top:160px;right:-30px}
@@ -64,7 +64,6 @@ header, footer{
 header{
   top:0;height:56px;justify-content:center;
   border-bottom:1px solid rgba(0,0,0,.05);
-  display:none;
 }
 #backBtn{
   position:absolute;left:10px;
@@ -79,7 +78,6 @@ footer{
   bottom:0;height:62px;
   justify-content:space-between;padding:0 16px;
   border-top:1px solid rgba(0,0,0,.05);
-  display:none;
 }
 footer span{font-size:14px}
 footer button{
@@ -90,27 +88,15 @@ footer button{
 }
 
 /* PAGES */
-.page{display:none;padding:90px 20px 120px;min-height:100vh}
+.page{display:none;padding:90px 20px 140px;min-height:100vh}
 .page.active{display:block}
 
-/* ACCUEIL */
-#welcome{
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  text-align:center;padding:0 28px;
-}
-.logo-big{width:200px;margin-bottom:26px}
-#welcome h1{
+/* TITRES */
+.title{
   font-family:'Fredoka',cursive;
-  font-size:36px;margin:0 0 12px;
-}
-#welcome p{font-size:17px;opacity:.85;margin-bottom:40px}
-#welcome button{
-  font-family:'Fredoka',cursive;
-  border:none;border-radius:999px;
-  padding:18px 44px;font-size:18px;
-  background:linear-gradient(135deg,var(--sun),var(--sun2));
-  box-shadow:0 12px 30px rgba(0,0,0,.18);
+  font-size:28px;
+  text-align:center;
+  margin-bottom:20px;
 }
 
 /* CARTES */
@@ -118,24 +104,17 @@ footer button{
 .card{
   background:var(--card);
   border-radius:26px;
-  padding:34px 18px;
-  text-align:center;
-  font-family:'Fredoka',cursive;
-  font-size:26px;
+  padding:24px 16px;
   box-shadow:0 20px 45px rgba(0,0,0,.1);
-}
-.card small{
-  display:block;font-family:'Inter';
-  font-size:14px;margin-top:10px;opacity:.7;
 }
 
 /* PRODUITS */
 .product{
-  background:var(--card);
-  border-radius:26px;
-  padding:22px 16px;
   text-align:center;
-  box-shadow:0 20px 45px rgba(0,0,0,.1);
+}
+.product b{
+  font-family:'Fredoka',cursive;
+  font-size:22px;
 }
 .qty{
   display:flex;
@@ -151,11 +130,37 @@ footer button{
   font-size:18px;
   font-weight:700;
 }
-.title{
-  font-family:'Fredoka',cursive;
-  font-size:28px;
-  text-align:center;
-  margin-bottom:20px;
+
+/* PANIER */
+.cart-line{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.cart-line b{font-size:15px}
+.cart-line span{font-size:14px}
+
+/* INPUT */
+textarea{
+  width:100%;
+  border-radius:16px;
+  border:1px solid rgba(0,0,0,.1);
+  padding:12px;
+  font-family:'Inter';
+  resize:none;
+}
+.radio{
+  margin-bottom:10px;
+}
+.primary{
+  width:100%;
+  border:none;
+  border-radius:999px;
+  padding:16px;
+  font-size:16px;
+  font-family:'Fredoka';
+  background:linear-gradient(135deg,var(--sun),var(--sun2));
 }
 </style>
 </head>
@@ -171,38 +176,30 @@ footer button{
 <div class="bubble b4"></div>
 <div class="wave"></div>
 
-<header id="appHeader">
+<header>
   <button id="backBtn" onclick="goBack()">⬅</button>
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG">
 </header>
 
-<!-- PAGE D’ACCUEIL -->
-<section id="welcome" class="page active">
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
-  <h1>Bienvenue</h1>
-  <p>Une expérience solaire, fun et inoubliable 🌴</p>
-  <button onclick="enterApp()">Entrer</button>
-</section>
-
 <!-- CATÉGORIES -->
-<section id="home" class="page">
+<section id="home" class="page active">
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
-    <div class="card" onclick="go('green')">🥦<small>Local / Cali</small></div>
+    <div class="card product" onclick="go('choco')">🍫<br><small>Jaune / Filtré</small></div>
+    <div class="card product" onclick="go('green')">🥦<br><small>Local / Cali</small></div>
   </div>
 </section>
 
 <section id="choco" class="page">
   <div class="grid">
-    <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="openProducts('Filtré')">🔍<small>Filtré</small></div>
+    <div class="card product" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
+    <div class="card product" onclick="openProducts('Filtré')">🔍<small>Filtré</small></div>
   </div>
 </section>
 
 <section id="green" class="page">
   <div class="grid">
-    <div class="card" onclick="openProducts('Local')">🌱<small>Local</small></div>
-    <div class="card" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
+    <div class="card product" onclick="openProducts('Local')">🌱<small>Local</small></div>
+    <div class="card product" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
@@ -211,9 +208,33 @@ footer button{
   <div class="grid" id="productGrid"></div>
 </section>
 
-<footer id="appFooter">
-  <span>🛒 <span id="cartCount">0</span> article · <span id="cartTotal">0</span> €</span>
-  <button>Panier</button>
+<!-- PANIER -->
+<section id="cart" class="page">
+  <div class="title">Panier</div>
+  <div id="cartItems"></div>
+
+  <div class="card">
+    <div class="radio">
+      <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison +20€</label>
+    </div>
+    <div id="addressBox" style="display:none">
+      <textarea id="address" placeholder="Adresse de livraison"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <b>Total : <span id="totalCart">0</span> €</b>
+  </div>
+
+  <button class="primary" onclick="prepareOrder()">Continuer</button>
+</section>
+
+<footer>
+  <span>🛒 <span id="cartCount">0</span> · <span id="cartTotal">0</span> €</span>
+  <button onclick="go('cart')">Panier</button>
 </footer>
 
 </div>
@@ -221,18 +242,13 @@ footer button{
 <script>
 let historyStack=[];
 let cart=[];
+let delivery=false;
+const deliveryFee=20;
 const prices=[
   {label:"20€",price:20},
   {label:"5g",price:50},
   {label:"10g",price:90}
 ];
-
-function enterApp(){
-  document.getElementById("welcome").remove();
-  document.getElementById("appHeader").style.display="flex";
-  document.getElementById("appFooter").style.display="flex";
-  go("home");
-}
 
 function go(id){
   const current=document.querySelector(".page.active");
@@ -241,7 +257,6 @@ function go(id){
   document.getElementById(id).classList.add("active");
   backBtn.style.display = historyStack.length ? "block":"none";
 }
-
 function goBack(){
   const prev=historyStack.pop();
   if(!prev) return;
@@ -257,7 +272,7 @@ function openProducts(type){
     const id=type+"-"+p.label;
     const item=cart.find(i=>i.id===id);
     productGrid.innerHTML+=`
-      <div class="product">
+      <div class="product card">
         <b>${p.label}</b><br><small>${p.price} €</small>
         <div class="qty">
           ${
@@ -285,15 +300,41 @@ function change(id,d){
   updateCart();
   openProducts(it.type);
 }
+
 function updateCart(){
   let count=0,total=0;
+  cartItems.innerHTML="";
   cart.forEach(i=>{
     count+=i.qty;
     total+=i.qty*i.price;
+    cartItems.innerHTML+=`
+      <div class="cart-line">
+        <b>${i.qty} × ${i.label} ${i.type}</b>
+        <span>${i.qty*i.price} €</span>
+      </div>`;
   });
+  if(delivery) total+=deliveryFee;
   cartCount.innerText=count;
   cartTotal.innerText=total;
+  totalCart.innerText=total;
 }
+
+function setDelivery(v){
+  delivery=v;
+  addressBox.style.display=v?"block":"none";
+  updateCart();
+}
+
+function prepareOrder(){
+  if(cart.length===0){alert("Panier vide");return;}
+  if(delivery && !address.value.trim()){
+    alert("Adresse requise");
+    return;
+  }
+  alert("Panier prêt ✔️ (prochaine étape : confirmation & envoi)");
+}
+
+updateCart();
 </script>
 
 </body>
