@@ -6,44 +6,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
+  <!-- Police bulle -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      font-family: 'Baloo 2', cursive;
+      background: linear-gradient(180deg, #7dd3fc, #fef08a);
       padding: 20px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .logo img {
+      width: 150px;
+      max-width: 70%;
     }
 
     h1 {
       text-align: center;
-      color: #222;
+      font-size: 34px;
+      color: #ff6f91;
+      margin: 5px 0 15px;
+      text-shadow: 2px 2px #fff;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #0284c7;
+      margin-bottom: 20px;
     }
 
     .card {
       background: white;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
     button {
       width: 100%;
-      padding: 15px;
-      margin-top: 10px;
-      font-size: 16px;
-      border-radius: 10px;
+      padding: 16px;
+      margin-top: 12px;
+      font-size: 18px;
+      border-radius: 999px;
       border: none;
-      background: #00aaff;
+      background: linear-gradient(90deg, #38bdf8, #22c55e);
       color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
     button.secondary {
-      background: #2ecc71;
+      background: linear-gradient(90deg, #facc15, #fb7185);
     }
 
     button.dark {
-      background: #444;
+      background: linear-gradient(90deg, #0ea5e9, #2563eb);
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 12px;
+      border: 2px solid #38bdf8;
+      font-size: 16px;
+      font-family: 'Baloo 2', cursive;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
     }
 
     .hidden {
@@ -54,45 +92,63 @@
 
 <body>
 
-<h1>🍔 Allo85</h1>
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="logo.png" alt="Allo85">
+  </div>
 
-<div id="home" class="card">
-  <p>👋 Bienvenue sur <b>Allo85</b></p>
-  <button onclick="show('menu')">📋 Voir le menu</button>
-  <button onclick="show('order')" class="secondary">📦 Commander</button>
-  <button onclick="show('info')" class="dark">ℹ️ Infos</button>
-</div>
+  <h1>🌴 Allo85</h1>
+  <p class="subtitle">☀️ Commande rapide & saveurs d’été</p>
 
-<div id="menu" class="card hidden">
-  <h3>🍔 Menu</h3>
-  <p>
-    🥙 Kebab<br>
-    🌯 Tacos<br>
-    🍔 Burger<br>
-    🍟 Frites<br>
-    🥤 Boissons
-  </p>
-  <button onclick="back()">⬅️ Retour</button>
-</div>
+  <!-- ACCUEIL -->
+  <div id="home" class="card">
+    <p>👋 Bienvenue ! Choisis une option :</p>
+    <button onclick="show('menu')">📋 Voir le menu</button>
+    <button onclick="show('order')" class="secondary">📦 Commander</button>
+    <button onclick="show('info')" class="dark">ℹ️ Infos</button>
+  </div>
 
-<div id="order" class="card hidden">
-  <h3>📦 Commander</h3>
-  <p>Clique ci-dessous pour envoyer ta commande :</p>
-  <button class="secondary" onclick="sendOrder()">Envoyer la commande</button>
-  <button onclick="back()">⬅️ Retour</button>
-</div>
+  <!-- MENU -->
+  <div id="menu" class="card hidden">
+    <h3>🍔 Menu</h3>
+    <p>
+      🥙 Kebab<br>
+      🌯 Tacos<br>
+      🍔 Burger<br>
+      🍟 Frites<br>
+      🥤 Boissons
+    </p>
+    <button onclick="back()">⬅️ Retour</button>
+  </div>
 
-<div id="info" class="card hidden">
-  <h3>ℹ️ Infos</h3>
-  <p>
-    📍 Boufféré<br><br>
-    🕒 Horaires :<br>
-    11h–14h<br>
-    17h30–22h<br><br>
-    📞 06 XX XX XX XX
-  </p>
-  <button onclick="back()">⬅️ Retour</button>
-</div>
+  <!-- COMMANDE -->
+  <div id="order" class="card hidden">
+    <h3>📦 Commander</h3>
+
+    <label>🍔 Produit :</label>
+    <select id="product">
+      <option value="Kebab">🥙 Kebab</option>
+      <option value="Tacos">🌯 Tacos</option>
+      <option value="Burger">🍔 Burger</option>
+    </select>
+
+    <label>🔢 Quantité :</label>
+    <input type="number" id="qty" value="1" min="1">
+
+    <button class="secondary" onclick="sendOrder()">Envoyer la commande</button>
+    <button onclick="back()">⬅️ Retour</button>
+  </div>
+
+  <!-- INFOS -->
+  <div id="info" class="card hidden">
+    <h3>ℹ️ Infos</h3>
+    <p>
+      📍 Boufféré<br><br>
+      🕒 11h–14h / 17h30–22h<br><br>
+      📞 06 XX XX XX XX
+    </p>
+    <button onclick="back()">⬅️ Retour</button>
+  </div>
 
 <script>
   Telegram.WebApp.ready();
@@ -108,7 +164,15 @@
   }
 
   function sendOrder() {
-    Telegram.WebApp.sendData("Nouvelle commande Allo85 📦");
+    const product = document.getElementById('product').value;
+    const qty = document.getElementById('qty').value;
+
+    const message =
+      `📦 Nouvelle commande Allo85\n\n` +
+      `🍔 Produit : ${product}\n` +
+      `🔢 Quantité : ${qty}`;
+
+    Telegram.WebApp.sendData(message);
     Telegram.WebApp.close();
   }
 </script>
