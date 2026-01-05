@@ -17,10 +17,15 @@ header{
   position:fixed;top:0;left:0;right:0;
   height:52px;background:#000;
   display:flex;align-items:center;justify-content:center;
+  z-index:10;
 }
 .logo{height:26px}
-.page{display:none;padding:70px 12px 90px}
+
+/* pages */
+.page{display:none;padding:70px 12px 120px}
 .page.active{display:block}
+
+/* cards */
 .card{
   background:#141816;
   border-radius:14px;
@@ -28,6 +33,8 @@ header{
   margin-bottom:10px;
 }
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+
+/* buttons */
 button{
   border:none;border-radius:20px;
   padding:10px 16px;font-size:14px;
@@ -38,14 +45,46 @@ button{
   width:28px;height:28px;border-radius:50%;
   background:#f2c94c;color:#000
 }
-textarea{
-  width:100%;background:#0c0f0d;color:#fff;
-  border:1px solid #333;border-radius:10px;
-  padding:10px
+
+/* footer panier */
+#cartBar{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:60px;
+  background:#000;
+  border-top:1px solid #222;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 14px;
+  z-index:10;
 }
+#cartBar .info{
+  font-size:13px;
+  color:#ccc;
+}
+#cartBar .cta{
+  background:#f2c94c;
+  color:#000;
+  font-weight:600;
+  padding:8px 16px;
+  border-radius:20px;
+}
+
+/* textarea */
+textarea{
+  width:100%;
+  background:#0c0f0d;
+  color:#fff;
+  border:1px solid #333;
+  border-radius:10px;
+  padding:10px;
+}
+
+/* notice */
 .notice{
   text-align:center;
-  color:#8cffb0;
+  color:#7dffae;
   font-size:13px;
   margin-top:10px;
 }
@@ -59,6 +98,7 @@ textarea{
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
+<!-- BIENVENUE -->
 <section id="welcome" class="page active">
   <div class="card" style="text-align:center">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
@@ -66,6 +106,7 @@ textarea{
   </div>
 </section>
 
+<!-- HOME -->
 <section id="home" class="page">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫 Jaune / Filtré</div>
@@ -92,6 +133,7 @@ textarea{
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
 
+<!-- PANIER -->
 <section id="cart" class="page">
   <div id="cartItems"></div>
 
@@ -105,24 +147,28 @@ textarea{
 
   <div class="card"><b>Total : <span id="total">0</span> €</b></div>
 
-  <button class="primary" style="width:100%" onclick="prepareOrder()">
-    Confirmer la commande
-  </button>
+  <button class="primary" style="width:100%" onclick="prepareOrder()">Confirmer la commande</button>
 
   <div id="copyNotice" class="notice" style="display:none">
     ✅ Commande copiée – ouvre Telegram et colle
   </div>
 
   <button class="primary" style="width:100%;margin-top:10px"
-    onclick="openTelegram()">
-    Ouvrir Telegram @allo856
-  </button>
+    onclick="openTelegram()">Ouvrir Telegram @allo856</button>
 </section>
+
+<!-- FOOTER PANIER -->
+<div id="cartBar">
+  <div class="info">
+    🛒 <span id="count">0</span> article(s) · <span id="totalBar">0</span> €
+  </div>
+  <button class="cta" onclick="go('cart')">Panier</button>
+</div>
 
 </div>
 
 <script>
-let stack=[], cart=[], delivery=false;
+let cart=[], delivery=false;
 const prices={"5g":50,"10g":90,"20€":20};
 const products=[];
 
@@ -168,18 +214,22 @@ function setDelivery(v){
 }
 
 function render(){
-  let total=0;
+  let total=0,count=0;
   cartItems.innerHTML="";
   cart.forEach(i=>{
     const line=i.qty*i.price;
     total+=line;
+    count+=i.qty;
     cartItems.innerHTML+=`
       <div class="card">
         ${i.qty} × ${i.size} ${i.cat} = ${line} €
       </div>`;
   });
   if(delivery) total+=20;
-  document.getElementById("total").innerText=total;
+
+  totalSpan.innerText=total;
+  totalBar.innerText=total;
+  countSpan.innerText=count;
 
   products.forEach(p=>{
     const el=document.getElementById("btn-"+p.id);
@@ -210,9 +260,8 @@ function prepareOrder(){
   msg+=delivery
     ? `\n🚚 Livraison +20€\n📍 ${address.value}\n`
     : `\n📍 Sur place\n`;
-  msg+=`\nTOTAL : ${total.innerText}€`;
+  msg+=`\nTOTAL : ${totalSpan.innerText}€`;
 
-  finalMessage=msg;
   navigator.clipboard.writeText(msg);
   copyNotice.style.display="block";
 }
@@ -220,6 +269,10 @@ function prepareOrder(){
 function openTelegram(){
   window.open("https://t.me/allo856","_blank");
 }
+
+const totalSpan=document.getElementById("total");
+const totalBar=document.getElementById("totalBar");
+const countSpan=document.getElementById("count");
 </script>
 
 </body>
