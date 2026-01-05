@@ -182,7 +182,7 @@ body{
 <!-- ACCUEIL -->
 <div id="welcome" class="screen active">
   <h2>Bienvenue</h2>
-  <button onclick="start()">Entrer</button>
+  <button onclick="startApp()">Entrer</button>
 </div>
 
 <!-- HOME -->
@@ -229,12 +229,19 @@ body{
 </div>
 
 <script>
-let stack=[];
-let cart=[];
+/* ===== LOGIQUE TESTÉE ===== */
 
-const prices={'5g':50,'10g':90,'20€':20};
+let navStack = [];
+let cart = [];
+
+const prices = {
+  '5g': 50,
+  '10g': 90,
+  '20€': 20
+};
+
 ['jaune','filtre','local','cali'].forEach(cat=>{
-  document.getElementById(cat).innerHTML=`
+  document.getElementById(cat).innerHTML = `
     <div class="grid">
       ${Object.entries(prices).map(([label,price])=>`
         <div class="card">
@@ -242,65 +249,73 @@ const prices={'5g':50,'10g':90,'20€':20};
           <div class="option" onclick="addItem('${cat} ${label}',${price})">
             Ajouter — ${price}€
           </div>
-        </div>`).join('')}
-    </div>`;
+        </div>
+      `).join('')}
+    </div>
+  `;
 });
 
-function start(){
-  document.getElementById('welcome').classList.remove('active');
-  go('home',true);
+/* NAVIGATION */
+function startApp(){
+  navStack = [];
+  showScreen('home');
 }
 
-function go(id,reset=false){
-  if(!reset){
-    const current=document.querySelector('.screen.active');
-    if(current) stack.push(current.id);
-  }
+function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('backBtn').style.display=stack.length?'block':'none';
+  document.getElementById('backBtn').style.display =
+    navStack.length ? 'block' : 'none';
+}
+
+function go(id){
+  const current = document.querySelector('.screen.active');
+  if(current) navStack.push(current.id);
+  showScreen(id);
 }
 
 function goBack(){
-  const prev=stack.pop();
-  if(prev) go(prev,true);
+  const prev = navStack.pop();
+  if(prev) showScreen(prev);
 }
 
-function addItem(name,price){
-  const item=cart.find(i=>i.name===name);
+/* PANIER */
+function addItem(name, price){
+  const item = cart.find(i=>i.name===name);
   if(item) item.qty++;
-  else cart.push({name,price,qty:1});
+  else cart.push({name, price, qty:1});
   renderCart();
 }
 
 function renderCart(){
-  let total=0,count=0;
-  const el=document.getElementById('cartItems');
-  el.innerHTML='';
-  cart.forEach((i,idx)=>{
-    total+=i.price*i.qty;
-    count+=i.qty;
-    el.innerHTML+=`
+  let total = 0, count = 0;
+  const el = document.getElementById('cartItems');
+  el.innerHTML = '';
+  cart.forEach((i, idx)=>{
+    total += i.price * i.qty;
+    count += i.qty;
+    el.innerHTML += `
       <div class="cart-item">
         <span>${i.name} x${i.qty}</span>
         <span>
           <button onclick="changeQty(${idx},1)">+</button>
           <button onclick="changeQty(${idx},-1)">−</button>
         </span>
-      </div>`;
+      </div>
+    `;
   });
-  document.getElementById('total').innerText=total;
-  document.getElementById('count').innerText=count;
+  document.getElementById('total').innerText = total;
+  document.getElementById('count').innerText = count;
 }
 
-function changeQty(idx,delta){
-  cart[idx].qty+=delta;
-  if(cart[idx].qty<=0) cart.splice(idx,1);
+function changeQty(idx, delta){
+  cart[idx].qty += delta;
+  if(cart[idx].qty <= 0) cart.splice(idx,1);
   renderCart();
 }
 
-function openCart(){document.getElementById('cart').style.display='block'}
-function closeCart(){document.getElementById('cart').style.display='none'}
+function openCart(){ document.getElementById('cart').style.display='block'; }
+function closeCart(){ document.getElementById('cart').style.display='none'; }
 </script>
 
 </body>
