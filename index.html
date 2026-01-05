@@ -13,7 +13,6 @@
   --card:#111814;
   --gold:#d4af37;
   --text:#e5e7eb;
-  --muted:#9ca3af;
 }
 
 *{box-sizing:border-box}
@@ -27,29 +26,29 @@ body{
 
 /* HEADER */
 .header{
-  padding:20px;
+  padding:14px;
   text-align:center;
   border-bottom:1px solid rgba(212,175,55,.2);
+  position:relative;
 }
-.header h1{
-  margin:0;
-  letter-spacing:3px;
-}
+.header h1{margin:0;letter-spacing:3px}
 
-/* NAV */
-.nav{
-  display:flex;
-  gap:10px;
-  padding:14px;
-}
-.nav button{
-  flex:1;
-  padding:12px;
+/* BACK */
+#backBtn{
+  position:absolute;
+  left:10px;
+  top:10px;
+  padding:6px 10px;
   border-radius:999px;
   border:1px solid var(--gold);
   background:none;
   color:var(--gold);
+  display:none;
 }
+
+/* SCREENS */
+.screen{display:none;padding-bottom:120px}
+.screen.active{display:block}
 
 /* GRID */
 .grid{
@@ -65,9 +64,7 @@ body{
   border-radius:16px;
   padding:14px;
   border:1px solid rgba(212,175,55,.25);
-}
-.card h3{
-  margin:8px 0;
+  text-align:center;
 }
 .card button{
   width:100%;
@@ -78,20 +75,49 @@ body{
   color:var(--gold);
 }
 
-/* PANIER */
-#cart{
+/* WELCOME */
+#welcome{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:70vh;
+}
+#welcome h2{margin-bottom:20px}
+
+/* CART BAR */
+#cartBar{
   position:fixed;
   bottom:0;
   left:0;
   right:0;
   background:#020617;
   border-top:1px solid rgba(212,175,55,.3);
-  padding:14px;
+  padding:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+#cartBar button{
+  border:1px solid var(--gold);
+  background:none;
+  color:var(--gold);
+  padding:8px 14px;
+  border-radius:999px;
+}
+
+/* CART */
+#cart{
+  position:fixed;
+  inset:0;
+  background:#020617;
+  padding:20px;
+  display:none;
 }
 .cart-item{
   display:flex;
   justify-content:space-between;
-  margin-bottom:6px;
+  margin-bottom:10px;
 }
 .cart-item button{
   margin-left:6px;
@@ -100,123 +126,124 @@ body{
   color:var(--gold);
 }
 .total{
-  margin-top:8px;
-  font-size:18px;
+  margin-top:14px;
+  font-size:20px;
   color:var(--gold);
   text-align:center;
 }
-
-/* SCREENS */
-.screen{display:none}
-.screen.active{display:block}
 </style>
 </head>
 
 <body>
 
 <div class="header">
+  <button id="backBtn" onclick="goBack()">⬅</button>
   <h1>ALLO85</h1>
 </div>
 
-<div class="nav">
-  <button onclick="show('home')">Accueil</button>
-  <button onclick="show('catalog')">Catalogue</button>
+<!-- WELCOME -->
+<div id="welcome" class="screen active">
+  <h2>Bienvenue</h2>
+  <button onclick="go('home')">Entrer</button>
 </div>
 
 <!-- HOME -->
-<div id="home" class="screen active">
+<div id="home" class="screen">
   <div class="grid">
-    <div class="card" onclick="show('choco')"><h3>🍫 Catégorie</h3></div>
-    <div class="card" onclick="show('green')"><h3>🥦 Catégorie</h3></div>
+    <div class="card" onclick="go('choco')"><h3>🍫 Catégorie</h3></div>
+    <div class="card" onclick="go('green')"><h3>🥦 Catégorie</h3></div>
   </div>
 </div>
 
 <!-- 🍫 -->
 <div id="choco" class="screen">
   <div class="grid">
-    <div class="card" onclick="show('jaune')"><h3>🟡 Jaune</h3></div>
-    <div class="card" onclick="show('filtre')"><h3>🔍 Filtré</h3></div>
+    <div class="card" onclick="go('jaune')"><h3>🟡 Jaune</h3></div>
+    <div class="card" onclick="go('filtre')"><h3>🔍 Filtré</h3></div>
   </div>
 </div>
 
 <!-- 🥦 -->
 <div id="green" class="screen">
   <div class="grid">
-    <div class="card" onclick="show('local')"><h3>🌱 Local</h3></div>
-    <div class="card" onclick="show('cali')"><h3>🇺🇸 Cali</h3></div>
+    <div class="card" onclick="go('local')"><h3>🌱 Local</h3></div>
+    <div class="card" onclick="go('cali')"><h3>🇺🇸 Cali</h3></div>
   </div>
 </div>
 
-<!-- ARTICLES -->
+<!-- ITEMS -->
 <div id="jaune" class="screen">
   <div class="grid">
-    <div class="card">
-      <h3>Jaune A</h3>
-      <button onclick="add('Jaune A',50)">Ajouter — 50€</button>
-    </div>
-    <div class="card">
-      <h3>Jaune B</h3>
-      <button onclick="add('Jaune B',60)">Ajouter — 60€</button>
-    </div>
+    <div class="card"><h3>Jaune A</h3><button onclick="add('Jaune A',50)">Ajouter 50€</button></div>
+    <div class="card"><h3>Jaune B</h3><button onclick="add('Jaune B',60)">Ajouter 60€</button></div>
   </div>
 </div>
 
 <div id="filtre" class="screen">
   <div class="grid">
-    <div class="card">
-      <h3>Filtré X</h3>
-      <button onclick="add('Filtré X',70)">Ajouter — 70€</button>
-    </div>
+    <div class="card"><h3>Filtré X</h3><button onclick="add('Filtré X',70)">Ajouter 70€</button></div>
   </div>
 </div>
 
 <div id="local" class="screen">
   <div class="grid">
-    <div class="card">
-      <h3>Local Y</h3>
-      <button onclick="add('Local Y',55)">Ajouter — 55€</button>
-    </div>
+    <div class="card"><h3>Local Y</h3><button onclick="add('Local Y',55)">Ajouter 55€</button></div>
   </div>
 </div>
 
 <div id="cali" class="screen">
   <div class="grid">
-    <div class="card">
-      <h3>Cali Z</h3>
-      <button onclick="add('Cali Z',80)">Ajouter — 80€</button>
-    </div>
+    <div class="card"><h3>Cali Z</h3><button onclick="add('Cali Z',80)">Ajouter 80€</button></div>
   </div>
 </div>
 
-<!-- PANIER -->
+<!-- CART -->
 <div id="cart">
+  <h2>Panier</h2>
   <div id="cartItems"></div>
   <div class="total">Total : <span id="total">0</span> €</div>
+  <button onclick="closeCart()">Fermer</button>
+</div>
+
+<!-- CART BAR -->
+<div id="cartBar">
+  <span><span id="count">0</span> article(s)</span>
+  <button onclick="openCart()">Voir panier</button>
 </div>
 
 <script>
 Telegram.WebApp.ready();
 
+let history=[];
 let cart=[];
 
-function show(id){
+function go(id){
+  const current=document.querySelector('.screen.active');
+  if(current) history.push(current.id);
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  document.getElementById('backBtn').style.display=id==='welcome'?'none':'block';
+}
+
+function goBack(){
+  const prev=history.pop();
+  if(prev) go(prev);
 }
 
 function add(name,price){
   const item=cart.find(i=>i.name===name);
-  if(item)item.qty++;
+  if(item) item.qty++;
   else cart.push({name,price,qty:1});
   renderCart();
 }
 
 function renderCart(){
-  let total=0;
+  let total=0,count=0;
   const el=document.getElementById('cartItems');
   el.innerHTML='';
   cart.forEach((i,idx)=>{
     total+=i.price*i.qty;
+    count+=i.qty;
     el.innerHTML+=`
       <div class="cart-item">
         <span>${i.name} x${i.qty}</span>
@@ -227,7 +254,11 @@ function renderCart(){
       </div>`;
   });
   document.getElementById('total').innerText=total;
+  document.getElementById('count').innerText=count;
 }
+
+function openCart(){document.getElementById('cart').style.display='block'}
+function closeCart(){document.getElementById('cart').style.display='none'}
 </script>
 
 </body>
