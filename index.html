@@ -44,7 +44,7 @@ footer{
 button{
   border:none;
   border-radius:999px;
-  padding:10px 16px;
+  padding:12px 18px;
   font-family:Fredoka;
   background:#ffd56b;
 }
@@ -56,7 +56,7 @@ button{
 .card{
   background:#fff;
   border-radius:18px;
-  padding:16px;
+  padding:18px;
   margin-bottom:16px;
   text-align:center;
   font-family:Fredoka;
@@ -68,8 +68,16 @@ button{
   margin-top:10px;
 }
 .qty button{
-  width:30px;height:30px;
+  width:32px;height:32px;
   padding:0;
+}
+.notice{
+  background:#f1f5f9;
+  border-radius:14px;
+  padding:12px;
+  font-size:14px;
+  text-align:center;
+  margin:16px 0;
 }
 </style>
 </head>
@@ -97,7 +105,9 @@ button{
 </section>
 
 <section id="home" class="page">
-  <div class="card" onclick="go('products')">Voir les produits</div>
+  <div class="card" onclick="go('products')">
+    Voir les produits
+  </div>
 </section>
 
 <section id="products" class="page">
@@ -106,23 +116,34 @@ button{
   <div class="card">
     Produit A — 20 €
     <div class="qty">
-      <button onclick="add()">Ajouter</button>
+      <button onclick="add(20)">Ajouter</button>
     </div>
   </div>
 
   <div class="card">
     Produit B — 50 €
     <div class="qty">
-      <button onclick="add()">Ajouter</button>
+      <button onclick="add(50)">Ajouter</button>
     </div>
   </div>
 </section>
 
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
+
   <div id="cartItems"></div>
+
   <p><b>Total : <span id="total">0</span> €</b></p>
-  <button onclick="send()">Envoyer sur Telegram</button>
+
+  <div class="notice">
+    📲 La commande sera envoyée à<br>
+    <b>@allo856</b><br><br>
+    1️⃣ Vérifie ta commande<br>
+    2️⃣ Clique sur envoyer<br>
+    3️⃣ Appuie sur “Envoyer” dans Telegram
+  </div>
+
+  <button onclick="send()">📤 Envoyer la commande à @allo856</button>
 </section>
 
 </div>
@@ -132,8 +153,8 @@ const tg = Telegram.WebApp;
 const userId = tg.initDataUnsafe?.user?.id || "GUEST";
 
 let history=[];
-let cartTotal=0;
 let cartCount=0;
+let cartTotal=0;
 
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -153,9 +174,9 @@ function enter(){
   header.style.display="flex";
   footer.style.display="flex";
 }
-function add(){
+function add(price){
   cartCount++;
-  cartTotal+=20;
+  cartTotal+=price;
   updateCart();
 }
 function updateCart(){
@@ -165,9 +186,12 @@ function updateCart(){
   cartItems.innerHTML=`${cartCount} article(s)`;
 }
 function send(){
-  if(cartCount===0)return alert("Panier vide");
-  const msg=`Commande ALLO85\nID:${userId}\nTotal:${cartTotal}€`;
-  const url="https://t.me/share/url?url=&text="+encodeURIComponent(msg);
+  if(cartCount===0){
+    alert("Panier vide");
+    return;
+  }
+  const msg=`🧾 COMMANDE ALLO85\nID:${userId}\nArticles:${cartCount}\nTOTAL:${cartTotal}€`;
+  const url="https://t.me/share/url?text="+encodeURIComponent(msg);
   window.open(url,"_blank");
 }
 </script>
