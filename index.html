@@ -5,24 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ALLO85</title>
 
-<!-- TELEGRAM WEB APP API -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --sky:#e6f3ff;--sand:#f7f1e3;--sun:#ffd56b;--sun2:#ffef9c;
-  --card:#ffffffdd;--ink:#1f2937;
+  --card:#ffffffdd;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;font-family:'Inter',system-ui,sans-serif;
+  margin:0;font-family:Inter,sans-serif;
   background:linear-gradient(180deg,var(--sky),var(--sand));
 }
-.app{max-width:420px;margin:auto;min-height:100vh;position:relative}
+.app{max-width:420px;margin:auto;min-height:100vh}
 
-/* HEADER / FOOTER */
 header,footer{
   position:fixed;left:0;right:0;max-width:420px;margin:auto;
   backdrop-filter:blur(10px);background:rgba(255,255,255,.9);
@@ -31,33 +28,33 @@ header,footer{
 header{top:0;height:56px;justify-content:center;display:none}
 header .left{position:absolute;left:8px}
 header .right{position:absolute;right:8px}
-header button{border:none;border-radius:999px;padding:6px 10px;background:rgba(0,0,0,.08)}
 footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
-footer button{
-  border:none;border-radius:999px;padding:10px 20px;
-  background:linear-gradient(135deg,var(--sun),var(--sun2));
-  font-weight:700
-}
 
-/* PAGES */
-.page{display:none;padding:90px 20px 140px;animation:fade .35s ease}
+.page{display:none;padding:90px 20px 140px;animation:fade .3s ease}
 .page.active{display:block}
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
 
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);border-radius:26px;padding:24px 16px;
   box-shadow:0 20px 45px rgba(0,0,0,.15);
-  text-align:center;font-family:'Fredoka';font-size:22px;position:relative
+  text-align:center;font-family:Fredoka;font-size:22px;position:relative
 }
-.card small{display:block;font-family:'Inter';font-size:14px;margin-top:6px;opacity:.7}
-.badge{position:absolute;top:10px;right:10px;background:#ff6b6b;color:#fff;font-size:11px;padding:4px 8px;border-radius:999px}
+.badge{
+  position:absolute;top:10px;right:10px;
+  background:#ff6b6b;color:#fff;font-size:11px;padding:4px 8px;border-radius:999px
+}
 .qty{display:flex;justify-content:center;gap:12px;margin-top:10px}
-.qty button{width:32px;height:32px;border:none;border-radius:50%;background:var(--sun);font-size:18px;font-weight:700}
+.qty button{width:32px;height:32px;border:none;border-radius:50%;background:var(--sun)}
 .primary{
-  width:100%;border:none;border-radius:999px;padding:16px;
-  font-family:'Fredoka';background:linear-gradient(135deg,var(--sun),var(--sun2))
+  width:100%;border:none;border-radius:999px;
+  padding:16px;font-family:Fredoka;
+  background:linear-gradient(135deg,var(--sun),var(--sun2))
 }
+textarea,input{
+  width:100%;border-radius:16px;padding:12px;border:1px solid #ddd;margin-top:10px
+}
+h2{text-align:center;font-family:Fredoka}
 
 /* CONFIRM */
 #confirmOverlay{
@@ -68,8 +65,6 @@ footer button{
   background:#fff;border-radius:30px;padding:40px 24px;text-align:center;
   box-shadow:0 30px 80px rgba(0,0,0,.25)
 }
-
-/* CONFETTIS */
 .confetti{
   position:fixed;width:10px;height:10px;top:-10px;
   animation:fall 2.5s linear forwards
@@ -125,15 +120,29 @@ footer button{
 
 <section id="advantages" class="page">
   <h2>⭐ Avantages</h2>
+
   <div class="card">
-    🔑 <b>Code de parrainage</b>
+    🔑 <b>Ton code parrain</b>
     <small id="referralDisplay"></small>
+    <p style="font-size:14px">Donne ce code à tes amis pour gagner des avantages.</p>
+  </div>
+
+  <div class="card">
+    🔁 <b>Fidélité</b>
+    <small>
+      Commandes : <span id="orderCount">0</span><br>
+      <b id="level"></b><br>
+      <i>Plus tu commandes, plus tu es récompensé.<br>Des surprises arrivent bientôt…</i>
+    </small>
   </div>
 </section>
 
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
+
+  <input id="usedReferral" placeholder="Code parrain utilisé (optionnel)">
+
   <button class="primary" onclick="finalize()">Finaliser la commande</button>
 </section>
 
@@ -147,24 +156,20 @@ footer button{
 <div id="confirmOverlay">
   <div id="confirmBox">
     <h2>🎉 Commande validée</h2>
-    <p>Commande copiée 📋<br>Merci pour ta confiance</p>
+    <p>Commande copiée 📋</p>
     <button class="primary" onclick="openTelegram()">Ouvrir Telegram</button>
   </div>
 </div>
 
 <script>
-/* TELEGRAM USER */
-const tg = window.Telegram.WebApp;
-const tgUser = tg.initDataUnsafe?.user;
+const tg = Telegram.WebApp;
+const user = tg.initDataUnsafe?.user;
 
-/* CODE PARRAIN UNIQUE */
-let referralCode = tgUser?.id
-  ? "ALLO85-" + tgUser.id
-  : "ALLO85-GUEST";
+const userId = user?.id || "GUEST";
+const referralCode = "ALLO85-" + userId;
 
+let orderCount = parseInt(localStorage.getItem("orders_"+userId) || "0");
 document.getElementById("referralDisplay").innerText = referralCode;
-
-let historyStack=[],cart=[];
 
 const catalog={
   Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
@@ -172,26 +177,29 @@ const catalog={
   Cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
 };
 
+let cart=[],historyStack=[];
+
+function updateFidelity(){
+  orderCountSpan.innerText=orderCount;
+  level.innerText = orderCount>=10?"🟡 Or":orderCount>=5?"⚪ Argent":"🟤 Bronze";
+}
+updateFidelity();
+
 function enterApp(){
   welcome.remove();
   appHeader.style.display="flex";
   appFooter.style.display="flex";
   go("home");
 }
-
 function go(id){
   const cur=document.querySelector(".page.active");
   if(cur)historyStack.push(cur.id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
-
 function goBack(){
   const prev=historyStack.pop();
-  if(prev){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(prev).classList.add("active");
-  }
+  if(prev)go(prev);
 }
 
 function openProducts(type){
@@ -204,38 +212,35 @@ function openProducts(type){
       <div class="card">
         ${it.g} — ${it.p} €
         <div class="qty">
-          ${c?`<button onclick="chg('${id}',-1)">−</button><span>${c.q}</span><button onclick="chg('${id}',1)">+</button>`:
+          ${c?`<button onclick="chg('${id}',-1)">−</button>${c.q}<button onclick="chg('${id}',1)">+</button>`:
           `<button onclick="add('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`}
         </div>
       </div>`;
   });
   go("products");
 }
-
 function add(id,t,g,p){cart.push({id,t,g,p,q:1});upd();openProducts(t)}
-function chg(id,d){
-  const i=cart.find(x=>x.id===id);
-  i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);
-  upd();openProducts(i.t);
-}
+function chg(id,d){const i=cart.find(x=>x.id===id);i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);upd();openProducts(i.t)}
 
 function upd(){
-  let c=0,t=0;
-  cartItems.innerHTML="";
-  cart.forEach(i=>{
-    c+=i.q;t+=i.q*i.p;
+  let c=0,t=0;cartItems.innerHTML="";
+  cart.forEach(i=>{c+=i.q;t+=i.q*i.p;
     cartItems.innerHTML+=`<div>${i.q}× ${i.g} ${i.t} — ${i.q*i.p} €</div>`;
   });
-  cartCount.innerText=c;
-  cartTotal.innerText=t;
+  cartCount.innerText=c;cartTotal.innerText=t;
 }
 
 function finalize(){
   if(cart.length===0)return alert("Panier vide");
 
-  let msg=`🧾 COMMANDE ALLO85\n\nCode parrain : ${referralCode}\n\n`;
+  orderCount++;
+  localStorage.setItem("orders_"+userId,orderCount);
+  updateFidelity();
+
+  let msg=`🧾 COMMANDE ALLO85\n\nID Telegram : ${userId}\nCode parrain client : ${referralCode}\n`;
+  if(usedReferral.value.trim())msg+=`Code parrain utilisé : ${usedReferral.value.trim()}\n\n`;
   cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p} €\n`);
-  msg+=`\nTOTAL : ${cartTotal.innerText} €`;
+  msg+=`\nStatut fidélité : ${level.innerText}\nTOTAL : ${cartTotal.innerText} €`;
 
   navigator.clipboard.writeText(msg);
   confirmOverlay.style.display="flex";
