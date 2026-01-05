@@ -5,7 +5,6 @@
 <title>ALLO85</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
@@ -14,38 +13,60 @@
   --card:#111814;
   --gold:#d4af37;
   --text:#e5e7eb;
-  --muted:#9ca3af;
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:'Inter',sans-serif;
   background:var(--bg);
   color:var(--text);
+  overflow:hidden;
+}
+.logo{
+  width:140px;
+  max-width:60%;
+  display:block;
+  margin:0 auto 20px;
 }
 
-/* HEADER */
-.header{
+/* SCREENS */
+.screen{
+  position:absolute;
+  inset:0;
   padding:24px;
-  text-align:center;
+  transform:translateX(100%);
+  transition:.4s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
 }
-.header img{width:160px}
-.header h1{
-  margin-top:10px;
-  letter-spacing:3px;
+.screen.active{transform:translateX(0)}
+.screen.prev{transform:translateX(-100%)}
+
+/* SPLASH */
+#splash{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background:#000;
+}
+#splash h1{color:var(--gold);letter-spacing:4px}
+#splash button{
+  margin-top:30px;
+  padding:16px 44px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg,#d4af37,#f5d77a);
 }
 
-/* CTA */
-.cta{
-  margin:20px;
-  padding:18px;
+/* BUTTONS */
+.btn{
+  width:100%;
+  padding:16px;
+  margin-top:16px;
   border-radius:999px;
-  background:linear-gradient(135deg,#d4af37,#f5d77a);
-  color:#000;
-  text-align:center;
-  font-weight:700;
+  border:1px solid var(--gold);
+  background:none;
+  color:var(--gold);
 }
 
 /* GRID */
@@ -53,58 +74,24 @@ body{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:16px;
-  padding:0 20px 120px;
 }
 
 /* CARD */
 .card{
   background:var(--card);
   border-radius:18px;
-  overflow:hidden;
-  border:1px solid rgba(212,175,55,.25);
+  padding:14px;
+  border:1px solid rgba(212,175,55,.3);
 }
-
-.card-img{
-  height:130px;
+.card video,.card .placeholder{
+  width:100%;
+  height:120px;
+  border-radius:12px;
+  background:#020617;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:52px;
-  background:linear-gradient(135deg,#1f2933,#020617);
-}
-
-.card-body{
-  padding:14px;
-}
-
-.badge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  background:rgba(212,175,55,.15);
-  color:var(--gold);
-  font-size:12px;
-}
-
-.card h3{
-  margin:8px 0 4px;
-  font-size:16px;
-}
-
-.card p{
-  font-size:13px;
-  color:var(--muted);
-}
-
-.card button{
-  margin-top:10px;
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:999px;
-  background:transparent;
-  border:1px solid var(--gold);
-  color:var(--gold);
+  font-size:48px;
 }
 
 /* PANIER */
@@ -112,132 +99,125 @@ body{
   position:fixed;
   inset:0;
   background:#020617;
+  padding:24px;
   transform:translateY(100%);
   transition:.4s;
-  padding:24px;
-  z-index:20;
 }
-
 #cart.active{transform:translateY(0)}
-
 .cart-item{
   display:flex;
   justify-content:space-between;
-  padding:12px 0;
-  border-bottom:1px solid rgba(255,255,255,.1);
+  align-items:center;
+  margin-bottom:12px;
 }
-
-.total{
-  margin-top:20px;
-  font-size:22px;
-  text-align:center;
-  color:var(--gold);
-}
-
-/* NAV */
-.nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#020617;
-  border-top:1px solid rgba(212,175,55,.2);
-  display:flex;
-}
-
-.nav button{
-  flex:1;
-  padding:14px;
+.cart-item button{
   background:none;
-  border:none;
+  border:1px solid var(--gold);
   color:var(--gold);
-  font-size:14px;
+  padding:4px 10px;
+  border-radius:6px;
 }
+.total{color:var(--gold);font-size:22px;text-align:center;margin-top:20px}
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <img src="logo.png">
+<!-- SPLASH -->
+<div id="splash" class="screen active">
+  <img src="logo.png" class="logo">
   <h1>ALLO85</h1>
+  <button onclick="enter()">ENTRER</button>
 </div>
 
-<div class="cta" onclick="openCart()">🛒 Ouvrir le panier</div>
+<!-- HOME -->
+<div id="home" class="screen">
+  <img src="logo.png" class="logo">
+  <button class="btn" onclick="go('catalog')">Catalogue</button>
+  <button class="btn" onclick="go('history')">Historique</button>
+  <button class="btn" onclick="openCart()">Panier</button>
+</div>
 
-<div class="grid">
-  <div class="card">
-    <div class="card-img">🍫</div>
-    <div class="card-body">
-      <span class="badge">Univers</span>
-      <h3>Catégorie 🍫</h3>
-      <p>Premium</p>
+<!-- CATALOGUE -->
+<div id="catalog" class="screen">
+  <div class="grid">
+    <div class="card">
+      <video src="choco.mp4" controls playsinline></video>
+      <h3>🍫</h3>
       <button onclick="add('🍫',50)">Ajouter — 50€</button>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-img">🥦</div>
-    <div class="card-body">
-      <span class="badge">Univers</span>
-      <h3>Catégorie 🥦</h3>
-      <p>Alternative</p>
+    <div class="card">
+      <video src="green.mp4" controls playsinline></video>
+      <h3>🥦</h3>
       <button onclick="add('🥦',60)">Ajouter — 60€</button>
     </div>
   </div>
 </div>
 
-<!-- PANIER -->
-<div id="cart">
-  <h2>🛒 Panier</h2>
-  <div id="cartItems"></div>
-  <div class="total">Total : <span id="total">0</span> €</div>
-  <button class="cta" onclick="checkout()">Valider la commande</button>
-  <button class="cta" style="background:#111;color:#fff" onclick="closeCart()">Fermer</button>
+<!-- HISTORIQUE -->
+<div id="history" class="screen">
+  <h2>Historique</h2>
+  <div id="historyList"></div>
 </div>
 
-<div class="nav">
-  <button>Menu</button>
-  <button>FAQ</button>
-  <button>Contact</button>
+<!-- PANIER -->
+<div id="cart">
+  <h2>Panier</h2>
+  <div id="cartItems"></div>
+  <div class="total">Total : <span id="total">0</span> €</div>
+  <button class="btn" onclick="checkout()">Valider</button>
+  <button class="btn" onclick="closeCart()">Fermer</button>
 </div>
 
 <script>
 Telegram.WebApp.ready();
 
+let stack=['splash'];
 let cart=[];
-let total=0;
+let historyData=JSON.parse(localStorage.getItem('history')||'[]');
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','prev'));
+  document.getElementById(stack[stack.length-1]).classList.add('prev');
+  document.getElementById(id).classList.add('active');
+  stack.push(id);
+}
+function go(id){show(id)}
+function enter(){show('home')}
 
 function add(name,price){
-  cart.push({name,price});
-  total+=price;
+  const item=cart.find(i=>i.name===name);
+  if(item)item.qty++;
+  else cart.push({name,price,qty:1});
 }
-
-function openCart(){
-  renderCart();
-  document.getElementById('cart').classList.add('active');
-}
-
-function closeCart(){
-  document.getElementById('cart').classList.remove('active');
-}
-
+function openCart(){document.getElementById('cart').classList.add('active');renderCart()}
+function closeCart(){document.getElementById('cart').classList.remove('active')}
 function renderCart(){
   const el=document.getElementById('cartItems');
+  let total=0;
   el.innerHTML='';
-  cart.forEach(i=>{
-    el.innerHTML+=`<div class="cart-item"><span>${i.name}</span><span>${i.price}€</span></div>`;
+  cart.forEach((i,idx)=>{
+    total+=i.price*i.qty;
+    el.innerHTML+=`
+    <div class="cart-item">
+      <span>${i.name} x${i.qty}</span>
+      <div>
+        <button onclick="i.qty++;renderCart()">+</button>
+        <button onclick="i.qty--;if(i.qty<=0)cart.splice(${idx},1);renderCart()">−</button>
+      </div>
+    </div>`;
   });
   document.getElementById('total').innerText=total;
 }
-
 function checkout(){
-  let msg="🛒 COMMANDE ALLO85\n\n";
-  cart.forEach(i=>msg+=`${i.name} — ${i.price}€\n`);
-  msg+=`\nTotal : ${total}€`;
+  const msg=cart.map(i=>`${i.name} x${i.qty}`).join('\n');
+  historyData.push({date:new Date().toLocaleString(),items:cart});
+  localStorage.setItem('history',JSON.stringify(historyData));
   Telegram.WebApp.sendData(msg);
-  Telegram.WebApp.close();
+  cart=[];
+  closeCart();
 }
+document.getElementById('historyList').innerHTML=historyData.map(h=>`<p>${h.date}</p>`).join('');
 </script>
 
 </body>
