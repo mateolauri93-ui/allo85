@@ -6,61 +6,116 @@
 <title>ALLO85</title>
 
 <style>
+:root{
+  --bg:#0b0f0c;
+  --card:#121614;
+  --gold:#d4af37;
+  --text:#f5f5f5;
+  --muted:#999;
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b0f0c;
-  color:white;
+  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
+  background:radial-gradient(circle at top,#111,#000);
+  color:var(--text);
 }
+
 .hidden{display:none}
 
+/* HEADER */
 header{
   position:fixed;
   top:0;left:0;right:0;
-  background:black;
-  padding:12px;
+  background:rgba(0,0,0,.9);
+  padding:14px;
   text-align:center;
+  border-bottom:1px solid rgba(212,175,55,.25);
+  z-index:10;
 }
+
 #backBtn{
   position:absolute;
-  left:10px;
+  left:12px;
   top:10px;
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  background:none;
+  color:var(--gold);
 }
 
+/* MAIN */
 main{
-  padding:80px 16px 120px;
+  padding:90px 18px 130px;
 }
 
+/* CARD */
 .card{
-  background:#111814;
-  border-radius:10px;
-  padding:16px;
-  margin-bottom:14px;
+  background:linear-gradient(145deg,#111,#050505);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
   text-align:center;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.6),
+    inset 0 0 0 1px rgba(212,175,55,.15);
 }
 
+.card:active{transform:scale(.97)}
+
+/* BUTTONS */
 button{
-  padding:10px 18px;
-  border-radius:20px;
-  border:none;
+  border-radius:999px;
+  padding:12px 22px;
+  font-size:15px;
   cursor:pointer;
 }
+
 .primary{
-  background:#d4af37;
-  color:black;
-}
-.secondary{
-  background:#333;
-  color:white;
+  background:linear-gradient(135deg,#d4af37,#f5d77a);
+  color:#000;
+  border:none;
 }
 
+.secondary{
+  background:transparent;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.25);
+}
+
+/* WELCOME */
+#welcome{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+#welcome h2{
+  font-size:28px;
+  letter-spacing:2px;
+  margin-bottom:30px;
+}
+
+/* CART BAR */
 #cartBar{
   position:fixed;
   bottom:0;left:0;right:0;
-  background:black;
-  padding:12px;
+  background:rgba(0,0,0,.95);
+  padding:14px 18px;
   display:flex;
   justify-content:space-between;
+  align-items:center;
+  border-top:1px solid rgba(212,175,55,.25);
+}
+
+#cartBar span{
+  font-size:14px;
+  color:var(--muted);
 }
 </style>
 </head>
@@ -68,7 +123,7 @@ button{
 <body>
 
 <header>
-  <button id="backBtn" class="secondary hidden" onclick="goBack()">⬅</button>
+  <button id="backBtn" class="hidden" onclick="goBack()">⬅</button>
   <b>ALLO85</b>
 </header>
 
@@ -117,18 +172,11 @@ button{
 </div>
 
 <script>
-/* ETAT */
 let history=[];
 let cart=[];
 
-/* PRIX */
-const prices = {
-  "5g":50,
-  "10g":90,
-  "20€":20
-};
+const prices={ "5g":50, "10g":90, "20€":20 };
 
-/* GENERATION PRODUITS */
 ["jaune","filtre","local","cali"].forEach(cat=>{
   document.getElementById(cat).innerHTML =
     Object.entries(prices).map(([label,price])=>`
@@ -141,7 +189,6 @@ const prices = {
     `).join("");
 });
 
-/* NAVIGATION */
 function show(id){
   document.querySelectorAll("main").forEach(m=>m.classList.add("hidden"));
   document.getElementById(id).classList.remove("hidden");
@@ -159,7 +206,6 @@ function goBack(){
   if(prev) show(prev);
 }
 
-/* PANIER */
 function add(name,price){
   const item=cart.find(i=>i.name===name);
   if(item) item.qty++;
