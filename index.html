@@ -11,7 +11,6 @@
   --bg2:#151a17;
   --card:#141816;
   --gold:#f2c94c;
-  --gold-soft:#ffe08a;
   --text:#f5f5f5;
   --muted:#9ca3af;
 }
@@ -29,7 +28,6 @@ body{
   max-width:420px;
   margin:auto;
   min-height:100vh;
-  overflow:hidden;
 }
 
 /* HEADER */
@@ -50,39 +48,34 @@ header{
 #backBtn{
   position:absolute;
   left:10px;
-  background:none;
   border:1px solid var(--gold);
+  background:none;
   color:var(--gold);
   padding:4px 10px;
   border-radius:999px;
   font-size:13px;
   display:none;
-  transition:opacity .2s;
 }
 
-.logo{
-  height:26px;
-}
+.logo{height:26px}
 
 /* PAGES */
 .page{
   position:absolute;
-  top:0; left:0; right:0;
+  top:0;left:0;right:0;
   padding:70px 12px 90px;
   min-height:100vh;
   opacity:0;
   transform:translateX(20px);
   pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
+  transition:.25s;
 }
-
 .page.active{
   opacity:1;
-  transform:translateX(0);
+  transform:none;
   pointer-events:auto;
 }
 
-/* TITRES */
 .page-title{
   text-align:center;
   font-size:17px;
@@ -101,18 +94,10 @@ header{
   background:linear-gradient(145deg,#161b18,#0c0f0d);
   border-radius:14px;
   padding:14px;
-  text-align:center;
-  transition:transform .12s ease, box-shadow .12s ease;
+  margin-bottom:10px;
 }
 
-.card:active{
-  transform:scale(.96);
-}
-
-.card small{
-  font-size:12px;
-  color:var(--muted);
-}
+.card small{color:var(--muted);font-size:12px}
 
 /* BUTTONS */
 button{
@@ -120,15 +105,10 @@ button{
   border-radius:999px;
   padding:7px 14px;
   font-size:14px;
-  transition:transform .1s ease, opacity .1s ease;
-}
-
-button:active{
-  transform:scale(.94);
 }
 
 .primary{
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  background:linear-gradient(135deg,var(--gold),#ffe08a);
   color:#000;
 }
 
@@ -139,17 +119,25 @@ button:active{
   gap:8px;
   margin-top:6px;
 }
-
 .qty button{
-  width:28px;
-  height:28px;
+  width:28px;height:28px;
   border-radius:50%;
   background:var(--gold);
   color:#000;
-  font-size:16px;
 }
 
-/* FOOTER PANIER */
+/* INPUT */
+textarea{
+  width:100%;
+  background:#0c0f0d;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  padding:10px;
+  resize:none;
+}
+
+/* FOOTER */
 #cartBar{
   position:fixed;
   bottom:0;
@@ -159,31 +147,17 @@ button:active{
   background:#000;
   border-top:1px solid rgba(255,255,255,.08);
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   padding:0 14px;
-  z-index:10;
-}
-
-#cartBar .info{
-  font-size:13px;
-  color:var(--muted);
 }
 
 #cartBar .cta{
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  background:linear-gradient(135deg,var(--gold),#ffe08a);
   color:#000;
   padding:8px 16px;
   border-radius:999px;
   font-weight:600;
-}
-
-/* PANIER */
-.cart-item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
 }
 </style>
 </head>
@@ -197,13 +171,15 @@ button:active{
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
+<!-- BIENVENUE -->
 <section id="welcome" class="page active">
-  <div class="card">
+  <div class="card" style="text-align:center">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
 
+<!-- HOME -->
 <section id="home" class="page">
   <div class="page-title">Catégories</div>
   <div class="grid">
@@ -215,16 +191,16 @@ button:active{
 <section id="choco" class="page">
   <div class="page-title">🍫</div>
   <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡<br><small>Jaune</small></div>
-    <div class="card" onclick="go('filtre')">🔍<br><small>Filtré</small></div>
+    <div class="card" onclick="go('jaune')">🟡<small>Jaune</small></div>
+    <div class="card" onclick="go('filtre')">🔍<small>Filtré</small></div>
   </div>
 </section>
 
 <section id="green" class="page">
   <div class="page-title">🥦</div>
   <div class="grid">
-    <div class="card" onclick="go('local')">🌱<br><small>Local</small></div>
-    <div class="card" onclick="go('cali')">🇺🇸<br><small>Cali</small></div>
+    <div class="card" onclick="go('local')">🌱<small>Local</small></div>
+    <div class="card" onclick="go('cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
@@ -233,18 +209,35 @@ button:active{
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
 
+<!-- PANIER -->
 <section id="cart" class="page">
   <div class="page-title">🛒 Panier</div>
   <div id="cartItems"></div>
+
+  <div class="card">
+    <b>Livraison</b><br><br>
+    <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label><br>
+    <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison (+20€)</label>
+    <div id="addressBox" style="display:none;margin-top:10px">
+      <textarea id="address" placeholder="Adresse de livraison"></textarea>
+    </div>
+  </div>
+
   <div class="card">
     Total : <b><span id="total">0</span> €</b>
   </div>
+
+  <button class="primary" style="width:100%" onclick="confirmOrder()">Confirmer la commande</button>
+</section>
+
+<!-- CONFIRMATION -->
+<section id="confirm" class="page">
+  <div class="page-title">✅ Confirmation</div>
+  <div class="card" id="confirmText"></div>
 </section>
 
 <div id="cartBar">
-  <div class="info">
-    <span id="count">0</span> article(s) · <span id="totalBar">0</span> €
-  </div>
+  <div><span id="count">0</span> article(s)</div>
   <button class="cta" onclick="go('cart')">Panier</button>
 </div>
 
@@ -252,6 +245,8 @@ button:active{
 
 <script>
 let stack=[], cart=[];
+let delivery=false, deliveryFee=20;
+
 const prices={"5g":50,"10g":90,"20€":20};
 const products=[];
 
@@ -280,7 +275,6 @@ function go(id){
   backBtn.style.display=stack.length?'block':'none';
   render();
 }
-
 function goBack(){
   const prev=stack.pop();
   if(prev){
@@ -296,7 +290,6 @@ function add(id){
   cart.push({...p,qty:1});
   render();
 }
-
 function change(id,d){
   const it=cart.find(x=>x.id===id);
   it.qty+=d;
@@ -304,11 +297,18 @@ function change(id,d){
   render();
 }
 
+function setDelivery(v){
+  delivery=v;
+  addressBox.style.display=v?'block':'none';
+  render();
+}
+
 function render(){
   let total=0,count=0;
   cart.forEach(i=>{total+=i.price*i.qty;count+=i.qty});
+  if(delivery) total+=deliveryFee;
+
   totalSpan.textContent=total;
-  totalBar.textContent=total;
   countSpan.textContent=count;
 
   products.forEach(p=>{
@@ -325,14 +325,28 @@ function render(){
   });
 
   cartItems.innerHTML=cart.map(i=>`
-    <div class="cart-item">
-      <span>${i.label} x${i.qty}</span>
-      <span>${i.price*i.qty} €</span>
+    <div class="card">
+      ${i.label} x${i.qty} — ${i.price*i.qty} €
     </div>`).join("");
 }
 
+function confirmOrder(){
+  let text="🧾 Commande<br><br>";
+  cart.forEach(i=>{
+    text+=`${i.label} x${i.qty} = ${i.price*i.qty} €<br>`;
+  });
+  if(delivery){
+    text+=`<br>🚚 Livraison : +20 €<br>`;
+    text+=`📍 ${address.value}<br>`;
+  }else{
+    text+=`<br>📍 Sur place<br>`;
+  }
+  text+=`<br><b>Total : ${totalSpan.textContent} €</b>`;
+  confirmText.innerHTML=text;
+  go('confirm');
+}
+
 const totalSpan=document.getElementById("total");
-const totalBar=document.getElementById("totalBar");
 const countSpan=document.getElementById("count");
 </script>
 
