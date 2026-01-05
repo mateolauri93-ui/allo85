@@ -8,227 +8,101 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* === STYLE IDENTIQUE À LA VERSION VALIDÉE === */
 :root{
-  --sand:#f7f1e3;
-  --sky:#e6f3ff;
-  --sun:#ffd56b;
-  --sun2:#ffef9c;
-  --sea:#7fd1e8;
-  --ink:#1f2937;
-  --card:#ffffffdd;
+  --sand:#f7f1e3;--sky:#e6f3ff;--sun:#ffd56b;--sun2:#ffef9c;
+  --sea:#7fd1e8;--ink:#1f2937;--card:#ffffffdd;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  font-family:'Inter',system-ui,sans-serif;
+  margin:0;font-family:'Inter',system-ui,sans-serif;
   background:linear-gradient(180deg,var(--sky),var(--sand));
-  color:var(--ink);
 }
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-  position:relative;
-  overflow:hidden;
+.app{max-width:420px;margin:auto;min-height:100vh;position:relative;overflow:hidden}
+header,footer{
+  position:fixed;left:0;right:0;max-width:420px;margin:auto;
+  backdrop-filter:blur(10px);background:rgba(255,255,255,.85);
+  display:flex;align-items:center;z-index:10
 }
-
-/* DÉCO */
-.bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
-.b1{width:180px;height:180px;top:-60px;left:-60px}
-.b2{width:90px;height:90px;top:160px;right:-30px}
-.b3{width:220px;height:220px;bottom:-90px;left:20px}
-.b4{width:140px;height:140px;bottom:180px;right:-50px}
-.sun{
-  position:absolute;top:-120px;right:-120px;
-  width:300px;height:300px;
-  background:radial-gradient(circle,var(--sun),transparent 70%);
-  opacity:.5;
-}
-.wave{
-  position:absolute;bottom:0;left:0;right:0;height:160px;
-  background:
-    radial-gradient(circle at 20% 0,var(--sea),transparent 60%),
-    radial-gradient(circle at 80% 0,var(--sea),transparent 60%);
-  opacity:.35;
-}
-
-/* HEADER / FOOTER */
-header, footer{
-  position:fixed;left:0;right:0;
-  max-width:420px;margin:auto;
-  backdrop-filter:blur(10px);
-  background:rgba(255,255,255,.85);
-  display:flex;align-items:center;
-  z-index:10;
-}
-header{
-  top:0;height:56px;justify-content:center;
-  border-bottom:1px solid rgba(0,0,0,.05);
-  display:none;
-}
-#backBtn{
-  position:absolute;left:10px;
-  border:none;border-radius:999px;
-  padding:6px 12px;
-  background:rgba(0,0,0,.08);
-  font-size:14px;
-  display:none;
-}
-header img{height:28px}
-footer{
-  bottom:0;height:62px;
-  justify-content:space-between;padding:0 16px;
-  border-top:1px solid rgba(0,0,0,.05);
-  display:none;
-}
-footer button{
-  border:none;border-radius:999px;
-  padding:10px 20px;
-  background:linear-gradient(135deg,var(--sun),var(--sun2));
-  font-weight:700;
-}
-
-/* PAGES */
-.page{display:none;padding:90px 20px 140px;min-height:100vh}
+header{top:0;height:56px;justify-content:center;display:none}
+#backBtn{position:absolute;left:10px;border:none;border-radius:999px;padding:6px 12px}
+footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
+footer button{border:none;border-radius:999px;padding:10px 20px;background:linear-gradient(135deg,var(--sun),var(--sun2));font-weight:700}
+.page{display:none;padding:90px 20px 140px}
 .page.active{display:block}
-
-/* ACCUEIL */
-#welcome{
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  text-align:center;padding:0 28px;
-}
-.logo-big{width:200px;margin-bottom:26px}
-#welcome h1{
-  font-family:'Fredoka',cursive;
-  font-size:36px;margin:0 0 12px;
-}
-#welcome p{font-size:17px;opacity:.85;margin-bottom:40px}
-#welcome button{
-  font-family:'Fredoka',cursive;
-  border:none;border-radius:999px;
-  padding:18px 44px;font-size:18px;
-  background:linear-gradient(135deg,var(--sun),var(--sun2));
-  box-shadow:0 12px 30px rgba(0,0,0,.18);
-}
-
-/* CARTES */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
-  background:var(--card);
-  border-radius:26px;
-  padding:24px 16px;
+  background:var(--card);border-radius:26px;padding:24px 16px;
   box-shadow:0 20px 45px rgba(0,0,0,.1);
-  text-align:center;
-  font-family:'Fredoka',cursive;
-  font-size:22px;
+  text-align:center;font-family:'Fredoka';font-size:22px
 }
-.card small{
-  display:block;
-  font-family:'Inter';
-  font-size:14px;
-  margin-top:8px;
-  opacity:.7;
-}
-
-/* PRODUITS */
-.qty{
-  display:flex;justify-content:center;gap:12px;margin-top:10px
-}
-.qty button{
-  width:32px;height:32px;border:none;border-radius:50%;
-  background:var(--sun);font-size:18px;font-weight:700
-}
-
-/* PANIER */
-.cart-line{
-  display:flex;justify-content:space-between;margin-bottom:10px
-}
-textarea{
-  width:100%;border-radius:16px;border:1px solid #ddd;
-  padding:12px;resize:none
-}
-.primary{
-  width:100%;border:none;border-radius:999px;
-  padding:16px;font-size:16px;
-  font-family:'Fredoka';
-  background:linear-gradient(135deg,var(--sun),var(--sun2));
-}
-.notice{
-  text-align:center;color:green;margin-top:12px;font-size:14px
-}
+.card small{display:block;font-family:'Inter';font-size:14px;margin-top:6px;opacity:.7}
+.qty{display:flex;justify-content:center;gap:12px;margin-top:10px}
+.qty button{width:32px;height:32px;border:none;border-radius:50%;background:var(--sun);font-size:18px;font-weight:700}
+textarea{width:100%;border-radius:16px;padding:12px}
+.primary{width:100%;border:none;border-radius:999px;padding:16px;font-family:'Fredoka';background:linear-gradient(135deg,var(--sun),var(--sun2))}
 </style>
 </head>
 
 <body>
 
 <div class="app">
-<div class="sun"></div>
-<div class="bubble b1"></div><div class="bubble b2"></div>
-<div class="bubble b3"></div><div class="bubble b4"></div>
-<div class="wave"></div>
 
 <header id="appHeader">
   <button id="backBtn" onclick="goBack()">⬅</button>
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG">
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" height="28">
 </header>
 
 <!-- ACCUEIL -->
 <section id="welcome" class="page active">
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
-  <h1>Bienvenue</h1>
-  <p>Commande rapide & solaire 🌴</p>
-  <button onclick="enterApp()">Entrer</button>
+  <div style="text-align:center">
+    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" width="200"><br><br>
+    <h1 style="font-family:Fredoka">Bienvenue</h1>
+    <button class="primary" onclick="enterApp()">Entrer</button>
+  </div>
 </section>
 
-<!-- HOME -->
+<!-- CATÉGORIES -->
 <section id="home" class="page">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
-    <div class="card" onclick="go('green')">🥦<small>Local / Cali</small></div>
+    <div class="card" onclick="go('green')">🥦<small>Cali</small></div>
   </div>
 </section>
 
 <section id="choco" class="page">
   <div class="grid">
-    <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="openProducts('Filtré')">🔍<small>Filtré</small></div>
+    <div class="card" onclick="openProducts('jaune')">🟡<small>Jaune</small></div>
+    <div class="card" onclick="openProducts('filtre')">🔍<small>Filtré</small></div>
   </div>
 </section>
 
 <section id="green" class="page">
   <div class="grid">
-    <div class="card" onclick="openProducts('Local')">🌱<small>Local</small></div>
-    <div class="card" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
+    <div class="card" onclick="openProducts('cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
 <section id="products" class="page">
-  <h2 id="productTitle"></h2>
+  <h2 id="productTitle" style="font-family:Fredoka;text-align:center"></h2>
   <div class="grid" id="productGrid"></div>
 </section>
 
 <section id="cart" class="page">
-  <h2>Panier</h2>
+  <h2 style="font-family:Fredoka">Panier</h2>
   <div id="cartItems"></div>
 
   <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label><br>
   <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison +20€</label>
 
   <div id="addressBox" style="display:none;margin-top:10px">
-    <textarea id="address" placeholder="Adresse de livraison"></textarea>
+    <textarea id="address" placeholder="Adresse"></textarea>
   </div>
 
   <p><b>Total : <span id="totalCart">0</span> €</b></p>
-
-  <button class="primary" onclick="finalize()">Finaliser la commande</button>
-  <div id="copyNotice" class="notice" style="display:none">
-    ✅ Commande copiée – ouvre Telegram et colle
-  </div>
-
-  <button class="primary" style="margin-top:10px" onclick="openTelegram()">
-    Ouvrir Telegram @allo856
-  </button>
+  <button class="primary" onclick="finalize()">Finaliser</button>
+  <p id="copyNotice" style="display:none;color:green">Commande copiée ✔️</p>
+  <button class="primary" onclick="openTelegram()">Ouvrir Telegram</button>
 </section>
 
 <footer id="appFooter">
@@ -239,54 +113,59 @@ textarea{
 </div>
 
 <script>
-let historyStack=[], cart=[], delivery=false;
-const prices=[{l:"20€",p:20},{l:"5g",p:50},{l:"10g",p:90}];
+let historyStack=[],cart=[],delivery=false;
+const catalog={
+  jaune:[
+    {g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}
+  ],
+  filtre:[
+    {g:"2.8g",p:20},{g:"5g",p:40},{g:"10g",p:70}
+  ],
+  cali:[
+    {g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}
+  ]
+};
 
 function enterApp(){
-  document.getElementById("welcome").remove();
-  appHeader.style.display="flex";
-  appFooter.style.display="flex";
-  go("home");
+  welcome.remove();appHeader.style.display="flex";appFooter.style.display="flex";go("home");
 }
 function go(id){
   const cur=document.querySelector(".page.active");
-  if(cur) historyStack.push(cur.id);
+  if(cur)historyStack.push(cur.id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   backBtn.style.display=historyStack.length?"block":"none";
 }
 function goBack(){
-  const prev=historyStack.pop();
-  if(!prev) return;
+  const prev=historyStack.pop();if(!prev)return;
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(prev).classList.add("active");
   backBtn.style.display=historyStack.length?"block":"none";
 }
 function openProducts(type){
-  productTitle.innerText=type;
+  productTitle.innerText=type.toUpperCase();
   productGrid.innerHTML="";
-  prices.forEach(p=>{
-    const id=type+p.l;
-    const it=cart.find(i=>i.id===id);
+  catalog[type].forEach(it=>{
+    const id=type+it.g;
+    const c=cart.find(x=>x.id===id);
     productGrid.innerHTML+=`
       <div class="card">
-        ${p.l} – ${p.p} €
+        ${it.g} – ${it.p} €
         <div class="qty">
-        ${it?
-          `<button onclick="chg('${id}',-1)">−</button><span>${it.q}</span><button onclick="chg('${id}',1)">+</button>`:
-          `<button onclick="add('${id}','${type}','${p.l}',${p.p})">Ajouter</button>`}
+          ${c?`<button onclick="chg('${id}',-1)">−</button><span>${c.q}</span><button onclick="chg('${id}',1)">+</button>`:
+          `<button onclick="add('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`}
         </div>
       </div>`;
   });
   go("products");
 }
-function add(id,t,l,p){cart.push({id,t,l,p,q:1});upd();openProducts(t)}
+function add(id,t,g,p){cart.push({id,t,g,p,q:1});upd();openProducts(t)}
 function chg(id,d){const i=cart.find(x=>x.id===id);i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);upd();openProducts(i.t)}
 function setDelivery(v){delivery=v;addressBox.style.display=v?"block":"none";upd()}
 function upd(){
   let c=0,t=0;cartItems.innerHTML="";
   cart.forEach(i=>{c+=i.q;t+=i.q*i.p;
-    cartItems.innerHTML+=`<div class="cart-line"><b>${i.q}×${i.l} ${i.t}</b><span>${i.q*i.p}€</span></div>`;
+    cartItems.innerHTML+=`<div>${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€</div>`;
   });
   if(delivery)t+=20;
   cartCount.innerText=c;cartTotal.innerText=t;totalCart.innerText=t;
@@ -295,9 +174,9 @@ function finalize(){
   if(cart.length===0)return alert("Panier vide");
   if(delivery&&!address.value.trim())return alert("Adresse requise");
   let msg="🧾 COMMANDE ALLO85\n\n";
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.l} ${i.t} = ${i.q*i.p}€\n`);
+  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p}€\n`);
   msg+=delivery?`\n🚚 Livraison +20€\n📍 ${address.value}`:`\n📍 Sur place`;
-  msg+=`\n\nTOTAL : ${totalCart.innerText}€`;
+  msg+=`\nTOTAL : ${totalCart.innerText}€`;
   navigator.clipboard.writeText(msg);
   copyNotice.style.display="block";
 }
