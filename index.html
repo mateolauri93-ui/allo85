@@ -13,56 +13,38 @@
   --card:#111814;
   --gold:#d4af37;
   --text:#e5e7eb;
+  --muted:#9ca3af;
 }
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:'Inter',sans-serif;
   background:var(--bg);
   color:var(--text);
-  overflow:hidden;
-}
-.logo{
-  width:140px;
-  max-width:60%;
-  display:block;
-  margin:0 auto 20px;
 }
 
-/* SCREENS */
-.screen{
-  position:absolute;
-  inset:0;
-  padding:24px;
-  transform:translateX(100%);
-  transition:.4s cubic-bezier(.4,0,.2,1);
-  overflow-y:auto;
+/* HEADER */
+.header{
+  padding:20px;
+  text-align:center;
+  border-bottom:1px solid rgba(212,175,55,.2);
 }
-.screen.active{transform:translateX(0)}
-.screen.prev{transform:translateX(-100%)}
+.header h1{
+  margin:0;
+  letter-spacing:3px;
+}
 
-/* SPLASH */
-#splash{
+/* NAV */
+.nav{
   display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:#000;
+  gap:10px;
+  padding:14px;
 }
-#splash h1{color:var(--gold);letter-spacing:4px}
-#splash button{
-  margin-top:30px;
-  padding:16px 44px;
-  border-radius:999px;
-  border:none;
-  background:linear-gradient(135deg,#d4af37,#f5d77a);
-}
-
-/* BUTTONS */
-.btn{
-  width:100%;
-  padding:16px;
-  margin-top:16px;
+.nav button{
+  flex:1;
+  padding:12px;
   border-radius:999px;
   border:1px solid var(--gold);
   background:none;
@@ -73,151 +55,179 @@ body{
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:16px;
+  gap:14px;
+  padding:14px;
 }
 
 /* CARD */
 .card{
   background:var(--card);
-  border-radius:18px;
+  border-radius:16px;
   padding:14px;
-  border:1px solid rgba(212,175,55,.3);
+  border:1px solid rgba(212,175,55,.25);
 }
-.card video,.card .placeholder{
+.card h3{
+  margin:8px 0;
+}
+.card button{
   width:100%;
-  height:120px;
-  border-radius:12px;
-  background:#020617;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
+  padding:10px;
+  border-radius:999px;
+  border:1px solid var(--gold);
+  background:none;
+  color:var(--gold);
 }
 
 /* PANIER */
 #cart{
   position:fixed;
-  inset:0;
+  bottom:0;
+  left:0;
+  right:0;
   background:#020617;
-  padding:24px;
-  transform:translateY(100%);
-  transition:.4s;
+  border-top:1px solid rgba(212,175,55,.3);
+  padding:14px;
 }
-#cart.active{transform:translateY(0)}
 .cart-item{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  margin-bottom:12px;
+  margin-bottom:6px;
 }
 .cart-item button{
-  background:none;
+  margin-left:6px;
   border:1px solid var(--gold);
+  background:none;
   color:var(--gold);
-  padding:4px 10px;
-  border-radius:6px;
 }
-.total{color:var(--gold);font-size:22px;text-align:center;margin-top:20px}
+.total{
+  margin-top:8px;
+  font-size:18px;
+  color:var(--gold);
+  text-align:center;
+}
+
+/* SCREENS */
+.screen{display:none}
+.screen.active{display:block}
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
-<div id="splash" class="screen active">
-  <img src="logo.png" class="logo">
+<div class="header">
   <h1>ALLO85</h1>
-  <button onclick="enter()">ENTRER</button>
+</div>
+
+<div class="nav">
+  <button onclick="show('home')">Accueil</button>
+  <button onclick="show('catalog')">Catalogue</button>
 </div>
 
 <!-- HOME -->
-<div id="home" class="screen">
-  <img src="logo.png" class="logo">
-  <button class="btn" onclick="go('catalog')">Catalogue</button>
-  <button class="btn" onclick="go('history')">Historique</button>
-  <button class="btn" onclick="openCart()">Panier</button>
+<div id="home" class="screen active">
+  <div class="grid">
+    <div class="card" onclick="show('choco')"><h3>🍫 Catégorie</h3></div>
+    <div class="card" onclick="show('green')"><h3>🥦 Catégorie</h3></div>
+  </div>
 </div>
 
-<!-- CATALOGUE -->
-<div id="catalog" class="screen">
+<!-- 🍫 -->
+<div id="choco" class="screen">
+  <div class="grid">
+    <div class="card" onclick="show('jaune')"><h3>🟡 Jaune</h3></div>
+    <div class="card" onclick="show('filtre')"><h3>🔍 Filtré</h3></div>
+  </div>
+</div>
+
+<!-- 🥦 -->
+<div id="green" class="screen">
+  <div class="grid">
+    <div class="card" onclick="show('local')"><h3>🌱 Local</h3></div>
+    <div class="card" onclick="show('cali')"><h3>🇺🇸 Cali</h3></div>
+  </div>
+</div>
+
+<!-- ARTICLES -->
+<div id="jaune" class="screen">
   <div class="grid">
     <div class="card">
-      <video src="choco.mp4" controls playsinline></video>
-      <h3>🍫</h3>
-      <button onclick="add('🍫',50)">Ajouter — 50€</button>
+      <h3>Jaune A</h3>
+      <button onclick="add('Jaune A',50)">Ajouter — 50€</button>
     </div>
     <div class="card">
-      <video src="green.mp4" controls playsinline></video>
-      <h3>🥦</h3>
-      <button onclick="add('🥦',60)">Ajouter — 60€</button>
+      <h3>Jaune B</h3>
+      <button onclick="add('Jaune B',60)">Ajouter — 60€</button>
     </div>
   </div>
 </div>
 
-<!-- HISTORIQUE -->
-<div id="history" class="screen">
-  <h2>Historique</h2>
-  <div id="historyList"></div>
+<div id="filtre" class="screen">
+  <div class="grid">
+    <div class="card">
+      <h3>Filtré X</h3>
+      <button onclick="add('Filtré X',70)">Ajouter — 70€</button>
+    </div>
+  </div>
+</div>
+
+<div id="local" class="screen">
+  <div class="grid">
+    <div class="card">
+      <h3>Local Y</h3>
+      <button onclick="add('Local Y',55)">Ajouter — 55€</button>
+    </div>
+  </div>
+</div>
+
+<div id="cali" class="screen">
+  <div class="grid">
+    <div class="card">
+      <h3>Cali Z</h3>
+      <button onclick="add('Cali Z',80)">Ajouter — 80€</button>
+    </div>
+  </div>
 </div>
 
 <!-- PANIER -->
 <div id="cart">
-  <h2>Panier</h2>
   <div id="cartItems"></div>
   <div class="total">Total : <span id="total">0</span> €</div>
-  <button class="btn" onclick="checkout()">Valider</button>
-  <button class="btn" onclick="closeCart()">Fermer</button>
 </div>
 
 <script>
 Telegram.WebApp.ready();
 
-let stack=['splash'];
 let cart=[];
-let historyData=JSON.parse(localStorage.getItem('history')||'[]');
 
 function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active','prev'));
-  document.getElementById(stack[stack.length-1]).classList.add('prev');
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  stack.push(id);
 }
-function go(id){show(id)}
-function enter(){show('home')}
 
 function add(name,price){
   const item=cart.find(i=>i.name===name);
   if(item)item.qty++;
   else cart.push({name,price,qty:1});
+  renderCart();
 }
-function openCart(){document.getElementById('cart').classList.add('active');renderCart()}
-function closeCart(){document.getElementById('cart').classList.remove('active')}
+
 function renderCart(){
-  const el=document.getElementById('cartItems');
   let total=0;
+  const el=document.getElementById('cartItems');
   el.innerHTML='';
   cart.forEach((i,idx)=>{
     total+=i.price*i.qty;
     el.innerHTML+=`
-    <div class="cart-item">
-      <span>${i.name} x${i.qty}</span>
-      <div>
-        <button onclick="i.qty++;renderCart()">+</button>
-        <button onclick="i.qty--;if(i.qty<=0)cart.splice(${idx},1);renderCart()">−</button>
-      </div>
-    </div>`;
+      <div class="cart-item">
+        <span>${i.name} x${i.qty}</span>
+        <span>
+          <button onclick="i.qty++;renderCart()">+</button>
+          <button onclick="i.qty--;if(i.qty<=0)cart.splice(${idx},1);renderCart()">−</button>
+        </span>
+      </div>`;
   });
   document.getElementById('total').innerText=total;
 }
-function checkout(){
-  const msg=cart.map(i=>`${i.name} x${i.qty}`).join('\n');
-  historyData.push({date:new Date().toLocaleString(),items:cart});
-  localStorage.setItem('history',JSON.stringify(historyData));
-  Telegram.WebApp.sendData(msg);
-  cart=[];
-  closeCart();
-}
-document.getElementById('historyList').innerHTML=historyData.map(h=>`<p>${h.date}</p>`).join('');
 </script>
 
 </body>
