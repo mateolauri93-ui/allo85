@@ -32,7 +32,7 @@ body{
   overflow:hidden;
 }
 
-/* ===== DÉCO ===== */
+/* DECOR */
 .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
 .b1{width:180px;height:180px;top:-60px;left:-60px}
 .b2{width:90px;height:90px;top:160px;right:-30px}
@@ -52,7 +52,7 @@ body{
   opacity:.35;
 }
 
-/* ===== HEADER / FOOTER ===== */
+/* HEADER / FOOTER */
 header, footer{
   position:fixed;left:0;right:0;
   max-width:420px;margin:auto;
@@ -79,6 +79,7 @@ footer{
   justify-content:space-between;padding:0 16px;
   border-top:1px solid rgba(0,0,0,.05);
 }
+footer span{font-size:14px}
 footer button{
   border:none;border-radius:999px;
   padding:10px 20px;
@@ -86,48 +87,62 @@ footer button{
   font-weight:700;
 }
 
-/* ===== PAGES ===== */
-.page{
-  display:none;
-  padding:90px 20px 120px;
-  min-height:100vh;
-}
+/* PAGES */
+.page{display:none;padding:90px 20px 120px;min-height:100vh}
 .page.active{display:block}
 
-/* ===== ACCUEIL ===== */
-#welcome{
-  display:flex;flex-direction:column;
-  justify-content:center;align-items:center;
-  text-align:center;padding:0 28px;
-}
-.logo-big{width:200px;margin-bottom:26px}
-#welcome h1{
-  font-family:'Fredoka',cursive;
-  font-size:36px;margin:0 0 12px;
-}
-#welcome p{font-size:17px;opacity:.85;margin-bottom:40px}
-#welcome button{
-  font-family:'Fredoka',cursive;
-  border:none;border-radius:999px;
-  padding:18px 44px;font-size:18px;
-  background:linear-gradient(135deg,var(--sun),var(--sun2));
-  box-shadow:0 12px 30px rgba(0,0,0,.18);
-}
-
-/* ===== CARTES ===== */
+/* CARTES */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);
   border-radius:26px;
-  padding:34px 18px;
+  padding:28px 16px;
   text-align:center;
   font-family:'Fredoka',cursive;
-  font-size:26px;
+  font-size:22px;
   box-shadow:0 20px 45px rgba(0,0,0,.1);
 }
 .card small{
-  display:block;font-family:'Inter';
-  font-size:14px;margin-top:10px;opacity:.7;
+  display:block;
+  font-family:'Inter';
+  font-size:14px;
+  margin-top:8px;
+  opacity:.7;
+}
+
+/* PRODUITS */
+.product{
+  background:var(--card);
+  border-radius:26px;
+  padding:22px 16px;
+  text-align:center;
+  box-shadow:0 20px 45px rgba(0,0,0,.1);
+}
+.product b{
+  font-family:'Fredoka',cursive;
+  font-size:22px;
+}
+.qty{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  margin-top:12px;
+}
+.qty button{
+  width:32px;height:32px;
+  border:none;border-radius:50%;
+  background:var(--sun);
+  font-size:18px;
+  font-weight:700;
+}
+
+/* TITRE */
+.title{
+  font-family:'Fredoka',cursive;
+  font-size:28px;
+  text-align:center;
+  margin-bottom:20px;
 }
 </style>
 </head>
@@ -143,47 +158,39 @@ footer button{
 <div class="bubble b4"></div>
 <div class="wave"></div>
 
-<!-- HEADER -->
-<header id="appHeader" style="display:none">
+<header>
   <button id="backBtn" onclick="goBack()">⬅</button>
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG">
 </header>
 
-<!-- ACCUEIL -->
-<section id="welcome" class="page active">
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
-  <h1>Bienvenue</h1>
-  <p>Une expérience solaire, fun et inoubliable 🌴</p>
-  <button onclick="enterApp()">Entrer</button>
-</section>
-
-<!-- CATÉGORIES -->
-<section id="home" class="page">
+<section id="home" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
     <div class="card" onclick="go('green')">🥦<small>Local / Cali</small></div>
   </div>
 </section>
 
-<!-- SOUS-CAT 🍫 -->
 <section id="choco" class="page">
   <div class="grid">
-    <div class="card">🟡<small>Jaune</small></div>
-    <div class="card">🔍<small>Filtré</small></div>
+    <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
+    <div class="card" onclick="openProducts('Filtré')">🔍<small>Filtré</small></div>
   </div>
 </section>
 
-<!-- SOUS-CAT 🥦 -->
 <section id="green" class="page">
   <div class="grid">
-    <div class="card">🌱<small>Local</small></div>
-    <div class="card">🇺🇸<small>Cali</small></div>
+    <div class="card" onclick="openProducts('Local')">🌱<small>Local</small></div>
+    <div class="card" onclick="openProducts('Cali')">🇺🇸<small>Cali</small></div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer id="appFooter" style="display:none">
-  <span>🛒 0 article · 0 €</span>
+<section id="products" class="page">
+  <div class="title" id="productTitle"></div>
+  <div class="grid" id="productGrid"></div>
+</section>
+
+<footer>
+  <span>🛒 <span id="cartCount">0</span> article · <span id="cartTotal">0</span> €</span>
   <button>Panier</button>
 </footer>
 
@@ -191,30 +198,73 @@ footer button{
 
 <script>
 let historyStack=[];
-
-function enterApp(){
-  document.getElementById("welcome").remove();
-  go("home");
-  document.getElementById("appHeader").style.display="flex";
-  document.getElementById("appFooter").style.display="flex";
-}
+let cart=[];
+const prices=[
+  {label:"20€",price:20},
+  {label:"5g",price:50},
+  {label:"10g",price:90}
+];
 
 function go(id){
   const current=document.querySelector(".page.active");
   if(current) historyStack.push(current.id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  document.getElementById("backBtn").style.display =
-    historyStack.length ? "block" : "none";
+  backBtn.style.display = historyStack.length ? "block":"none";
 }
-
 function goBack(){
   const prev=historyStack.pop();
   if(!prev) return;
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(prev).classList.add("active");
-  document.getElementById("backBtn").style.display =
-    historyStack.length ? "block" : "none";
+  backBtn.style.display = historyStack.length ? "block":"none";
+}
+
+function openProducts(type){
+  document.getElementById("productTitle").innerText=type;
+  const grid=document.getElementById("productGrid");
+  grid.innerHTML="";
+  prices.forEach(p=>{
+    const id=type+"-"+p.label;
+    const item=cart.find(i=>i.id===id);
+    grid.innerHTML+=`
+      <div class="product">
+        <b>${p.label}</b><br><small>${p.price} €</small>
+        <div class="qty">
+          ${
+            item
+            ? `<button onclick="change('${id}',-1)">−</button>
+               <span>${item.qty}</span>
+               <button onclick="change('${id}',1)">+</button>`
+            : `<button onclick="add('${id}','${type}','${p.label}',${p.price})">Ajouter</button>`
+          }
+        </div>
+      </div>`;
+  });
+  go("products");
+}
+
+function add(id,type,label,price){
+  cart.push({id,type,label,price,qty:1});
+  updateCart();
+  openProducts(type);
+}
+function change(id,d){
+  const it=cart.find(i=>i.id===id);
+  it.qty+=d;
+  if(it.qty<=0) cart=cart.filter(i=>i.id!==id);
+  updateCart();
+  openProducts(it.type);
+}
+
+function updateCart(){
+  let count=0,total=0;
+  cart.forEach(i=>{
+    count+=i.qty;
+    total+=i.qty*i.price;
+  });
+  cartCount.innerText=count;
+  cartTotal.innerText=total;
 }
 </script>
 
