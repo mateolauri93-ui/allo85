@@ -25,9 +25,7 @@ header,footer{
   backdrop-filter:blur(10px);background:rgba(255,255,255,.85);
   display:flex;align-items:center;z-index:10
 }
-header{
-  top:0;height:56px;justify-content:center;display:none
-}
+header{top:0;height:56px;justify-content:center;display:none}
 header .left, header .right{
   position:absolute;top:0;bottom:0;display:flex;align-items:center
 }
@@ -39,26 +37,48 @@ header button{
   background:rgba(0,0,0,.08)
 }
 footer{
-  bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none
+  bottom:0;height:62px;justify-content:space-between;
+  padding:0 16px;display:none
 }
 footer button{
   border:none;border-radius:999px;padding:10px 20px;
-  background:linear-gradient(135deg,var(--sun),var(--sun2));font-weight:700
+  background:linear-gradient(135deg,var(--sun),var(--sun2));
+  font-weight:700
 }
 
 /* PAGES */
-.page{display:none;padding:90px 20px 140px}
+.page{
+  display:none;
+  padding:90px 20px 140px;
+  animation:fade .35s ease;
+}
 .page.active{display:block}
+@keyframes fade{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
 
 /* UI */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);border-radius:26px;padding:24px 16px;
   box-shadow:0 20px 45px rgba(0,0,0,.1);
-  text-align:center;font-family:'Fredoka';font-size:22px
+  text-align:center;font-family:'Fredoka';font-size:22px;
+  position:relative;
 }
-.card small{display:block;font-family:'Inter';font-size:14px;margin-top:6px;opacity:.7}
-.qty{display:flex;justify-content:center;gap:12px;margin-top:10px}
+.card small{
+  display:block;font-family:'Inter';
+  font-size:14px;margin-top:6px;opacity:.7
+}
+.badge{
+  position:absolute;top:10px;right:10px;
+  background:#ff6b6b;color:#fff;
+  font-size:11px;padding:4px 8px;
+  border-radius:999px;font-family:Inter;
+}
+.qty{
+  display:flex;justify-content:center;gap:12px;margin-top:10px
+}
 .qty button{
   width:32px;height:32px;border:none;border-radius:50%;
   background:var(--sun);font-size:18px;font-weight:700
@@ -71,6 +91,11 @@ footer button{
 textarea{width:100%;border-radius:16px;padding:12px}
 h2{text-align:center;font-family:Fredoka}
 .notice{color:green;text-align:center;margin-top:10px}
+
+/* FIDÉLITÉ */
+.level{
+  margin-top:8px;font-size:14px;
+}
 </style>
 </head>
 
@@ -92,8 +117,7 @@ h2{text-align:center;font-family:Fredoka}
 <section id="welcome" class="page active">
   <div style="text-align:center">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" width="200"><br><br>
-    <h2>Bienvenue</h2>
-    <p>Commande simple & solaire 🌴</p>
+    <h2>🔥🌴 Commande simple et rapide 🌴🔥</h2>
     <button class="primary" onclick="enterApp()">Entrer</button>
   </div>
 </section>
@@ -110,7 +134,10 @@ h2{text-align:center;font-family:Fredoka}
   <h2>🍫 Chocolat</h2>
   <div class="grid">
     <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="openProducts('Filtré')">🔍<small>Filtré</small></div>
+    <div class="card" onclick="openProducts('Filtré')">
+      🔍<small>Filtré</small>
+      <div class="badge">🔥 Populaire</div>
+    </div>
   </div>
 </section>
 
@@ -133,17 +160,16 @@ h2{text-align:center;font-family:Fredoka}
   <div class="card">
     🎁 <b>Parrainage</b>
     <small>
-      Invite un ami à commander chez ALLO85.<br>
-      Lorsqu’il passe commande, tu gagnes un avantage.
+      Invite 5 amis à commander chez ALLO85.<br>
+      Lorsqu’ils passent commande, tu gagnes un avantage.
     </small>
   </div>
 
   <div class="card">
     🔁 <b>Fidélité</b>
     <small>
-      Plus tu commandes, plus tu es récompensé.<br><br>
-      <b>Commandes effectuées :</b> <span id="orderCount">0</span><br>
-      <i>Des surprises arrivent bientôt…</i>
+      Commandes effectuées : <span id="orderCount">0</span>
+      <div class="level" id="level">Niveau : 🟤 Bronze</div>
     </small>
   </div>
 </section>
@@ -175,8 +201,7 @@ h2{text-align:center;font-family:Fredoka}
 </div>
 
 <script>
-let historyStack=[],cart=[],delivery=false;
-let orderCount=0;
+let historyStack=[],cart=[],delivery=false,orderCount=0;
 
 const catalog={
   Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
@@ -190,21 +215,18 @@ function enterApp(){
   appFooter.style.display="flex";
   go("home");
 }
-
 function go(id){
   const cur=document.querySelector(".page.active");
   if(cur)historyStack.push(cur.id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
-
 function goBack(){
   const prev=historyStack.pop();
   if(!prev)return;
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(prev).classList.add("active");
 }
-
 function openProducts(type){
   productTitle.innerText=type;
   productGrid.innerHTML="";
@@ -222,7 +244,6 @@ function openProducts(type){
   });
   go("products");
 }
-
 function add(id,t,g,p){cart.push({id,t,g,p,q:1});upd();openProducts(t)}
 function chg(id,d){
   const i=cart.find(x=>x.id===id);
@@ -230,13 +251,11 @@ function chg(id,d){
   if(i.q<=0)cart=cart.filter(x=>x.id!==id);
   upd();openProducts(i.t);
 }
-
 function setDelivery(v){
   delivery=v;
   addressBox.style.display=v?"block":"none";
   upd();
 }
-
 function upd(){
   let c=0,t=0;
   cartItems.innerHTML="";
@@ -249,13 +268,14 @@ function upd(){
   cartTotal.innerText=t;
   totalCart.innerText=t;
 }
-
 function finalize(){
   if(cart.length===0)return alert("Panier vide");
   if(delivery&&!address.value.trim())return alert("Adresse requise");
 
   orderCount++;
   document.getElementById("orderCount").innerText=orderCount;
+  document.getElementById("level").innerText =
+    orderCount>=10?"Niveau : 🟡 Or":orderCount>=5?"Niveau : ⚪ Argent":"Niveau : 🟤 Bronze";
 
   let msg="🧾 COMMANDE ALLO85\n\n";
   cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p} €\n`);
@@ -265,11 +285,9 @@ function finalize(){
   navigator.clipboard.writeText(msg);
   copyNotice.style.display="block";
 }
-
 function openTelegram(){
   window.open("https://t.me/allo856","_blank");
 }
-
 upd();
 </script>
 
