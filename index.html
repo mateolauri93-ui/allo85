@@ -6,120 +6,48 @@
 <title>ALLO85</title>
 
 <style>
-:root{
-  --bg:#0b0f0c;
-  --card:#141816;
-  --gold:#f2c94c;
-  --gold-soft:#ffe08a;
-  --text:#f5f5f5;
-  --muted:#b5b5b5;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
-  background:linear-gradient(180deg,#151a17,#0b0f0c);
-  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  background:#0b0f0c;
+  color:#fff;
 }
-
-/* HEADER */
 header{
-  position:fixed;
-  top:0;left:0;right:0;
+  position:fixed;top:0;left:0;right:0;
   background:#000;
   padding:14px;
   text-align:center;
-  border-bottom:1px solid rgba(255,255,255,.1);
-  z-index:10;
 }
-
 #backBtn{
-  position:absolute;
-  left:12px;
-  top:12px;
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
-  padding:6px 12px;
-  border-radius:999px;
+  position:absolute;left:10px;top:10px;
+  border:1px solid #f2c94c;
+  background:none;color:#f2c94c;
+  padding:6px 12px;border-radius:20px;
   display:none;
 }
-
-/* LOGO */
-.logo{
-  width:120px;
-  margin:auto;
-  display:block;
-}
-
-/* PAGES */
-.page{
-  display:none;
-  min-height:100vh;
-  padding:120px 18px 140px;
-}
+.logo{width:110px;margin:auto;display:block}
+.page{display:none;padding:120px 16px 140px;min-height:100vh}
 .page.active{display:block}
-
-/* TITRES */
-.page-title{
-  text-align:center;
-  font-size:22px;
-  margin-bottom:22px;
-}
-
-/* CARDS */
 .card{
-  background:linear-gradient(145deg,#161b18,#0c0f0d);
-  border-radius:18px;
-  padding:22px;
-  margin-bottom:18px;
+  background:#141816;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:16px;
   text-align:center;
 }
-
-/* BUTTONS */
-button{
-  padding:10px 18px;
-  border-radius:999px;
-  border:none;
-  font-size:14px;
-  cursor:pointer;
-}
-
-.primary{
-  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
-  color:#000;
-}
-
+button{border:none;border-radius:20px;padding:10px 18px}
+.primary{background:#f2c94c;color:#000}
 .qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:14px;
+  display:flex;justify-content:center;align-items:center;gap:14px
 }
-
 .qty button{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  font-size:18px;
-  background:var(--gold);
-  color:#000;
+  width:34px;height:34px;border-radius:50%;
+  background:#f2c94c;color:#000;font-size:18px
 }
-
-.qty span{
-  font-size:18px;
-}
-
-/* CART BAR */
 #cartBar{
-  position:fixed;
-  bottom:0;left:0;right:0;
-  background:#000;
-  padding:14px;
-  display:flex;
-  justify-content:space-between;
+  position:fixed;bottom:0;left:0;right:0;
+  background:#000;padding:14px;
+  display:flex;justify-content:space-between
 }
 </style>
 </head>
@@ -131,41 +59,38 @@ button{
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
-<!-- BIENVENUE -->
 <section id="welcome" class="page active">
   <div class="card">
-    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo" style="width:180px">
-    <br>
+    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo" style="width:160px"><br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
 
-<!-- HOME -->
 <section id="home" class="page">
-  <div class="page-title">Choisis ta catégorie</div>
   <div class="card" onclick="go('choco')">🍫</div>
   <div class="card" onclick="go('green')">🥦</div>
 </section>
 
-<!-- 🍫 -->
 <section id="choco" class="page">
-  <div class="page-title">🍫 Sélection</div>
   <div class="card" onclick="go('jaune')">🟡 Jaune</div>
   <div class="card" onclick="go('filtre')">🔍 Filtré</div>
 </section>
 
-<!-- 🥦 -->
 <section id="green" class="page">
-  <div class="page-title">🥦 Sélection</div>
   <div class="card" onclick="go('local')">🌱 Local</div>
   <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
 </section>
 
-<!-- PRODUITS -->
 <section id="jaune" class="page"></section>
 <section id="filtre" class="page"></section>
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
+
+<section id="cart" class="page">
+  <h3>Panier</h3>
+  <div id="cartItems"></div>
+  <h3>Total : <span id="total">0</span> €</h3>
+</section>
 
 <div id="cartBar">
   <span><span id="count">0</span> article(s)</span>
@@ -173,7 +98,30 @@ button{
 </div>
 
 <script>
-let stack=[], cart=[];
+let stack=[];
+let cart=[];
+
+const products=[];
+const prices={"5g":50,"10g":90,"20€":20};
+
+["jaune","filtre","local","cali"].forEach(cat=>{
+  prices && Object.entries(prices).forEach(([label,price])=>{
+    products.push({
+      id:`${cat}-${label}`,
+      cat, label, price
+    });
+  });
+});
+
+["jaune","filtre","local","cali"].forEach(cat=>{
+  document.getElementById(cat).innerHTML =
+    products.filter(p=>p.cat===cat).map(p=>`
+      <div class="card">
+        <b>${p.label}</b><br>${p.price} €<br><br>
+        <div id="btn-${p.id}"></div>
+      </div>
+    `).join("");
+});
 
 function go(id){
   const cur=document.querySelector('.page.active');
@@ -181,7 +129,9 @@ function go(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   backBtn.style.display=stack.length?'block':'none';
+  renderAll();
 }
+
 function goBack(){
   const prev=stack.pop();
   if(prev){
@@ -189,53 +139,63 @@ function goBack(){
     document.getElementById(prev).classList.add('active');
   }
   backBtn.style.display=stack.length?'block':'none';
-}
-
-const prices={"5g":50,"10g":90,"20€":20};
-
-["jaune","filtre","local","cali"].forEach(cat=>{
-  document.getElementById(cat).innerHTML =
-    Object.entries(prices).map(([l,p])=>`
-      <div class="card" id="${cat}-${l}">
-        <b>${l}</b><br>${p} €<br><br>
-        <div class="action"></div>
-      </div>
-    `).join("");
-  renderProducts();
-});
-
-function renderProducts(){
-  document.querySelectorAll(".card").forEach(card=>{
-    const id=card.id;
-    if(!id) return;
-    const item=cart.find(i=>i.id===id);
-    const action=card.querySelector(".action");
-    if(!item){
-      action.innerHTML=`<button class="primary" onclick="add('${id}')">Ajouter</button>`;
-    }else{
-      action.innerHTML=`
-        <div class="qty">
-          <button onclick="change('${id}',-1)">−</button>
-          <span>${item.qty}</span>
-          <button onclick="change('${id}',1)">+</button>
-        </div>`;
-    }
-  });
+  renderAll();
 }
 
 function add(id){
-  cart.push({id,qty:1});
-  renderProducts(); updateCount();
+  const p=products.find(x=>x.id===id);
+  cart.push({...p,qty:1});
+  renderAll();
 }
 function change(id,d){
-  const it=cart.find(i=>i.id===id);
+  const it=cart.find(x=>x.id===id);
   it.qty+=d;
-  if(it.qty<=0) cart=cart.filter(i=>i.id!==id);
-  renderProducts(); updateCount();
+  if(it.qty<=0) cart=cart.filter(x=>x.id!==id);
+  renderAll();
 }
-function updateCount(){
-  count.innerText=cart.reduce((a,b)=>a+b.qty,0);
+
+function renderAll(){
+  let total=0,count=0;
+  cart.forEach(i=>{
+    total+=i.price*i.qty;
+    count+=i.qty;
+  });
+  totalSpan.textContent=total;
+  countSpan.textContent=count;
+  renderProducts();
+  renderCart();
 }
+
+function renderProducts(){
+  products.forEach(p=>{
+    const el=document.getElementById(`btn-${p.id}`);
+    if(!el) return;
+    const it=cart.find(x=>x.id===p.id);
+    el.innerHTML = !it
+      ? `<button class="primary" onclick="add('${p.id}')">Ajouter</button>`
+      : `<div class="qty">
+           <button onclick="change('${p.id}',-1)">−</button>
+           <span>${it.qty}</span>
+           <button onclick="change('${p.id}',1)">+</button>
+         </div>`;
+  });
+}
+
+function renderCart(){
+  cartItems.innerHTML = cart.map((i,idx)=>`
+    <div class="card">
+      ${i.label} x${i.qty} — ${i.price*i.qty} €
+      <div class="qty">
+        <button onclick="change('${i.id}',-1)">−</button>
+        <span>${i.qty}</span>
+        <button onclick="change('${i.id}',1)">+</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+const totalSpan=document.getElementById("total");
+const countSpan=document.getElementById("count");
 </script>
 
 </body>
