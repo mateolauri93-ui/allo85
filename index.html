@@ -5,30 +5,113 @@
   <title>Allo85</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
+      background: #f5f5f5;
       padding: 20px;
     }
+
+    h1 {
+      text-align: center;
+      color: #222;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
     button {
       width: 100%;
       padding: 15px;
       margin-top: 10px;
-      font-size: 18px;
+      font-size: 16px;
       border-radius: 10px;
       border: none;
       background: #00aaff;
       color: white;
     }
+
+    button.secondary {
+      background: #2ecc71;
+    }
+
+    button.dark {
+      background: #444;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
+
 <body>
 
-  <h2>👋 Bienvenue sur Allo85</h2>
-  <p>Choisis une option :</p>
+<h1>🍔 Allo85</h1>
 
-  <button>🍔 Menu</button>
-  <button>📦 Commander</button>
+<div id="home" class="card">
+  <p>👋 Bienvenue sur <b>Allo85</b></p>
+  <button onclick="show('menu')">📋 Voir le menu</button>
+  <button onclick="show('order')" class="secondary">📦 Commander</button>
+  <button onclick="show('info')" class="dark">ℹ️ Infos</button>
+</div>
+
+<div id="menu" class="card hidden">
+  <h3>🍔 Menu</h3>
+  <p>
+    🥙 Kebab<br>
+    🌯 Tacos<br>
+    🍔 Burger<br>
+    🍟 Frites<br>
+    🥤 Boissons
+  </p>
+  <button onclick="back()">⬅️ Retour</button>
+</div>
+
+<div id="order" class="card hidden">
+  <h3>📦 Commander</h3>
+  <p>Clique ci-dessous pour envoyer ta commande :</p>
+  <button class="secondary" onclick="sendOrder()">Envoyer la commande</button>
+  <button onclick="back()">⬅️ Retour</button>
+</div>
+
+<div id="info" class="card hidden">
+  <h3>ℹ️ Infos</h3>
+  <p>
+    📍 Boufféré<br><br>
+    🕒 Horaires :<br>
+    11h–14h<br>
+    17h30–22h<br><br>
+    📞 06 XX XX XX XX
+  </p>
+  <button onclick="back()">⬅️ Retour</button>
+</div>
+
+<script>
+  Telegram.WebApp.ready();
+
+  function show(id) {
+    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function back() {
+    document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
+    document.getElementById('home').classList.remove('hidden');
+  }
+
+  function sendOrder() {
+    Telegram.WebApp.sendData("Nouvelle commande Allo85 📦");
+    Telegram.WebApp.close();
+  }
+</script>
 
 </body>
 </html>
