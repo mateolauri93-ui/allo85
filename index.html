@@ -32,7 +32,7 @@ body{
   overflow:hidden;
 }
 
-/* DÉCO */
+/* ===== DÉCO ===== */
 .bubble{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
 .b1{width:180px;height:180px;top:-60px;left:-60px}
 .b2{width:90px;height:90px;top:160px;right:-30px}
@@ -46,12 +46,13 @@ body{
 }
 .wave{
   position:absolute;bottom:0;left:0;right:0;height:160px;
-  background:radial-gradient(circle at 20% 0,var(--sea),transparent 60%),
-             radial-gradient(circle at 80% 0,var(--sea),transparent 60%);
+  background:
+    radial-gradient(circle at 20% 0,var(--sea),transparent 60%),
+    radial-gradient(circle at 80% 0,var(--sea),transparent 60%);
   opacity:.35;
 }
 
-/* HEADER / FOOTER */
+/* ===== HEADER / FOOTER ===== */
 header, footer{
   position:fixed;left:0;right:0;
   max-width:420px;margin:auto;
@@ -64,12 +65,20 @@ header{
   top:0;height:56px;justify-content:center;
   border-bottom:1px solid rgba(0,0,0,.05);
 }
+#backBtn{
+  position:absolute;left:10px;
+  border:none;border-radius:999px;
+  padding:6px 12px;
+  background:rgba(0,0,0,.08);
+  font-size:14px;
+  display:none;
+}
+header img{height:28px}
 footer{
   bottom:0;height:62px;
   justify-content:space-between;padding:0 16px;
   border-top:1px solid rgba(0,0,0,.05);
 }
-header img{height:28px}
 footer button{
   border:none;border-radius:999px;
   padding:10px 20px;
@@ -77,11 +86,15 @@ footer button{
   font-weight:700;
 }
 
-/* PAGES */
-.page{display:none;padding:90px 20px 120px;min-height:100vh}
+/* ===== PAGES ===== */
+.page{
+  display:none;
+  padding:90px 20px 120px;
+  min-height:100vh;
+}
 .page.active{display:block}
 
-/* ACCUEIL */
+/* ===== ACCUEIL ===== */
 #welcome{
   display:flex;flex-direction:column;
   justify-content:center;align-items:center;
@@ -101,7 +114,7 @@ footer button{
   box-shadow:0 12px 30px rgba(0,0,0,.18);
 }
 
-/* CARTES */
+/* ===== CARTES ===== */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);
@@ -130,11 +143,13 @@ footer button{
 <div class="bubble b4"></div>
 <div class="wave"></div>
 
+<!-- HEADER -->
 <header id="appHeader" style="display:none">
+  <button id="backBtn" onclick="goBack()">⬅</button>
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG">
 </header>
 
-<!-- ACCUEIL (SERA SUPPRIMÉ) -->
+<!-- ACCUEIL -->
 <section id="welcome" class="page active">
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
   <h1>Bienvenue</h1>
@@ -142,14 +157,31 @@ footer button{
   <button onclick="enterApp()">Entrer</button>
 </section>
 
-<!-- APP -->
+<!-- CATÉGORIES -->
 <section id="home" class="page">
   <div class="grid">
-    <div class="card">🍫<small>Jaune / Filtré</small></div>
-    <div class="card">🥦<small>Local / Cali</small></div>
+    <div class="card" onclick="go('choco')">🍫<small>Jaune / Filtré</small></div>
+    <div class="card" onclick="go('green')">🥦<small>Local / Cali</small></div>
   </div>
 </section>
 
+<!-- SOUS-CAT 🍫 -->
+<section id="choco" class="page">
+  <div class="grid">
+    <div class="card">🟡<small>Jaune</small></div>
+    <div class="card">🔍<small>Filtré</small></div>
+  </div>
+</section>
+
+<!-- SOUS-CAT 🥦 -->
+<section id="green" class="page">
+  <div class="grid">
+    <div class="card">🌱<small>Local</small></div>
+    <div class="card">🇺🇸<small>Cali</small></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer id="appFooter" style="display:none">
   <span>🛒 0 article · 0 €</span>
   <button>Panier</button>
@@ -158,14 +190,31 @@ footer button{
 </div>
 
 <script>
-function enterApp(){
-  // SUPPRESSION DÉFINITIVE DE L’ACCUEIL
-  document.getElementById("welcome").remove();
+let historyStack=[];
 
-  // AFFICHAGE DE L’APP
-  document.getElementById("home").classList.add("active");
+function enterApp(){
+  document.getElementById("welcome").remove();
+  go("home");
   document.getElementById("appHeader").style.display="flex";
   document.getElementById("appFooter").style.display="flex";
+}
+
+function go(id){
+  const current=document.querySelector(".page.active");
+  if(current) historyStack.push(current.id);
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.getElementById("backBtn").style.display =
+    historyStack.length ? "block" : "none";
+}
+
+function goBack(){
+  const prev=historyStack.pop();
+  if(!prev) return;
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(prev).classList.add("active");
+  document.getElementById("backBtn").style.display =
+    historyStack.length ? "block" : "none";
 }
 </script>
 
