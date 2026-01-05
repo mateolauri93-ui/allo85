@@ -6,292 +6,232 @@
 <title>ALLO85</title>
 
 <style>
+/* =====================
+   VARIABLES VISUELLES
+===================== */
+:root{
+  --sand:#f6f1e7;
+  --sky:#e9f4ff;
+  --sun:#ffd86b;
+  --sea:#7fd1e8;
+  --ink:#1f2937;
+  --card:#ffffffcc;
+}
+
+/* =====================
+   RESET
+===================== */
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:#0b0f0c;
-  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
+  color:var(--ink);
+  background:linear-gradient(180deg,var(--sky),var(--sand));
 }
-.app{max-width:420px;margin:auto;min-height:100vh}
+
+/* =====================
+   APP CONTAINER
+===================== */
+.app{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+}
+
+/* =====================
+   DECORATION (BULLES)
+===================== */
+.bubble{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.35);
+  filter:blur(1px);
+}
+.b1{width:120px;height:120px;top:-30px;left:-30px}
+.b2{width:80px;height:80px;top:120px;right:-20px}
+.b3{width:160px;height:160px;bottom:-60px;left:40px}
+
+/* =====================
+   HEADER APP
+===================== */
 header{
-  position:fixed;top:0;left:0;right:0;
-  height:52px;background:#000;
-  display:flex;align-items:center;justify-content:center;
+  position:fixed;
+  top:0;left:0;right:0;
+  height:54px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(8px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(0,0,0,.05);
   z-index:10;
 }
 #backBtn{
   position:absolute;
   left:10px;
-  background:none;
-  border:1px solid #f2c94c;
-  color:#f2c94c;
-  border-radius:20px;
-  padding:4px 10px;
-  font-size:13px;
+  border:none;
+  background:rgba(0,0,0,.05);
+  border-radius:999px;
+  padding:6px 12px;
+  font-size:14px;
   display:none;
 }
-.logo{height:26px}
-
-/* pages */
-.page{display:none;padding:70px 12px 120px}
-.page.active{display:block}
-
-/* cards */
-.card{
-  background:#141816;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
-}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-
-/* buttons */
-button{
-  border:none;border-radius:20px;
-  padding:10px 16px;font-size:14px;
-}
-.primary{background:#f2c94c;color:#000;font-weight:600}
-.qty{display:flex;justify-content:center;gap:8px;margin-top:6px}
-.qty button{
-  width:28px;height:28px;border-radius:50%;
-  background:#f2c94c;color:#000
+.logo-small{
+  height:26px;
 }
 
-/* footer panier */
-#cartBar{
+/* =====================
+   FOOTER (PANIER BASE)
+===================== */
+footer{
   position:fixed;
   bottom:0;left:0;right:0;
-  height:60px;
-  background:#000;
-  border-top:1px solid #222;
+  height:58px;
+  background:rgba(255,255,255,.85);
+  backdrop-filter:blur(8px);
+  border-top:1px solid rgba(0,0,0,.05);
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   padding:0 14px;
   z-index:10;
 }
-#cartBar .info{
-  font-size:13px;
-  color:#ccc;
+footer span{
+  font-size:14px;
 }
-#cartBar .cta{
-  background:#f2c94c;
-  color:#000;
-  font-weight:600;
+footer button{
+  border:none;
+  border-radius:999px;
   padding:8px 16px;
-  border-radius:20px;
+  background:var(--sun);
+  font-weight:600;
 }
 
-/* textarea */
-textarea{
-  width:100%;
-  background:#0c0f0d;
-  color:#fff;
-  border:1px solid #333;
-  border-radius:10px;
-  padding:10px;
+/* =====================
+   PAGES
+===================== */
+.page{
+  display:none;
+  padding:80px 16px 100px;
+  min-height:100vh;
 }
+.page.active{display:block}
 
-/* notice */
-.notice{
+/* =====================
+   ACCUEIL (PAGE 0)
+===================== */
+#welcome{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  color:#7dffae;
+  padding:0 24px;
+}
+.logo-big{
+  width:180px;
+  margin-bottom:20px;
+}
+#welcome h1{
+  font-size:28px;
+  font-weight:700;
+  margin:0 0 10px;
+}
+#welcome p{
+  font-size:16px;
+  opacity:.8;
+  margin-bottom:30px;
+}
+#welcome button{
+  border:none;
+  border-radius:999px;
+  padding:14px 32px;
+  font-size:16px;
+  font-weight:600;
+  background:linear-gradient(135deg,var(--sun),#ffef9f);
+}
+
+/* =====================
+   CARTES
+===================== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+.card{
+  background:var(--card);
+  border-radius:18px;
+  padding:24px 16px;
+  text-align:center;
+  font-size:18px;
+  font-weight:600;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+.card small{
+  display:block;
   font-size:13px;
-  margin-top:10px;
+  font-weight:400;
+  margin-top:6px;
+  opacity:.7;
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
-<header>
+<!-- DECOR -->
+<div class="bubble b1"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+
+<!-- HEADER -->
+<header id="appHeader" style="display:none">
   <button id="backBtn" onclick="goBack()">⬅</button>
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-small">
 </header>
 
-<!-- BIENVENUE -->
+<!-- ACCUEIL -->
 <section id="welcome" class="page active">
-  <div class="card" style="text-align:center">
-    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
-    <button class="primary" onclick="go('home')">Entrer</button>
-  </div>
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-big">
+  <h1>Bienvenue</h1>
+  <p>Une expérience simple, fluide et solaire 🌴</p>
+  <button onclick="enterApp()">Entrer</button>
 </section>
 
-<!-- HOME -->
+<!-- HOME APP -->
 <section id="home" class="page">
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫 Jaune / Filtré</div>
-    <div class="card" onclick="go('green')">🥦 Local / Cali</div>
+    <div class="card">🍫<small>Jaune / Filtré</small></div>
+    <div class="card">🥦<small>Local / Cali</small></div>
   </div>
 </section>
 
-<section id="choco" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
-    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
-  </div>
-</section>
-
-<section id="green" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('local')">🌱 Local</div>
-    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
-  </div>
-</section>
-
-<section id="jaune" class="page"></section>
-<section id="filtre" class="page"></section>
-<section id="local" class="page"></section>
-<section id="cali" class="page"></section>
-
-<!-- PANIER -->
-<section id="cart" class="page">
-  <div id="cartItems"></div>
-
-  <div class="card">
-    <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label><br>
-    <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison +20€</label>
-    <div id="addrBox" style="display:none;margin-top:8px">
-      <textarea id="address" placeholder="Adresse de livraison"></textarea>
-    </div>
-  </div>
-
-  <div class="card"><b>Total : <span id="total">0</span> €</b></div>
-
-  <button class="primary" style="width:100%" onclick="prepareOrder()">Confirmer la commande</button>
-
-  <div id="copyNotice" class="notice" style="display:none">
-    ✅ Commande copiée – ouvre Telegram et colle
-  </div>
-
-  <button class="primary" style="width:100%;margin-top:10px"
-    onclick="openTelegram()">Ouvrir Telegram @allo856</button>
-</section>
-
-<!-- FOOTER PANIER -->
-<div id="cartBar">
-  <div class="info">
-    🛒 <span id="count">0</span> article(s) · <span id="totalBar">0</span> €
-  </div>
-  <button class="cta" onclick="go('cart')">Panier</button>
-</div>
+<!-- FOOTER -->
+<footer id="appFooter" style="display:none">
+  <span>🛒 0 article · 0 €</span>
+  <button>Panier</button>
+</footer>
 
 </div>
 
 <script>
-let cart=[], history=[];
-const prices={"5g":50,"10g":90,"20€":20};
-const products=[];
-let delivery=false;
+let history=[];
 
-["jaune","filtre","local","cali"].forEach(cat=>{
-  Object.entries(prices).forEach(([size,price])=>{
-    products.push({id:`${cat}-${size}`,cat,size,price});
-  });
-});
-
-["jaune","filtre","local","cali"].forEach(cat=>{
-  document.getElementById(cat).innerHTML =
-    products.filter(p=>p.cat===cat).map(p=>`
-      <div class="card">
-        ${p.size} – ${p.price} €
-        <div id="btn-${p.id}"></div>
-      </div>
-    `).join("");
-});
-
-function go(id){
-  const current=document.querySelector(".page.active");
-  if(current) history.push(current.id);
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  backBtn.style.display = history.length ? "block" : "none";
-  render();
+function enterApp(){
+  document.getElementById("welcome").classList.remove("active");
+  document.getElementById("home").classList.add("active");
+  document.getElementById("appHeader").style.display="flex";
+  document.getElementById("appFooter").style.display="flex";
 }
 
 function goBack(){
-  const prev=history.pop();
-  if(prev){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById(prev).classList.add("active");
-  }
-  backBtn.style.display = history.length ? "block" : "none";
+  // logique ajoutée plus tard
 }
-
-function add(id){
-  const it=cart.find(x=>x.id===id);
-  const p=products.find(x=>x.id===id);
-  it?it.qty++:cart.push({...p,qty:1});
-  render();
-}
-function change(id,d){
-  const it=cart.find(x=>x.id===id);
-  it.qty+=d;
-  if(it.qty<=0) cart=cart.filter(x=>x.id!==id);
-  render();
-}
-function setDelivery(v){
-  delivery=v;
-  addrBox.style.display=v?"block":"none";
-  render();
-}
-
-function render(){
-  let total=0,count=0;
-  cartItems.innerHTML="";
-  cart.forEach(i=>{
-    const line=i.qty*i.price;
-    total+=line;count+=i.qty;
-    cartItems.innerHTML+=`
-      <div class="card">
-        ${i.qty} × ${i.size} ${i.cat} = ${line} €
-      </div>`;
-  });
-  if(delivery) total+=20;
-
-  totalSpan.innerText=total;
-  totalBar.innerText=total;
-  countSpan.innerText=count;
-
-  products.forEach(p=>{
-    const el=document.getElementById("btn-"+p.id);
-    if(!el) return;
-    const it=cart.find(x=>x.id===p.id);
-    el.innerHTML=!it
-      ? `<button class="primary" onclick="add('${p.id}')">Ajouter</button>`
-      : `<div class="qty">
-           <button onclick="change('${p.id}',-1)">−</button>
-           <span>${it.qty}</span>
-           <button onclick="change('${p.id}',1)">+</button>
-         </div>`;
-  });
-}
-
-function prepareOrder(){
-  if(cart.length===0){alert("Panier vide");return;}
-  if(delivery && !address.value.trim()){
-    alert("Adresse requise");return;
-  }
-  let msg="🧾 COMMANDE ALLO85\n\n";
-  cart.forEach(i=>{
-    msg+=`• ${i.qty} × ${i.size} ${i.cat} = ${i.price*i.qty}€\n`;
-  });
-  msg+=delivery
-    ? `\n🚚 Livraison +20€\n📍 ${address.value}\n`
-    : `\n📍 Sur place\n`;
-  msg+=`\nTOTAL : ${totalSpan.innerText}€`;
-  navigator.clipboard.writeText(msg);
-  copyNotice.style.display="block";
-}
-
-function openTelegram(){
-  window.open("https://t.me/allo856","_blank");
-}
-
-const totalSpan=document.getElementById("total");
-const totalBar=document.getElementById("totalBar");
-const countSpan=document.getElementById("count");
 </script>
 
 </body>
