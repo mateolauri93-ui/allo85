@@ -7,8 +7,8 @@
 
 <style>
 :root{
-  --bg1:#0b0f0c;
-  --bg2:#1a1f1b;
+  --bg-dark:#0b0f0c;
+  --bg-mid:#151a17;
   --card:#141816;
   --gold:#f2c94c;
   --gold-soft:#ffe08a;
@@ -21,14 +21,14 @@
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
-  background:linear-gradient(180deg,var(--bg2),var(--bg1));
+  background:linear-gradient(180deg,var(--bg-mid),var(--bg-dark));
   color:var(--text);
 }
 
 /* HEADER */
 header{
   position:fixed;
-  top:0; left:0; right:0;
+  top:0;left:0;right:0;
   background:linear-gradient(180deg,#000,rgba(0,0,0,.85));
   padding:14px 16px 18px;
   text-align:center;
@@ -54,16 +54,11 @@ header{
   margin:0 auto;
   width:120px;
   max-width:70%;
-  height:auto;
   filter:
     drop-shadow(0 6px 14px rgba(0,0,0,.6))
     drop-shadow(0 0 18px rgba(255,200,80,.25));
 }
-
-.logo-big{
-  width:200px;
-  margin-bottom:20px;
-}
+.logo-big{width:200px}
 
 /* PAGES */
 .page{
@@ -71,10 +66,21 @@ header{
   min-height:100vh;
   padding:120px 18px 140px;
 }
+.page.active{display:block}
 
-.page.active{
-  display:block;
+/* INTRO */
+#intro{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  animation:fadeOut 1s ease forwards;
+  animation-delay:2.3s;
 }
+@keyframes fadeOut{to{opacity:0;visibility:hidden}}
+
+.fade-in{animation:fadeIn 1s ease forwards}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 /* TITRES */
 .page-title{
@@ -95,14 +101,8 @@ header{
     0 12px 30px rgba(0,0,0,.6),
     inset 0 0 0 1px rgba(255,255,255,.06);
 }
-
 .card:active{transform:scale(.97)}
-
-.card small{
-  display:block;
-  margin-top:6px;
-  color:var(--muted);
-}
+.card small{color:var(--muted)}
 
 /* BUTTONS */
 button{
@@ -112,12 +112,10 @@ button{
   font-size:15px;
   cursor:pointer;
 }
-
 .primary{
   background:linear-gradient(135deg,var(--gold),var(--gold-soft));
   color:#000;
 }
-
 .secondary{
   background:rgba(255,255,255,.08);
   color:var(--text);
@@ -127,7 +125,7 @@ button{
 /* CART BAR */
 #cartBar{
   position:fixed;
-  bottom:0; left:0; right:0;
+  bottom:0;left:0;right:0;
   background:linear-gradient(180deg,rgba(0,0,0,.9),#000);
   padding:14px 18px;
   display:flex;
@@ -135,34 +133,7 @@ button{
   align-items:center;
   border-top:1px solid rgba(255,255,255,.1);
 }
-
-#cartBar span{
-  color:var(--muted);
-  font-size:14px;
-}
-
-/* FADE INTRO */
-#intro{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  animation:fadeOut 1s ease forwards;
-  animation-delay:2.2s;
-}
-
-@keyframes fadeOut{
-  to{opacity:0;visibility:hidden}
-}
-
-.fade-in{
-  animation:fadeIn 1s ease forwards;
-}
-
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
-}
+#cartBar span{color:var(--muted);font-size:14px}
 </style>
 </head>
 
@@ -170,23 +141,19 @@ button{
 
 <header>
   <button id="backBtn" onclick="goBack()">⬅</button>
-  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" alt="ALLO85" class="logo-img">
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-img">
 </header>
 
-<!-- INTRO LOGO -->
+<!-- INTRO -->
 <section id="intro">
-  <img
-    src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG"
-    alt="ALLO85"
-    class="logo-img logo-big"
-  >
+  <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo-img logo-big">
 </section>
 
 <!-- BIENVENUE -->
 <section id="welcome" class="page">
   <div class="card fade-in">
     <h2>Bienvenue</h2>
-    <small>Service rapide & discret</small><br><br>
+    <small>Interface claire · rapide · intuitive</small><br><br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
@@ -194,8 +161,8 @@ button{
 <!-- HOME -->
 <section id="home" class="page">
   <div class="page-title">Choisis ta catégorie</div>
-  <div class="card" onclick="go('choco')">🍫<small>Gourmand & sélection</small></div>
-  <div class="card" onclick="go('green')">🥦<small>Naturel & premium</small></div>
+  <div class="card" onclick="go('choco')">🍫<br><small>Sélection Jaune & Filtré</small></div>
+  <div class="card" onclick="go('green')">🥦<br><small>Local & Cali</small></div>
 </section>
 
 <!-- 🍫 -->
@@ -231,31 +198,29 @@ button{
 </div>
 
 <script>
-let stack=[];
-let cart=[];
+let stack=[], cart=[];
 
-/* INTRO -> BIENVENUE */
+/* INTRO */
 setTimeout(()=>{
   document.getElementById('intro').style.display='none';
   document.getElementById('welcome').classList.add('active');
 },2300);
 
-/* NAVIGATION */
+/* NAV */
 function go(id){
   const current=document.querySelector('.page.active');
   if(current) stack.push(current.id);
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  document.getElementById('backBtn').style.display=stack.length?'block':'none';
+  backBtn.style.display=stack.length?'block':'none';
 }
-
 function goBack(){
   const prev=stack.pop();
   if(prev){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(prev).classList.add('active');
   }
-  document.getElementById('backBtn').style.display=stack.length?'block':'none';
+  backBtn.style.display=stack.length?'block':'none';
 }
 
 /* PRODUITS */
@@ -272,36 +237,34 @@ const prices={"5g":50,"10g":90,"20€":20};
 
 /* PANIER */
 function add(name,price){
-  const item=cart.find(i=>i.name===name);
-  if(item) item.qty++;
-  else cart.push({name,price,qty:1});
+  const it=cart.find(i=>i.name===name);
+  it?it.qty++:cart.push({name,price,qty:1});
   render();
 }
-
 function render(){
   let total=0,count=0;
-  const el=document.getElementById('cartItems');
-  el.innerHTML='';
+  cartItems.innerHTML='';
   cart.forEach((i,idx)=>{
     total+=i.price*i.qty;
     count+=i.qty;
-    el.innerHTML+=`
+    cartItems.innerHTML+=`
       <div class="card">
         ${i.name} x${i.qty}<br><br>
         <button onclick="chg(${idx},1)">+</button>
         <button onclick="chg(${idx},-1)">−</button>
-      </div>
-    `;
+      </div>`;
   });
-  document.getElementById('total').innerText=total;
-  document.getElementById('count').innerText=count;
+  totalSpan.textContent=total;
+  countSpan.textContent=count;
 }
-
 function chg(i,d){
   cart[i].qty+=d;
   if(cart[i].qty<=0) cart.splice(i,1);
   render();
 }
+
+const totalSpan=document.getElementById('total');
+const countSpan=document.getElementById('count');
 </script>
 
 </body>
