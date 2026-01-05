@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ALLO85</title>
 
+<!-- TELEGRAM WEB APP API -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --sand:#f7f1e3;--sky:#e6f3ff;--sun:#ffd56b;--sun2:#ffef9c;
-  --ink:#1f2937;--card:#ffffffdd;
+  --sky:#e6f3ff;--sand:#f7f1e3;--sun:#ffd56b;--sun2:#ffef9c;
+  --card:#ffffffdd;--ink:#1f2937;
 }
 *{box-sizing:border-box}
 body{
@@ -28,14 +31,8 @@ header,footer{
 header{top:0;height:56px;justify-content:center;display:none}
 header .left{position:absolute;left:8px}
 header .right{position:absolute;right:8px}
-header button{
-  border:none;border-radius:999px;padding:6px 10px;
-  background:rgba(0,0,0,.08)
-}
-footer{
-  bottom:0;height:62px;justify-content:space-between;
-  padding:0 16px;display:none
-}
+header button{border:none;border-radius:999px;padding:6px 10px;background:rgba(0,0,0,.08)}
+footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
 footer button{
   border:none;border-radius:999px;padding:10px 20px;
   background:linear-gradient(135deg,var(--sun),var(--sun2));
@@ -47,56 +44,37 @@ footer button{
 .page.active{display:block}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 
-/* UI */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .card{
   background:var(--card);border-radius:26px;padding:24px 16px;
-  box-shadow:0 20px 45px rgba(0,0,0,.12);
-  text-align:center;font-family:'Fredoka';font-size:22px;
-  position:relative;
+  box-shadow:0 20px 45px rgba(0,0,0,.15);
+  text-align:center;font-family:'Fredoka';font-size:22px;position:relative
 }
 .card small{display:block;font-family:'Inter';font-size:14px;margin-top:6px;opacity:.7}
-.badge{
-  position:absolute;top:10px;right:10px;
-  background:#ff6b6b;color:#fff;
-  font-size:11px;padding:4px 8px;border-radius:999px
-}
+.badge{position:absolute;top:10px;right:10px;background:#ff6b6b;color:#fff;font-size:11px;padding:4px 8px;border-radius:999px}
 .qty{display:flex;justify-content:center;gap:12px;margin-top:10px}
-.qty button{
-  width:32px;height:32px;border:none;border-radius:50%;
-  background:var(--sun);font-size:18px;font-weight:700
-}
+.qty button{width:32px;height:32px;border:none;border-radius:50%;background:var(--sun);font-size:18px;font-weight:700}
 .primary{
-  width:100%;border:none;border-radius:999px;
-  padding:16px;font-family:'Fredoka';
-  background:linear-gradient(135deg,var(--sun),var(--sun2))
+  width:100%;border:none;border-radius:999px;padding:16px;
+  font-family:'Fredoka';background:linear-gradient(135deg,var(--sun),var(--sun2))
 }
-textarea{width:100%;border-radius:16px;padding:12px}
-h2{text-align:center;font-family:Fredoka}
 
-/* CONFIRMATION */
+/* CONFIRM */
 #confirmOverlay{
-  position:fixed;inset:0;
-  background:rgba(255,255,255,.95);
-  display:none;align-items:center;justify-content:center;
-  z-index:50;
+  position:fixed;inset:0;background:rgba(255,255,255,.95);
+  display:none;align-items:center;justify-content:center;z-index:50
 }
 #confirmBox{
-  background:#fff;border-radius:30px;
-  padding:40px 24px;text-align:center;
-  box-shadow:0 30px 80px rgba(0,0,0,.25);
+  background:#fff;border-radius:30px;padding:40px 24px;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.25)
 }
 
 /* CONFETTIS */
 .confetti{
-  position:fixed;
-  width:10px;height:10px;
-  top:-10px;
-  animation:fall 2.5s linear forwards;
+  position:fixed;width:10px;height:10px;top:-10px;
+  animation:fall 2.5s linear forwards
 }
-@keyframes fall{
-  to{transform:translateY(120vh) rotate(360deg)}
-}
+@keyframes fall{to{transform:translateY(120vh) rotate(360deg)}}
 </style>
 </head>
 
@@ -128,7 +106,9 @@ h2{text-align:center;font-family:Fredoka}
 <section id="choco" class="page">
   <div class="grid">
     <div class="card" onclick="openProducts('Jaune')">🟡<small>Jaune</small></div>
-    <div class="card" onclick="openProducts('Filtré')">🔍<small>Filtré</small><div class="badge">🔥 Populaire</div></div>
+    <div class="card" onclick="openProducts('Filtré')">
+      🔍<small>Filtré</small><div class="badge">🔥 Populaire</div>
+    </div>
   </div>
 </section>
 
@@ -145,19 +125,9 @@ h2{text-align:center;font-family:Fredoka}
 
 <section id="advantages" class="page">
   <h2>⭐ Avantages</h2>
-
   <div class="card">
     🔑 <b>Code de parrainage</b>
-    <small id="referralCode"></small>
-  </div>
-
-  <div class="card">
-    🔁 <b>Fidélité</b>
-    <small>
-      Commandes : <span id="orderCount">0</span><br>
-      <b id="level">Niveau : 🟤 Bronze</b><br>
-      <i>Plus tu commandes, plus tu es récompensé.</i>
-    </small>
+    <small id="referralDisplay"></small>
   </div>
 </section>
 
@@ -183,15 +153,18 @@ h2{text-align:center;font-family:Fredoka}
 </div>
 
 <script>
-let historyStack=[],cart=[];
-let orderCount=parseInt(localStorage.getItem("orderCount")||"0");
-let referral=localStorage.getItem("referralCode");
+/* TELEGRAM USER */
+const tg = window.Telegram.WebApp;
+const tgUser = tg.initDataUnsafe?.user;
 
-if(!referral){
-  referral="ALLO85-"+Math.random().toString(36).substr(2,5).toUpperCase();
-  localStorage.setItem("referralCode",referral);
-}
-document.getElementById("referralCode").innerText=referral;
+/* CODE PARRAIN UNIQUE */
+let referralCode = tgUser?.id
+  ? "ALLO85-" + tgUser.id
+  : "ALLO85-GUEST";
+
+document.getElementById("referralDisplay").innerText = referralCode;
+
+let historyStack=[],cart=[];
 
 const catalog={
   Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
@@ -204,7 +177,6 @@ function enterApp(){
   appHeader.style.display="flex";
   appFooter.style.display="flex";
   go("home");
-  updateFidelity();
 }
 
 function go(id){
@@ -261,19 +233,13 @@ function upd(){
 function finalize(){
   if(cart.length===0)return alert("Panier vide");
 
-  orderCount++;
-  localStorage.setItem("orderCount",orderCount);
-  updateFidelity();
+  let msg=`🧾 COMMANDE ALLO85\n\nCode parrain : ${referralCode}\n\n`;
+  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} = ${i.q*i.p} €\n`);
+  msg+=`\nTOTAL : ${cartTotal.innerText} €`;
 
-  navigator.clipboard.writeText("Commande ALLO85 prête");
+  navigator.clipboard.writeText(msg);
   confirmOverlay.style.display="flex";
   launchConfetti();
-}
-
-function updateFidelity(){
-  orderCountSpan.innerText=orderCount;
-  level.innerText =
-    orderCount>=10?"Niveau : 🏆 Or":orderCount>=5?"Niveau : 🟡 Argent":"Niveau : 🟤 Bronze";
 }
 
 function launchConfetti(){
@@ -282,7 +248,6 @@ function launchConfetti(){
     c.className="confetti";
     c.style.left=Math.random()*100+"vw";
     c.style.background=`hsl(${Math.random()*360},80%,60%)`;
-    c.style.animationDuration=2+Math.random()*2+"s";
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),4000);
   }
@@ -291,7 +256,6 @@ function launchConfetti(){
 function openTelegram(){
   window.open("https://t.me/allo856","_blank");
 }
-updateFidelity();
 </script>
 
 </body>
