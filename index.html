@@ -6,68 +6,186 @@
 <title>ALLO85</title>
 
 <style>
+:root{
+  --bg:#0b0f0c;
+  --bg2:#151a17;
+  --card:#141816;
+  --gold:#f2c94c;
+  --gold-soft:#ffe08a;
+  --text:#f5f5f5;
+  --muted:#9ca3af;
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
-  background:#0b0f0c;
-  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg2),var(--bg));
+  color:var(--text);
 }
-.app{max-width:420px;margin:auto;min-height:100vh}
-header{
-  position:fixed;top:0;left:0;right:0;
-  height:52px;background:#000;
-  display:flex;align-items:center;justify-content:center;
-}
-#backBtn{
-  position:absolute;left:10px;
-  border:1px solid #f2c94c;
-  background:none;color:#f2c94c;
-  padding:4px 10px;border-radius:20px;
-  display:none;
-}
-.logo{height:26px}
-.page{
-  display:none;
-  padding:70px 12px 90px;
+
+.app{
+  max-width:420px;
+  margin:auto;
   min-height:100vh;
+  position:relative;
 }
-.page.active{display:block}
-.card{
-  background:#141816;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:10px;
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0;
+  width:100%;
+  max-width:420px;
+  height:52px;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  z-index:10;
 }
+
+#backBtn{
+  position:absolute;
+  left:10px;
+  border:1px solid var(--gold);
+  background:none;
+  color:var(--gold);
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:13px;
+  display:none;
+}
+
+.logo{height:26px}
+
+/* PAGES */
+.page{
+  position:absolute;
+  inset:0;
+  padding:70px 12px 90px;
+  opacity:0;
+  transform:translateX(16px);
+  pointer-events:none;
+  transition:.25s ease;
+}
+.page.active{
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
+
+.page-title{
+  text-align:center;
+  font-size:17px;
+  margin-bottom:12px;
+  letter-spacing:.4px;
+}
+
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:10px;
 }
+
+/* CARD */
+.card{
+  background:linear-gradient(145deg,#161b18,#0c0f0d);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
+  text-align:center;
+}
+
+.card small{
+  font-size:12px;
+  color:var(--muted);
+}
+
+/* BUTTONS */
 button{
-  border:none;border-radius:20px;
-  padding:8px 14px;font-size:14px;
+  border:none;
+  border-radius:999px;
+  padding:7px 14px;
+  font-size:14px;
 }
-.primary{background:#f2c94c;color:#000}
-.qty{display:flex;justify-content:center;gap:8px;margin-top:6px}
+
+.primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  color:#000;
+  font-weight:600;
+}
+
+.qty{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin-top:6px;
+}
 .qty button{
-  width:28px;height:28px;border-radius:50%;
-  background:#f2c94c;color:#000
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--gold);
+  color:#000;
+  font-size:16px;
 }
-#cartBar{
-  position:fixed;bottom:0;left:0;right:0;
-  height:56px;background:#000;
-  display:flex;justify-content:space-between;
-  align-items:center;padding:0 14px;
+
+/* PANIER */
+.cart-line{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
 }
+
+/* INPUT */
 textarea{
-  width:100%;background:#0c0f0d;color:#fff;
-  border:1px solid #333;border-radius:10px;
+  width:100%;
+  background:#0c0f0d;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;
   padding:10px;
+  resize:none;
+}
+
+/* FOOTER */
+#cartBar{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  max-width:420px;
+  height:56px;
+  background:#000;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  z-index:10;
+}
+
+#cartBar .info{
+  font-size:13px;
+  color:var(--muted);
+}
+
+#cartBar .cta{
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  color:#000;
+  padding:8px 16px;
+  border-radius:999px;
+  font-weight:600;
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <header>
@@ -75,31 +193,36 @@ textarea{
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
+<!-- BIENVENUE -->
 <section id="welcome" class="page active">
-  <div class="card" style="text-align:center">
+  <div class="card">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
 </section>
 
+<!-- HOME -->
 <section id="home" class="page">
+  <div class="page-title">Catégories</div>
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<br>Jaune / Filtré</div>
-    <div class="card" onclick="go('green')">🥦<br>Local / Cali</div>
+    <div class="card" onclick="go('choco')">🍫<br><small>Jaune / Filtré</small></div>
+    <div class="card" onclick="go('green')">🥦<br><small>Local / Cali</small></div>
   </div>
 </section>
 
 <section id="choco" class="page">
+  <div class="page-title">🍫 Sélection</div>
   <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
-    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
+    <div class="card" onclick="go('jaune')">🟡<br><small>Jaune</small></div>
+    <div class="card" onclick="go('filtre')">🔍<br><small>Filtré</small></div>
   </div>
 </section>
 
 <section id="green" class="page">
+  <div class="page-title">🥦 Sélection</div>
   <div class="grid">
-    <div class="card" onclick="go('local')">🌱 Local</div>
-    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
+    <div class="card" onclick="go('local')">🌱<br><small>Local</small></div>
+    <div class="card" onclick="go('cali')">🇺🇸<br><small>Cali</small></div>
   </div>
 </section>
 
@@ -108,24 +231,33 @@ textarea{
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
 
+<!-- PANIER -->
 <section id="cart" class="page">
+  <div class="page-title">🛒 Panier</div>
   <div id="cartItems"></div>
 
   <div class="card">
-    <label><input type="radio" name="delivery" checked onclick="setDelivery(false)"> Sur place</label><br>
-    <label><input type="radio" name="delivery" onclick="setDelivery(true)"> Livraison (+20€)</label>
+    <b>Livraison</b><br><br>
+    <label><input type="radio" name="delivery" checked onchange="setDelivery(false)"> Sur place</label><br>
+    <label><input type="radio" name="delivery" onchange="setDelivery(true)"> Livraison (+20€)</label>
     <div id="addrBox" style="display:none;margin-top:8px">
       <textarea id="address" placeholder="Adresse de livraison"></textarea>
     </div>
   </div>
 
-  <div class="card"><b>Total : <span id="total">0</span> €</b></div>
+  <div class="card">
+    Total : <b><span id="total">0</span> €</b>
+  </div>
+
   <button class="primary" style="width:100%" onclick="sendOrder()">Confirmer la commande</button>
 </section>
 
+<!-- FOOTER -->
 <div id="cartBar">
-  <div><span id="count">0</span> article(s)</div>
-  <button class="primary" onclick="go('cart')">Panier</button>
+  <div class="info">
+    <span id="count">0</span> article(s) · <span id="totalBar">0</span> €
+  </div>
+  <button class="cta" onclick="go('cart')">Panier</button>
 </div>
 
 </div>
@@ -147,7 +279,7 @@ const products=[];
     `<div class="grid">`+
     products.filter(p=>p.cat===cat).map(p=>`
       <div class="card">
-        <b>${p.size}</b><br>${p.price} €
+        <b>${p.size}</b><br><small>${p.price} €</small>
         <div id="btn-${p.id}"></div>
       </div>`).join("")+
     `</div>`;
@@ -183,6 +315,7 @@ function change(id,d){
   if(it.qty<=0) cart=cart.filter(x=>x.id!==id);
   render();
 }
+
 function setDelivery(v){
   delivery=v;
   addrBox.style.display=v?'block':'none';
@@ -193,16 +326,19 @@ function render(){
   let total=0,count=0;
   cartItems.innerHTML='';
   cart.forEach(i=>{
-    const label=`${i.qty} × ${i.size} ${i.cat}`;
     const line=i.price*i.qty;
-    total+=line;count+=i.qty;
+    total+=line;
+    count+=i.qty;
     cartItems.innerHTML+=`
-      <div class="card">
-        ${label}<br>${line} €
+      <div class="card cart-line">
+        <span>${i.qty} × ${i.size} ${i.cat}</span>
+        <span>${line} €</span>
       </div>`;
   });
   if(delivery) total+=deliveryFee;
+
   totalSpan.textContent=total;
+  totalBar.textContent=total;
   countSpan.textContent=count;
 
   products.forEach(p=>{
@@ -230,11 +366,13 @@ function sendOrder(){
     msg+=`\n📍 Sur place\n`;
   }
   msg+=`\nTOTAL : ${totalSpan.textContent}€`;
-  const url=`https://t.me/allo85?text=${encodeURIComponent(msg)}`;
+
+  const url=`https://t.me/allo856?text=${encodeURIComponent(msg)}`;
   window.open(url,"_blank");
 }
 
 const totalSpan=document.getElementById("total");
+const totalBar=document.getElementById("totalBar");
 const countSpan=document.getElementById("count");
 </script>
 
