@@ -11,6 +11,7 @@
   --bg2:#151a17;
   --card:#141816;
   --gold:#f2c94c;
+  --gold-soft:#ffe08a;
   --text:#f5f5f5;
   --muted:#9ca3af;
 }
@@ -28,6 +29,7 @@ body{
   max-width:420px;
   margin:auto;
   min-height:100vh;
+  overflow:hidden;
 }
 
 /* HEADER */
@@ -41,7 +43,7 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
-  border-bottom:1px solid rgba(255,255,255,.1);
+  border-bottom:1px solid rgba(255,255,255,.08);
   z-index:10;
 }
 
@@ -55,6 +57,7 @@ header{
   border-radius:999px;
   font-size:13px;
   display:none;
+  transition:opacity .2s;
 }
 
 .logo{
@@ -63,11 +66,21 @@ header{
 
 /* PAGES */
 .page{
-  display:none;
+  position:absolute;
+  top:0; left:0; right:0;
   padding:70px 12px 90px;
   min-height:100vh;
+  opacity:0;
+  transform:translateX(20px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
 }
-.page.active{display:block}
+
+.page.active{
+  opacity:1;
+  transform:translateX(0);
+  pointer-events:auto;
+}
 
 /* TITRES */
 .page-title{
@@ -89,6 +102,11 @@ header{
   border-radius:14px;
   padding:14px;
   text-align:center;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+
+.card:active{
+  transform:scale(.96);
 }
 
 .card small{
@@ -102,10 +120,15 @@ button{
   border-radius:999px;
   padding:7px 14px;
   font-size:14px;
+  transition:transform .1s ease, opacity .1s ease;
+}
+
+button:active{
+  transform:scale(.94);
 }
 
 .primary{
-  background:linear-gradient(135deg,var(--gold),#ffe08a);
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
   color:#000;
 }
 
@@ -134,7 +157,7 @@ button{
   max-width:420px;
   height:56px;
   background:#000;
-  border-top:1px solid rgba(255,255,255,.1);
+  border-top:1px solid rgba(255,255,255,.08);
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -148,7 +171,7 @@ button{
 }
 
 #cartBar .cta{
-  background:linear-gradient(135deg,var(--gold),#ffe08a);
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
   color:#000;
   padding:8px 16px;
   border-radius:999px;
@@ -174,7 +197,6 @@ button{
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
-<!-- BIENVENUE -->
 <section id="welcome" class="page active">
   <div class="card">
     <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:120px"><br><br>
@@ -182,7 +204,6 @@ button{
   </div>
 </section>
 
-<!-- HOME -->
 <section id="home" class="page">
   <div class="page-title">Catégories</div>
   <div class="grid">
@@ -191,7 +212,6 @@ button{
   </div>
 </section>
 
-<!-- 🍫 -->
 <section id="choco" class="page">
   <div class="page-title">🍫</div>
   <div class="grid">
@@ -200,7 +220,6 @@ button{
   </div>
 </section>
 
-<!-- 🥦 -->
 <section id="green" class="page">
   <div class="page-title">🥦</div>
   <div class="grid">
@@ -209,13 +228,11 @@ button{
   </div>
 </section>
 
-<!-- PRODUITS -->
 <section id="jaune" class="page"></section>
 <section id="filtre" class="page"></section>
 <section id="local" class="page"></section>
 <section id="cali" class="page"></section>
 
-<!-- PANIER -->
 <section id="cart" class="page">
   <div class="page-title">🛒 Panier</div>
   <div id="cartItems"></div>
@@ -224,7 +241,6 @@ button{
   </div>
 </section>
 
-<!-- FOOTER -->
 <div id="cartBar">
   <div class="info">
     <span id="count">0</span> article(s) · <span id="totalBar">0</span> €
