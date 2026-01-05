@@ -6,196 +6,283 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
 
 <style>
+:root{
+  --blue:#38bdf8;
+  --pink:#fb7185;
+  --yellow:#facc15;
+  --green:#22c55e;
+  --dark:#0f172a;
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:'Baloo 2',cursive;
-  background:linear-gradient(180deg,#38bdf8 0%, #fef08a 60%, #fde68a 100%);
+  background:radial-gradient(circle at top,#38bdf8,#0ea5e9,#0f172a);
+  color:#fff;
   min-height:100vh;
-  padding:20px;
-}
-
-.logo{
-  text-align:center;
-  margin-bottom:10px;
-}
-.logo img{
-  width:150px;
-}
-
-h1{
-  text-align:center;
-  color:#fff;
-  text-shadow:3px 3px 0 #0284c7;
-  font-size:38px;
-  margin-bottom:20px;
-}
-
-/* CARTES */
-.card{
-  background:#fff;
-  border-radius:24px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.2);
-}
-
-/* BOUTONS */
-.big-btn{
-  width:100%;
-  padding:22px;
-  font-size:22px;
-  border-radius:20px;
-  border:none;
-  margin-bottom:15px;
-  color:#fff;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-}
-
-.info-btn{
-  background:linear-gradient(135deg,#38bdf8,#2563eb);
-}
-
-.order-btn{
-  background:linear-gradient(135deg,#facc15,#fb7185);
-}
-
-/* FORM */
-select,input{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:2px solid #38bdf8;
-  margin-top:8px;
-  font-family:'Baloo 2';
-  font-size:16px;
-}
-
-label{
-  display:block;
-  margin-top:14px;
-}
-
-.total{
-  font-size:26px;
-  text-align:center;
-  margin-top:16px;
-  background:#fef08a;
-  padding:10px;
-  border-radius:16px;
+  overflow-x:hidden;
 }
 
 .hidden{display:none}
 
-.option{
+/* INTRO */
+#intro{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(180deg,#0ea5e9,#0f172a);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
+  animation:fadeOut 1s ease 3.5s forwards;
+}
+
+#intro img{
+  width:180px;
+  animation:bounce 2s infinite;
+}
+
+#intro h1{
+  margin-top:20px;
+  font-size:42px;
+  letter-spacing:2px;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+}
+
+@keyframes fadeOut{
+  to{opacity:0;pointer-events:none}
+}
+
+/* CONTAINER */
+.app{
+  padding:20px;
+}
+
+/* TITRE */
+.title{
+  text-align:center;
+  font-size:44px;
+  text-shadow:4px 4px 0 #000;
+  margin-bottom:20px;
+}
+
+/* HUB */
+.grid{
+  display:grid;
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(145deg,#ffffff,#e5e7eb);
+  color:#0f172a;
+  border-radius:26px;
+  padding:24px;
+  box-shadow:0 20px 40px rgba(0,0,0,.5);
+  transform:scale(1);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:scale(1.02);
+}
+
+.card h2{
+  margin-top:0;
+  font-size:28px;
+}
+
+.big{
+  padding:30px;
+  font-size:22px;
+}
+
+/* BOUTONS */
+.btn{
+  width:100%;
+  padding:18px;
+  border:none;
+  border-radius:999px;
+  font-size:20px;
+  margin-top:14px;
+  color:#fff;
+  background:linear-gradient(135deg,var(--blue),var(--green));
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.btn.alt{
+  background:linear-gradient(135deg,var(--pink),var(--yellow));
+}
+
+/* COMMANDES */
+.selector{
+  display:flex;
+  gap:15px;
+  margin-top:15px;
+}
+
+.choice{
+  flex:1;
+  padding:30px;
+  border-radius:22px;
+  text-align:center;
+  font-size:48px;
   background:#f1f5f9;
-  padding:10px;
-  border-radius:12px;
-  margin-top:8px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.choice.active{
+  background:linear-gradient(135deg,var(--yellow),var(--pink));
+  color:#fff;
+  transform:scale(1.05);
+}
+
+.option{
+  background:#f8fafc;
+  padding:12px;
+  border-radius:14px;
+  margin-top:10px;
+}
+
+.total{
+  margin-top:20px;
+  font-size:32px;
+  text-align:center;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  color:#fff;
+  padding:15px;
+  border-radius:20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="logo">
-  <img src="logo.png" alt="Allo85">
+<!-- INTRO -->
+<div id="intro">
+  <img src="logo.png">
+  <h1>ALLO85</h1>
 </div>
 
-<h1>🌴 Allo85</h1>
+<div class="app">
 
-<!-- ACCUEIL -->
-<div id="home" class="card">
-  <button class="big-btn">👋 Bienvenue</button>
-  <button class="big-btn info-btn" onclick="show('infos')">ℹ️ Infos</button>
-  <button class="big-btn order-btn" onclick="show('commandes')">📦 Commandes</button>
+<div class="title">🌴 ALLO85</div>
+
+<!-- HUB -->
+<div id="home" class="grid">
+  <div class="card big">
+    <h2>👋 Bienvenue</h2>
+    <p>Entre dans une expérience unique.</p>
+  </div>
+
+  <div class="card big" onclick="show('infos')">
+    <h2>ℹ️ Infos</h2>
+    <p>Horaires, zone, livraison</p>
+  </div>
+
+  <div class="card big" onclick="show('order')">
+    <h2>📦 Commandes</h2>
+    <p>Choisis ton camp</p>
+  </div>
 </div>
 
 <!-- INFOS -->
 <div id="infos" class="card hidden">
-  <h2>ℹ️ Infos</h2>
+  <h2>ℹ️ Informations</h2>
   <p>
-    🕒 <b>Ouvert 7j/7</b><br>
-    Lundi → Dimanche<br>
-    <b>14h à 2h</b><br><br>
-
+    🕒 Lundi → Dimanche<br>
+    <b>14h – 2h</b><br><br>
     📍 Disponible sur <b>Montaigu</b><br><br>
-
-    🚚 Livraison possible<br>
+    🚚 Livraison disponible<br>
     <b>+20€</b>
   </p>
-  <button class="big-btn info-btn" onclick="back()">⬅️ Retour</button>
+  <button class="btn" onclick="back()">⬅️ Retour</button>
 </div>
 
 <!-- COMMANDES -->
-<div id="commandes" class="card hidden">
-  <h2>📦 Commandes</h2>
+<div id="order" class="card hidden">
+  <h2>📦 Choisis ton univers</h2>
 
-  <label>Catégorie</label>
-  <select id="type" onchange="calc()">
-    <option value="choco">🍫</option>
-    <option value="green">🥦</option>
-  </select>
-
-  <label>Options</label>
-  <div class="option">
-    <label><input type="checkbox" data-price="5" onchange="calc()"> Option 1 (+5€)</label>
-  </div>
-  <div class="option">
-    <label><input type="checkbox" data-price="10" onchange="calc()"> Option 2 (+10€)</label>
+  <div class="selector">
+    <div class="choice" id="choco" onclick="selectType('choco')">🍫</div>
+    <div class="choice" id="green" onclick="selectType('green')">🥦</div>
   </div>
 
-  <label>Quantité</label>
-  <input type="number" id="qty" value="1" min="1" onchange="calc()">
+  <div class="option">
+    <label><input type="checkbox" data-price="15" onchange="calc()"> Option Alpha (+15€)</label>
+  </div>
+  <div class="option">
+    <label><input type="checkbox" data-price="25" onchange="calc()"> Option Omega (+25€)</label>
+  </div>
+
+  <div class="option">
+    Quantité
+    <input type="number" id="qty" value="1" min="1" onchange="calc()">
+  </div>
 
   <div class="total">
-    Total : <span id="total">50</span> €
+    Total : <span id="total">0</span> €
   </div>
 
-  <button class="big-btn order-btn" onclick="sendOrder()">Valider</button>
-  <button class="big-btn info-btn" onclick="back()">⬅️ Retour</button>
+  <button class="btn alt" onclick="send()">Valider</button>
+  <button class="btn" onclick="back()">⬅️ Retour</button>
+</div>
+
 </div>
 
 <script>
 Telegram.WebApp.ready();
 
-const prices={choco:50,green:60};
+let current='choco';
+const base={choco:50,green:60};
 
 function show(id){
-  document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+  document.querySelectorAll('.grid,.card').forEach(e=>e.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 }
 
-function back(){show('home')}
+function back(){
+  document.querySelectorAll('.card').forEach(e=>e.classList.add('hidden'));
+  document.getElementById('home').classList.remove('hidden');
+}
+
+function selectType(t){
+  current=t;
+  document.querySelectorAll('.choice').forEach(c=>c.classList.remove('active'));
+  document.getElementById(t).classList.add('active');
+  calc();
+}
 
 function calc(){
-  let total=prices[type.value];
+  let total=base[current];
   document.querySelectorAll('input[type=checkbox]:checked')
-    .forEach(o=>total+=parseFloat(o.dataset.price));
+    .forEach(o=>total+=parseInt(o.dataset.price));
   total*=qty.value;
   document.getElementById('total').innerText=total;
 }
 
-function sendOrder(){
-  let opts=[];
-  document.querySelectorAll('input[type=checkbox]:checked')
-    .forEach(o=>opts.push(o.parentElement.innerText.trim()));
+function send(){
+  const msg=`✨ ALLO85 EXPERIENCE
 
-  const msg=
-`📦 COMMANDE ALLO85
-
-Catégorie : ${type.value === 'choco' ? '🍫' : '🥦'}
-Options : ${opts.join(', ') || 'Aucune'}
+Univers : ${current==='choco'?'🍫':'🥦'}
 Quantité : ${qty.value}
-Total : ${document.getElementById('total').innerText} €`;
+Total : ${total.innerText} €`;
 
   Telegram.WebApp.sendData(msg);
   Telegram.WebApp.close();
 }
 
-calc();
+selectType('choco');
 </script>
 
 </body>
