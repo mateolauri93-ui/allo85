@@ -6,59 +6,71 @@
 <title>ALLO85</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#e6f3ff;--card:#ffffffee;--text:#1f2937;--accent:#ffd56b;
-}
-body.night{
-  --bg:#0f172a;--card:#1e293b;--text:#f8fafc;
-}
-*{box-sizing:border-box}
 body{
-  margin:0;font-family:Inter,sans-serif;
-  background:var(--bg);color:var(--text);
+  margin:0;
+  font-family:Inter,sans-serif;
+  background:#e6f3ff;
 }
-.app{max-width:420px;margin:auto;min-height:100vh}
-
-/* HEADER / FOOTER */
+.app{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+}
 header,footer{
-  position:fixed;left:0;right:0;max-width:420px;margin:auto;
-  background:var(--card);display:flex;align-items:center;z-index:10
+  position:fixed;
+  left:0;right:0;
+  max-width:420px;
+  margin:auto;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  z-index:10;
 }
-header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
-footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
-header button,footer button{
-  border:none;border-radius:999px;padding:8px 14px;
-  background:var(--accent);font-family:Fredoka
+header{
+  top:0;height:56px;
+  justify-content:space-between;
+  padding:0 12px;
+  display:none;
 }
-
-/* PAGES */
-.page{display:none;padding:90px 20px 140px}
+footer{
+  bottom:0;height:60px;
+  justify-content:space-between;
+  padding:0 16px;
+  display:none;
+}
+button{
+  border:none;
+  border-radius:999px;
+  padding:10px 16px;
+  font-family:Fredoka;
+  background:#ffd56b;
+}
+.page{
+  display:none;
+  padding:80px 20px 120px;
+}
 .page.active{display:block}
-
-/* UI */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .card{
-  background:var(--card);border-radius:20px;padding:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-  text-align:center;font-family:Fredoka
+  background:#fff;
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+  text-align:center;
+  font-family:Fredoka;
 }
-.qty{display:flex;justify-content:center;gap:10px;margin-top:10px}
+.qty{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+}
 .qty button{
-  width:28px;height:28px;border:none;border-radius:50%;
-  background:var(--accent)
+  width:30px;height:30px;
+  padding:0;
 }
-.primary{
-  width:100%;border:none;border-radius:999px;
-  padding:14px;background:var(--accent);font-family:Fredoka
-}
-input,textarea{
-  width:100%;padding:12px;border-radius:14px;
-  border:1px solid #ccc;margin-top:10px
-}
-h2{text-align:center;font-family:Fredoka}
 </style>
 </head>
 
@@ -69,7 +81,6 @@ h2{text-align:center;font-family:Fredoka}
 <header id="header">
   <button onclick="back()">⬅</button>
   <strong>ALLO85</strong>
-  <button onclick="toggleNight()">🌙</button>
 </header>
 
 <footer id="footer">
@@ -81,59 +92,37 @@ h2{text-align:center;font-family:Fredoka}
 <section id="welcome" class="page active">
   <div class="card">
     <h2>🔥🌴 Commande simple et rapide 🌴🔥</h2>
-    <button class="primary" onclick="enter()">Entrer</button>
+    <button onclick="enter()">Entrer</button>
   </div>
 </section>
 
 <section id="home" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('choco')">🍫 Chocolat</div>
-    <div class="card" onclick="go('green')">🥦 Green</div>
-  </div>
-</section>
-
-<section id="choco" class="page">
-  <div class="grid">
-    <div class="card" onclick="openProducts('Jaune')">🟡 Jaune</div>
-    <div class="card" onclick="openProducts('Filtré')">🔍 Filtré</div>
-  </div>
-</section>
-
-<section id="green" class="page">
-  <div class="card" onclick="openProducts('Cali')">🇺🇸 Cali</div>
+  <div class="card" onclick="go('products')">Voir les produits</div>
 </section>
 
 <section id="products" class="page">
-  <h2 id="productTitle"></h2>
-  <div class="grid" id="productGrid"></div>
-</section>
+  <h2>Produits</h2>
 
-<section id="advantages" class="page">
-  <h2>⭐ Avantages</h2>
   <div class="card">
-    🔑 <b>Ton code parrain</b><br>
-    <span id="referral"></span>
+    Produit A — 20 €
+    <div class="qty">
+      <button onclick="add()">Ajouter</button>
+    </div>
   </div>
+
   <div class="card">
-    🔁 <b>Fidélité</b><br>
-    Commandes : <span id="orders">0</span><br>
-    <span id="level"></span><br>
-    <small>Plus tu commandes, plus tu es récompensé.</small>
+    Produit B — 50 €
+    <div class="qty">
+      <button onclick="add()">Ajouter</button>
+    </div>
   </div>
 </section>
 
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
-
-  <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
-  <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
-
-  <textarea id="address" placeholder="Adresse de livraison" style="display:none"></textarea>
-  <input id="usedCode" placeholder="Code parrain utilisé (optionnel)">
-
   <p><b>Total : <span id="total">0</span> €</b></p>
-  <button class="primary" onclick="checkout()">Envoyer sur Telegram</button>
+  <button onclick="send()">Envoyer sur Telegram</button>
 </section>
 
 </div>
@@ -141,22 +130,10 @@ h2{text-align:center;font-family:Fredoka}
 <script>
 const tg = Telegram.WebApp;
 const userId = tg.initDataUnsafe?.user?.id || "GUEST";
-const referral = "ALLO85-" + userId;
 
-document.getElementById("referral").innerText = referral;
-
-let orders = parseInt(localStorage.getItem("orders_"+userId) || "0");
-document.getElementById("orders").innerText = orders;
-document.getElementById("level").innerText =
-  orders>=10?"🟡 Or":orders>=5?"⚪ Argent":"🟤 Bronze";
-
-const catalog={
-  Jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
-  Filtré:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
-  Cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
-};
-
-let history=[],cart=[],delivery=false;
+let history=[];
+let cartTotal=0;
+let cartCount=0;
 
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -176,64 +153,22 @@ function enter(){
   header.style.display="flex";
   footer.style.display="flex";
 }
-function openProducts(type){
-  productTitle.innerText=type;
-  productGrid.innerHTML="";
-  catalog[type].forEach(it=>{
-    const id=type+it.g;
-    const c=cart.find(x=>x.id===id);
-    productGrid.innerHTML+=`
-      <div class="card">
-        ${it.g} — ${it.p} €
-        <div class="qty">
-          ${c?`<button onclick="chg('${id}',-1)">−</button>${c.q}<button onclick="chg('${id}',1)">+</button>`:
-          `<button onclick="add('${id}','${type}','${it.g}',${it.p})">Ajouter</button>`}
-        </div>
-      </div>`;
-  });
-  go("products");
+function add(){
+  cartCount++;
+  cartTotal+=20;
+  updateCart();
 }
-function add(id,t,g,p){cart.push({id,t,g,p,q:1});update();openProducts(t)}
-function chg(id,d){
-  const i=cart.find(x=>x.id===id);
-  i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.id!==id);
-  update();openProducts(i.t);
+function updateCart(){
+  cartCountSpan.innerText=cartCount;
+  cartTotalSpan.innerText=cartTotal;
+  total.innerText=cartTotal;
+  cartItems.innerHTML=`${cartCount} article(s)`;
 }
-function setDelivery(v){
-  delivery=v;
-  address.style.display=v?"block":"none";
-  update();
-}
-function update(){
-  let c=0,t=0;
-  cartItems.innerHTML="";
-  cart.forEach(i=>{
-    c+=i.q;t+=i.q*i.p;
-    cartItems.innerHTML+=`${i.q}× ${i.g} ${i.t} — ${i.q*i.p} €<br>`;
-  });
-  if(delivery)t+=20;
-  cartCount.innerText=c;
-  cartTotal.innerText=t;
-  total.innerText=t;
-}
-function checkout(){
-  if(cart.length===0)return alert("Panier vide");
-  if(delivery && !address.value.trim())return alert("Adresse requise");
-
-  orders++;
-  localStorage.setItem("orders_"+userId,orders);
-
-  let msg=`🧾 COMMANDE ALLO85\nID:${userId}\nCode:${referral}\n`;
-  if(usedCode.value.trim())msg+=`Parrain:${usedCode.value}\n`;
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t}\n`);
-  msg+=delivery?`🚚 Livraison\n${address.value}\n`:`📍 Sur place\n`;
-  msg+=`TOTAL:${total.innerText}€`;
-
+function send(){
+  if(cartCount===0)return alert("Panier vide");
+  const msg=`Commande ALLO85\nID:${userId}\nTotal:${cartTotal}€`;
   const url="https://t.me/share/url?url=&text="+encodeURIComponent(msg);
   window.open(url,"_blank");
-}
-function toggleNight(){
-  document.body.classList.toggle("night");
 }
 </script>
 
