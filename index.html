@@ -6,116 +6,75 @@
 <title>ALLO85</title>
 
 <style>
-:root{
-  --bg:#0b0f0c;
-  --card:#121614;
-  --gold:#d4af37;
-  --text:#f5f5f5;
-  --muted:#999;
-}
-
-*{box-sizing:border-box}
-
 body{
   margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;
-  background:radial-gradient(circle at top,#111,#000);
-  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  background:#0b0f0c;
+  color:#fff;
 }
 
-.hidden{display:none}
+.page{
+  display:none;
+  min-height:100vh;
+  padding:90px 18px 120px;
+}
 
-/* HEADER */
+.page.active{
+  display:block;
+}
+
 header{
   position:fixed;
-  top:0;left:0;right:0;
-  background:rgba(0,0,0,.9);
+  top:0; left:0; right:0;
+  background:#000;
   padding:14px;
   text-align:center;
-  border-bottom:1px solid rgba(212,175,55,.25);
-  z-index:10;
+  border-bottom:1px solid rgba(255,255,255,.1);
 }
 
 #backBtn{
   position:absolute;
   left:12px;
   top:10px;
+  background:none;
+  border:1px solid #d4af37;
+  color:#d4af37;
   padding:6px 12px;
   border-radius:999px;
-  border:1px solid var(--gold);
-  background:none;
-  color:var(--gold);
 }
 
-/* MAIN */
-main{
-  padding:90px 18px 130px;
-}
-
-/* CARD */
 .card{
-  background:linear-gradient(145deg,#111,#050505);
-  border-radius:18px;
+  background:#111814;
+  border-radius:14px;
   padding:20px;
   margin-bottom:18px;
   text-align:center;
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.6),
-    inset 0 0 0 1px rgba(212,175,55,.15);
 }
 
-.card:active{transform:scale(.97)}
-
-/* BUTTONS */
 button{
-  border-radius:999px;
   padding:12px 22px;
-  font-size:15px;
+  border-radius:999px;
+  border:none;
   cursor:pointer;
 }
 
 .primary{
-  background:linear-gradient(135deg,#d4af37,#f5d77a);
+  background:#d4af37;
   color:#000;
-  border:none;
 }
 
 .secondary{
-  background:transparent;
-  color:var(--text);
-  border:1px solid rgba(255,255,255,.25);
+  background:#222;
+  color:#fff;
 }
 
-/* WELCOME */
-#welcome{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-
-#welcome h2{
-  font-size:28px;
-  letter-spacing:2px;
-  margin-bottom:30px;
-}
-
-/* CART BAR */
 #cartBar{
   position:fixed;
-  bottom:0;left:0;right:0;
-  background:rgba(0,0,0,.95);
-  padding:14px 18px;
+  bottom:0; left:0; right:0;
+  background:#000;
+  padding:12px 18px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  border-top:1px solid rgba(212,175,55,.25);
-}
-
-#cartBar span{
-  font-size:14px;
-  color:var(--muted);
 }
 </style>
 </head>
@@ -123,48 +82,48 @@ button{
 <body>
 
 <header>
-  <button id="backBtn" class="hidden" onclick="goBack()">⬅</button>
+  <button id="backBtn" onclick="goBack()" style="display:none">⬅</button>
   <b>ALLO85</b>
 </header>
 
-<!-- ACCUEIL -->
-<main id="welcome">
+<!-- PAGE 1 : BIENVENUE -->
+<section id="welcome" class="page active">
   <div class="card">
     <h2>Bienvenue</h2>
     <button class="primary" onclick="go('home')">Entrer</button>
   </div>
-</main>
+</section>
 
-<!-- HOME -->
-<main id="home" class="hidden">
-  <div class="card" onclick="go('choco')">🍫 Catégorie</div>
-  <div class="card" onclick="go('green')">🥦 Catégorie</div>
-</main>
+<!-- PAGE 2 : 🍫 / 🥦 -->
+<section id="home" class="page">
+  <div class="card" onclick="go('choco')">🍫</div>
+  <div class="card" onclick="go('green')">🥦</div>
+</section>
 
-<!-- 🍫 -->
-<main id="choco" class="hidden">
+<!-- PAGE 3 : 🍫 -->
+<section id="choco" class="page">
   <div class="card" onclick="go('jaune')">🟡 Jaune</div>
   <div class="card" onclick="go('filtre')">🔍 Filtré</div>
-</main>
+</section>
 
-<!-- 🥦 -->
-<main id="green" class="hidden">
+<!-- PAGE 3 : 🥦 -->
+<section id="green" class="page">
   <div class="card" onclick="go('local')">🌱 Local</div>
   <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
-</main>
+</section>
 
-<!-- PRODUITS -->
-<main id="jaune" class="hidden"></main>
-<main id="filtre" class="hidden"></main>
-<main id="local" class="hidden"></main>
-<main id="cali" class="hidden"></main>
+<!-- PAGE PRODUITS -->
+<section id="jaune" class="page"></section>
+<section id="filtre" class="page"></section>
+<section id="local" class="page"></section>
+<section id="cali" class="page"></section>
 
-<!-- PANIER -->
-<main id="cart" class="hidden">
+<!-- PAGE PANIER -->
+<section id="cart" class="page">
   <h3>Panier</h3>
   <div id="cartItems"></div>
   <p>Total : <b><span id="total">0</span> €</b></p>
-</main>
+</section>
 
 <div id="cartBar">
   <span><span id="count">0</span> article(s)</span>
@@ -172,39 +131,45 @@ button{
 </div>
 
 <script>
-let history=[];
+/* NAVIGATION */
+let stack = [];
+
+function go(id){
+  const current = document.querySelector('.page.active');
+  if(current) stack.push(current.id);
+
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  document.getElementById('backBtn').style.display =
+    stack.length ? 'block' : 'none';
+}
+
+function goBack(){
+  const prev = stack.pop();
+  if(prev){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(prev).classList.add('active');
+  }
+  document.getElementById('backBtn').style.display =
+    stack.length ? 'block' : 'none';
+}
+
+/* PANIER */
 let cart=[];
 
-const prices={ "5g":50, "10g":90, "20€":20 };
-
+const prices={"5g":50,"10g":90,"20€":20};
 ["jaune","filtre","local","cali"].forEach(cat=>{
   document.getElementById(cat).innerHTML =
-    Object.entries(prices).map(([label,price])=>`
+    Object.entries(prices).map(([l,p])=>`
       <div class="card">
-        <b>${label}</b><br><br>
-        <button class="primary" onclick="add('${cat} ${label}',${price})">
-          Ajouter ${price}€
+        <b>${l}</b><br><br>
+        <button class="primary" onclick="add('${cat} ${l}',${p})">
+          Ajouter ${p}€
         </button>
       </div>
     `).join("");
 });
-
-function show(id){
-  document.querySelectorAll("main").forEach(m=>m.classList.add("hidden"));
-  document.getElementById(id).classList.remove("hidden");
-  document.getElementById("backBtn").classList.toggle("hidden",history.length===0);
-}
-
-function go(id){
-  const current=[...document.querySelectorAll("main")].find(m=>!m.classList.contains("hidden"));
-  if(current) history.push(current.id);
-  show(id);
-}
-
-function goBack(){
-  const prev=history.pop();
-  if(prev) show(prev);
-}
 
 function add(name,price){
   const item=cart.find(i=>i.name===name);
@@ -215,8 +180,8 @@ function add(name,price){
 
 function renderCart(){
   let total=0,count=0;
-  const el=document.getElementById("cartItems");
-  el.innerHTML="";
+  const el=document.getElementById('cartItems');
+  el.innerHTML='';
   cart.forEach((i,idx)=>{
     total+=i.price*i.qty;
     count+=i.qty;
@@ -228,12 +193,12 @@ function renderCart(){
       </div>
     `;
   });
-  document.getElementById("total").innerText=total;
-  document.getElementById("count").innerText=count;
+  document.getElementById('total').innerText=total;
+  document.getElementById('count').innerText=count;
 }
 
-function change(idx,delta){
-  cart[idx].qty+=delta;
+function change(idx,d){
+  cart[idx].qty+=d;
   if(cart[idx].qty<=0) cart.splice(idx,1);
   renderCart();
 }
