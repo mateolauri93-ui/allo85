@@ -19,6 +19,17 @@ header{
   display:flex;align-items:center;justify-content:center;
   z-index:10;
 }
+#backBtn{
+  position:absolute;
+  left:10px;
+  background:none;
+  border:1px solid #f2c94c;
+  color:#f2c94c;
+  border-radius:20px;
+  padding:4px 10px;
+  font-size:13px;
+  display:none;
+}
 .logo{height:26px}
 
 /* pages */
@@ -95,6 +106,7 @@ textarea{
 <div class="app">
 
 <header>
+  <button id="backBtn" onclick="goBack()">⬅</button>
   <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" class="logo">
 </header>
 
@@ -168,9 +180,10 @@ textarea{
 </div>
 
 <script>
-let cart=[], delivery=false;
+let cart=[], history=[];
 const prices={"5g":50,"10g":90,"20€":20};
 const products=[];
+let delivery=false;
 
 ["jaune","filtre","local","cali"].forEach(cat=>{
   Object.entries(prices).forEach(([size,price])=>{
@@ -189,9 +202,21 @@ const products=[];
 });
 
 function go(id){
+  const current=document.querySelector(".page.active");
+  if(current) history.push(current.id);
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  backBtn.style.display = history.length ? "block" : "none";
   render();
+}
+
+function goBack(){
+  const prev=history.pop();
+  if(prev){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(prev).classList.add("active");
+  }
+  backBtn.style.display = history.length ? "block" : "none";
 }
 
 function add(id){
@@ -206,7 +231,6 @@ function change(id,d){
   if(it.qty<=0) cart=cart.filter(x=>x.id!==id);
   render();
 }
-
 function setDelivery(v){
   delivery=v;
   addrBox.style.display=v?"block":"none";
@@ -218,8 +242,7 @@ function render(){
   cartItems.innerHTML="";
   cart.forEach(i=>{
     const line=i.qty*i.price;
-    total+=line;
-    count+=i.qty;
+    total+=line;count+=i.qty;
     cartItems.innerHTML+=`
       <div class="card">
         ${i.qty} × ${i.size} ${i.cat} = ${line} €
@@ -245,14 +268,11 @@ function render(){
   });
 }
 
-let finalMessage="";
-
 function prepareOrder(){
   if(cart.length===0){alert("Panier vide");return;}
   if(delivery && !address.value.trim()){
     alert("Adresse requise");return;
   }
-
   let msg="🧾 COMMANDE ALLO85\n\n";
   cart.forEach(i=>{
     msg+=`• ${i.qty} × ${i.size} ${i.cat} = ${i.price*i.qty}€\n`;
@@ -261,7 +281,6 @@ function prepareOrder(){
     ? `\n🚚 Livraison +20€\n📍 ${address.value}\n`
     : `\n📍 Sur place\n`;
   msg+=`\nTOTAL : ${totalSpan.innerText}€`;
-
   navigator.clipboard.writeText(msg);
   copyNotice.style.display="block";
 }
