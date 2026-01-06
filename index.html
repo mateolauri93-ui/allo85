@@ -10,7 +10,7 @@
 <style>
 :root{
   --bg:#e6f3ff;
-  --card:#ffffffee;
+  --card:#ffffff;
   --text:#1f2937;
   --accent:#ffd56b;
 }
@@ -26,18 +26,21 @@ body{
   color:var(--text);
 }
 
-/* ========== ACCUEIL 3D ========== */
-.welcome-screen{
+/* ================= ACCUEIL ================= */
+#welcome{
   position:fixed;
   inset:0;
   background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
   z-index:100;
 }
-.welcome-hitbox{
+#welcome-hitbox{
   position:absolute;
-  width:280px;height:90px;
-  left:50%;top:75%;
+  width:280px;
+  height:90px;
+  left:50%;
+  top:75%;
   transform:translate(-50%,-50%);
+  cursor:pointer;
 }
 .welcome-hide{
   animation:fadeOut .45s forwards;
@@ -46,47 +49,40 @@ body{
   to{opacity:0;transform:scale(1.03)}
 }
 
-/* ========== APP ========== */
+/* ================= APP ================= */
 .app{
   max-width:420px;
   margin:auto;
   min-height:100vh;
 }
-header,footer{
+header{
   position:fixed;
+  top:0;
   left:0;right:0;
   max-width:420px;
   margin:auto;
+  height:56px;
   background:var(--card);
-  display:flex;
+  display:none;
   align-items:center;
-  z-index:20;
-}
-header{
-  top:0;height:56px;
   justify-content:space-between;
   padding:0 12px;
-  display:none;
+  z-index:10;
 }
-footer{
-  bottom:0;height:62px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-header button,footer button{
-  border:none;border-radius:999px;
+header button{
+  border:none;
+  border-radius:999px;
   padding:8px 14px;
   background:var(--accent);
   font-family:Fredoka;
 }
-
 .page{
   display:none;
-  padding:90px 20px 140px;
+  padding:90px 20px;
 }
 .page.active{display:block}
 
+/* ================= UI ================= */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -95,23 +91,19 @@ header button,footer button{
 .card{
   background:var(--card);
   border-radius:22px;
-  padding:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,.15);
+  padding:24px;
   text-align:center;
   font-family:Fredoka;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
-.card small{display:block;font-size:14px;opacity:.7}
-
-.notice{
-  background:#f1f5f9;
-  border-radius:14px;
-  padding:12px;
-  margin-top:16px;
+.card small{
+  display:block;
+  font-size:14px;
+  opacity:.7;
 }
-body.night .notice{background:#334155}
 
-/* ========== SERVICES ========== */
-.services{
+/* ================= SERVICES ================= */
+#services{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.4);
@@ -120,13 +112,13 @@ body.night .notice{background:#334155}
   align-items:center;
   z-index:50;
 }
-.services .box{
+#services .box{
   background:var(--card);
   border-radius:24px;
   padding:24px;
   width:80%;
 }
-.services .box button{
+#services button{
   width:100%;
   margin:8px 0;
   padding:12px;
@@ -141,8 +133,8 @@ body.night .notice{background:#334155}
 <body>
 
 <!-- ACCUEIL -->
-<div id="welcome" class="welcome-screen">
-  <div class="welcome-hitbox" onclick="enterApp()"></div>
+<div id="welcome">
+  <div id="welcome-hitbox" onclick="enterApp()"></div>
 </div>
 
 <div class="app">
@@ -153,67 +145,65 @@ body.night .notice{background:#334155}
   <button onclick="toggleServices()">☰</button>
 </header>
 
-<footer id="footer">
-  <span>🛒</span>
-  <button onclick="goPage('home')">Accueil</button>
-</footer>
-
-<!-- HOME -->
-<section id="home" class="page active">
+<!-- RACINE -->
+<section id="root" class="page active">
   <div class="grid">
-    <div class="card" onclick="goPage('choco')">🍫<small>Chocolat</small></div>
-    <div class="card" onclick="goPage('green')">🥦<small>Green</small></div>
+    <div class="card" onclick="go('choco')">🍫<small>Chocolat</small></div>
+    <div class="card" onclick="go('green')">🥦<small>Green</small></div>
   </div>
 </section>
 
+<!-- 🍫 -->
 <section id="choco" class="page">
-  <div class="notice">Catégorie 🍫</div>
+  <h2>🍫 Chocolat</h2>
+  <p>Page catégorie indépendante.</p>
 </section>
 
+<!-- 🥦 -->
 <section id="green" class="page">
-  <div class="notice">Catégorie 🥦</div>
-</section>
-
-<section id="fidelity" class="page">
-  <h2>⭐ Avantages</h2>
-  <div class="notice">
-    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
-    Lorsqu’ils passent commande, tu gagnes un avantage.
-  </div>
+  <h2>🥦 Green</h2>
+  <p>Page catégorie indépendante.</p>
 </section>
 
 </div>
 
-<div id="services" class="services">
+<!-- SERVICES -->
+<div id="services">
   <div class="box">
-    <button onclick="goPage('home');toggleServices()">🏠 Accueil</button>
-    <button onclick="goPage('fidelity');toggleServices()">⭐ Avantages</button>
-    <button onclick="toggleNight()">🌙 Mode sombre</button>
+    <button onclick="goRoot()">🏠 Accueil</button>
+    <button onclick="toggleNight()">🌙 Mode nuit</button>
     <button onclick="toggleServices()">Fermer</button>
   </div>
 </div>
 
 <script>
-let currentPage="home";
-let previousPage=null;
+let stack = ["root"];
 
-if(localStorage.getItem("night")==="1")document.body.classList.add("night");
-
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  previousPage=currentPage;
-  currentPage=id;
+if(localStorage.getItem("night")==="1"){
+  document.body.classList.add("night");
 }
 
-function goPage(id){
-  showPage(id);
+function show(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function go(id){
+  stack.push(id);
+  show(id);
 }
 
 function goBack(){
-  if(previousPage){
-    showPage(previousPage);
+  if(stack.length>1){
+    stack.pop();
+    show(stack[stack.length-1]);
   }
+}
+
+function goRoot(){
+  stack = ["root"];
+  show("root");
+  toggleServices();
 }
 
 function enterApp(){
@@ -222,12 +212,11 @@ function enterApp(){
   setTimeout(()=>{
     w.style.display="none";
     header.style.display="flex";
-    footer.style.display="flex";
   },450);
 }
 
 function toggleServices(){
-  services.style.display=services.style.display==="flex"?"none":"flex";
+  services.style.display = services.style.display==="flex" ? "none" : "flex";
 }
 
 function toggleNight(){
