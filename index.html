@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ALLO85</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -27,7 +26,7 @@ body{
   color:var(--text);
 }
 
-/* ========== ACCUEIL ========== */
+/* ========== ACCUEIL 3D ========== */
 .welcome-screen{
   position:fixed;
   inset:0;
@@ -39,7 +38,6 @@ body{
   width:280px;height:90px;
   left:50%;top:75%;
   transform:translate(-50%,-50%);
-  cursor:pointer;
 }
 .welcome-hide{
   animation:fadeOut .45s forwards;
@@ -82,11 +80,13 @@ header button,footer button{
   background:var(--accent);
   font-family:Fredoka;
 }
+
 .page{
   display:none;
   padding:90px 20px 140px;
 }
 .page.active{display:block}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -95,32 +95,25 @@ header button,footer button{
 .card{
   background:var(--card);
   border-radius:22px;
-  padding:18px;
+  padding:20px;
   box-shadow:0 15px 40px rgba(0,0,0,.15);
   text-align:center;
   font-family:Fredoka;
 }
 .card small{display:block;font-size:14px;opacity:.7}
-.qty{
-  display:flex;justify-content:center;gap:10px;margin-top:10px;
-}
-.qty button{
-  width:28px;height:28px;border:none;border-radius:50%;
-  background:var(--accent);
-}
+
 .notice{
   background:#f1f5f9;
   border-radius:14px;
   padding:12px;
-  font-size:14px;
   margin-top:16px;
 }
 body.night .notice{background:#334155}
-h2{text-align:center;font-family:Fredoka}
 
 /* ========== SERVICES ========== */
 .services{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.4);
   display:none;
   justify-content:center;
@@ -161,15 +154,24 @@ h2{text-align:center;font-family:Fredoka}
 </header>
 
 <footer id="footer">
-  <span>🛒 <span id="cartCount">0</span> · <span id="cartTotal">0</span> €</span>
-  <button onclick="go('cart')">Panier</button>
+  <span>🛒</span>
+  <button onclick="goPage('home')">Accueil</button>
 </footer>
 
+<!-- HOME -->
 <section id="home" class="page active">
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<small>Chocolat</small></div>
-    <div class="card" onclick="go('green')">🥦<small>Green</small></div>
+    <div class="card" onclick="goPage('choco')">🍫<small>Chocolat</small></div>
+    <div class="card" onclick="goPage('green')">🥦<small>Green</small></div>
   </div>
+</section>
+
+<section id="choco" class="page">
+  <div class="notice">Catégorie 🍫</div>
+</section>
+
+<section id="green" class="page">
+  <div class="notice">Catégorie 🥦</div>
 </section>
 
 <section id="fidelity" class="page">
@@ -178,52 +180,42 @@ h2{text-align:center;font-family:Fredoka}
     Invite 5 amis à commander chez <b>ALLO85</b>.<br>
     Lorsqu’ils passent commande, tu gagnes un avantage.
   </div>
-  <p>🔢 Commandes : <b id="orderCount">0</b></p>
-  <p>🎁 Code parrain :</p>
-  <div class="notice"><b id="refCode"></b></div>
 </section>
 
 </div>
 
-<!-- SERVICES -->
 <div id="services" class="services">
   <div class="box">
-    <button onclick="goHome()">🏠 Accueil</button>
-    <button onclick="go('cart');toggleServices()">🛒 Panier</button>
-    <button onclick="go('fidelity');toggleServices()">⭐ Avantages</button>
+    <button onclick="goPage('home');toggleServices()">🏠 Accueil</button>
+    <button onclick="goPage('fidelity');toggleServices()">⭐ Avantages</button>
     <button onclick="toggleNight()">🌙 Mode sombre</button>
     <button onclick="toggleServices()">Fermer</button>
   </div>
 </div>
 
 <script>
-let history=[];
-let orders=Number(localStorage.getItem("orders")||0);
-let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).substring(2,7).toUpperCase());
-localStorage.setItem("ref",ref);
-orderCount.innerText=orders;
-refCode.innerText=ref;
+let currentPage="home";
+let previousPage=null;
 
 if(localStorage.getItem("night")==="1")document.body.classList.add("night");
 
-function show(id){
+function showPage(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  previousPage=currentPage;
+  currentPage=id;
 }
-function go(id){
-  const cur=document.querySelector(".page.active");
-  if(cur)history.push(cur.id);
-  show(id);
+
+function goPage(id){
+  showPage(id);
 }
+
 function goBack(){
-  const prev=history.pop();
-  if(prev)show(prev);
+  if(previousPage){
+    showPage(previousPage);
+  }
 }
-function goHome(){
-  history=[];
-  show("home");
-  toggleServices();
-}
+
 function enterApp(){
   const w=document.getElementById("welcome");
   w.classList.add("welcome-hide");
@@ -233,9 +225,11 @@ function enterApp(){
     footer.style.display="flex";
   },450);
 }
+
 function toggleServices(){
   services.style.display=services.style.display==="flex"?"none":"flex";
 }
+
 function toggleNight(){
   document.body.classList.toggle("night");
   localStorage.setItem("night",document.body.classList.contains("night")?"1":"0");
