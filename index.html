@@ -26,7 +26,7 @@ body{
   color:var(--text);
 }
 
-/* ========== ACCUEIL ========== */
+/* ===== ACCUEIL ===== */
 #welcome{
   position:fixed;
   inset:0;
@@ -48,7 +48,7 @@ body{
   to{opacity:0;transform:scale(1.03)}
 }
 
-/* ========== APP ========== */
+/* ===== APP ===== */
 .app{
   max-width:420px;
   margin:auto;
@@ -56,8 +56,7 @@ body{
 }
 header{
   position:fixed;
-  top:0;
-  left:0;right:0;
+  top:0;left:0;right:0;
   max-width:420px;
   margin:auto;
   height:56px;
@@ -81,7 +80,7 @@ header button{
 }
 .page.active{display:block}
 
-/* ========== UI ========== */
+/* ===== UI ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -90,18 +89,32 @@ header button{
 .card{
   background:var(--card);
   border-radius:22px;
-  padding:24px;
+  padding:20px;
   text-align:center;
   font-family:Fredoka;
   box-shadow:0 10px 30px rgba(0,0,0,.15);
+  position:relative;
 }
 .card small{
   display:block;
   font-size:14px;
   opacity:.7;
 }
+.price{
+  font-size:22px;
+  margin-top:8px;
+}
+.badge{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#ffd56b;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+}
 
-/* ========== SERVICES ========== */
+/* ===== SERVICES ===== */
 #services{
   position:fixed;
   inset:0;
@@ -169,20 +182,33 @@ header button{
   </div>
 </section>
 
-<!-- SOUS-CATÉGORIES -->
+<!-- ===== PRODUITS ===== -->
+
 <section id="jaune" class="page">
   <h2>🟡 Jaune</h2>
-  <p>Contenu à ajouter ici plus tard.</p>
+  <div class="grid">
+    <div class="card"><small>4g</small><div class="price">20 €</div></div>
+    <div class="card"><small>10g</small><div class="price">50 €</div></div>
+    <div class="card"><small>20g</small><div class="price">90 €</div></div>
+  </div>
 </section>
 
 <section id="filtre" class="page">
   <h2>🔍 Filtré</h2>
-  <p>Contenu à ajouter ici plus tard.</p>
+  <div class="grid">
+    <div class="card"><span class="badge">⭐ Premium</span><small>2.5g</small><div class="price">20 €</div></div>
+    <div class="card"><span class="badge">⭐ Premium</span><small>5g</small><div class="price">40 €</div></div>
+    <div class="card"><span class="badge">⭐ Premium</span><small>10g</small><div class="price">70 €</div></div>
+  </div>
 </section>
 
 <section id="cali" class="page">
   <h2>🇺🇸 Cali</h2>
-  <p>Contenu à ajouter ici plus tard.</p>
+  <div class="grid">
+    <div class="card"><small>2.4g</small><div class="price">20 €</div></div>
+    <div class="card"><small>5g</small><div class="price">50 €</div></div>
+    <div class="card"><small>10g</small><div class="price">80 €</div></div>
+  </div>
 </section>
 
 </div>
