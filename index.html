@@ -9,17 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#e6f3ff;
-  --card:#ffffffee;
-  --text:#1f2937;
-  --accent:#ffd56b;
-}
 body{
   margin:0;
   font-family:Inter,sans-serif;
-  background:var(--bg);
-  color:var(--text);
 }
 
 /* ACCUEIL IMAGE PLEIN ÉCRAN */
@@ -27,22 +19,28 @@ body{
   position:fixed;
   inset:0;
   background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ZONE VISUELLE (COMPENSATION COMPO IMAGE) */
+.welcome-zone{
+  flex:1;
   display:flex;
   justify-content:center;
   align-items:center;
-  z-index:100;
+  transform:translateY(18%);
 }
 
-/* BOUTON BIENVENUE — ALIGNÉ PRO */
+/* BOUTON BIENVENUE */
 .welcome-btn{
-  position:absolute;
-  bottom:12%;
-  left:50%;
-  transform:translateX(-50%);
-  padding:16px 46px;
+  padding:16px 48px;
   border-radius:999px;
   border:2px solid #fff;
-  background:rgba(0,0,0,.30);
+  background:rgba(0,0,0,.35);
   color:#fff;
   font-family:Fredoka;
   font-size:18px;
@@ -52,16 +50,16 @@ body{
 
 /* DISPARITION */
 .welcome-hide{
-  animation:fadeOutZoom .5s forwards;
+  animation:fadeOut .5s forwards;
 }
 
 @keyframes pulse{
-  0%{transform:translateX(-50%) scale(1)}
-  50%{transform:translateX(-50%) scale(1.06)}
-  100%{transform:translateX(-50%) scale(1)}
+  0%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+  100%{transform:scale(1)}
 }
-@keyframes fadeOutZoom{
-  to{opacity:0;transform:scale(1.05)}
+@keyframes fadeOut{
+  to{opacity:0;transform:scale(1.04)}
 }
 
 /* APP */
@@ -96,7 +94,7 @@ header button,footer button{
   border:none;
   border-radius:999px;
   padding:8px 14px;
-  background:var(--accent);
+  background:#ffd56b;
   font-family:Fredoka;
 }
 .page{
@@ -129,7 +127,9 @@ header button,footer button{
 
 <!-- ACCUEIL -->
 <div id="welcome" class="welcome-screen">
-  <button class="welcome-btn" onclick="enterApp()">Bienvenue</button>
+  <div class="welcome-zone">
+    <button class="welcome-btn" onclick="enterApp()">Bienvenue</button>
+  </div>
 </div>
 
 <div class="app">
