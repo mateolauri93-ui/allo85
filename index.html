@@ -6,63 +6,41 @@
 <title>ALLO85</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-body{
-  margin:0;
-  font-family:Inter,sans-serif;
-}
+body{margin:0}
 
-/* ACCUEIL IMAGE PLEIN ÉCRAN */
+/* ACCUEIL IMAGE */
 .welcome-screen{
   position:fixed;
   inset:0;
   background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
   z-index:100;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
 }
 
-/* ZONE VISUELLE (COMPENSATION COMPO IMAGE) */
-.welcome-zone{
-  flex:1;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  transform:translateY(18%);
-}
+/* ZONE CLIQUABLE INVISIBLE */
+.welcome-hitbox{
+  position:absolute;
+  width:240px;
+  height:70px;
 
-/* BOUTON BIENVENUE */
-.welcome-btn{
-  padding:16px 48px;
-  border-radius:999px;
-  border:2px solid #fff;
-  background:rgba(0,0,0,.35);
-  color:#fff;
-  font-family:Fredoka;
-  font-size:18px;
-  backdrop-filter:blur(6px);
-  animation:pulse 2s infinite;
+  /* ⬇️ AJUSTEMENT FIN (UNE FOIS POUR TOUTES) */
+  left:50%;
+  top:62%;
+  transform:translate(-50%,-50%);
+
+  cursor:pointer;
 }
 
 /* DISPARITION */
 .welcome-hide{
-  animation:fadeOut .5s forwards;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.06)}
-  100%{transform:scale(1)}
+  animation:fadeOut .45s forwards;
 }
 @keyframes fadeOut{
-  to{opacity:0;transform:scale(1.04)}
+  to{opacity:0;transform:scale(1.03)}
 }
 
-/* APP */
+/* APP (inchangée) */
 .app{
   max-width:420px;
   margin:auto;
@@ -78,48 +56,8 @@ header,footer{
   align-items:center;
   z-index:20;
 }
-header{
-  top:0;height:56px;
-  justify-content:space-between;
-  padding:0 12px;
-  display:none;
-}
-footer{
-  bottom:0;height:62px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-header button,footer button{
-  border:none;
-  border-radius:999px;
-  padding:8px 14px;
-  background:#ffd56b;
-  font-family:Fredoka;
-}
-.page{
-  display:none;
-  padding:90px 20px 140px;
-}
-.page.active{display:block}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-.card{
-  background:#fff;
-  border-radius:22px;
-  padding:18px;
-  box-shadow:0 15px 40px rgba(0,0,0,.15);
-  text-align:center;
-  font-family:Fredoka;
-}
-.card small{
-  display:block;
-  font-size:14px;
-  opacity:.7;
-}
+header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
+footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
 </style>
 </head>
 
@@ -127,43 +65,19 @@ header button,footer button{
 
 <!-- ACCUEIL -->
 <div id="welcome" class="welcome-screen">
-  <div class="welcome-zone">
-    <button class="welcome-btn" onclick="enterApp()">Bienvenue</button>
-  </div>
+  <div class="welcome-hitbox" onclick="enterApp()"></div>
 </div>
 
 <div class="app">
-
-<header id="header">
-  <button onclick="goBack()">⬅</button>
-  <strong>ALLO85</strong>
-  <button onclick="toggleServices()">☰</button>
-</header>
-
-<footer id="footer">
-  <span>🛒 0 · 0 €</span>
-  <button>Panier</button>
-</footer>
-
-<section id="home" class="page active">
-  <div class="grid">
-    <div class="card">🍫<small>Chocolat</small></div>
-    <div class="card">🥦<small>Green</small></div>
-  </div>
-</section>
-
+  <header id="header">
+    <strong>ALLO85</strong>
+  </header>
+  <footer id="footer">
+    <span>🛒</span>
+  </footer>
 </div>
 
 <script>
-let history=[];
-function show(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-function goBack(){
-  const prev=history.pop();
-  if(prev)show(prev);
-}
 function enterApp(){
   const w=document.getElementById("welcome");
   w.classList.add("welcome-hide");
@@ -172,9 +86,6 @@ function enterApp(){
     header.style.display="flex";
     footer.style.display="flex";
   },450);
-}
-function toggleServices(){
-  alert("Menu services – étape suivante");
 }
 </script>
 
