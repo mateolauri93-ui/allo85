@@ -16,13 +16,13 @@ body{margin:0}
   z-index:100;
 }
 
-/* ZONE CLIQUABLE ALIGNÉE VISUELLEMENT */
+/* ZONE CLIQUABLE – PLUS BAS */
 .welcome-hitbox{
   position:absolute;
-  width:260px;
-  height:80px;
+  width:280px;
+  height:90px;
   left:50%;
-  top:66%; /* ⬅️ PLUS BAS */
+  top:72%;              /* ⬅️ ENCORE PLUS BAS */
   transform:translate(-50%,-50%);
   cursor:pointer;
 }
@@ -35,24 +35,12 @@ body{margin:0}
   to{opacity:0;transform:scale(1.03)}
 }
 
-/* APP PLACEHOLDER (sera reconnectée) */
+/* PLACEHOLDER APP (sera reconnectée juste après) */
 .app{
   max-width:420px;
   margin:auto;
   min-height:100vh;
 }
-header,footer{
-  position:fixed;
-  left:0;right:0;
-  max-width:420px;
-  margin:auto;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  z-index:20;
-}
-header{top:0;height:56px;justify-content:center;display:none}
-footer{bottom:0;height:62px;justify-content:center;display:none}
 </style>
 </head>
 
@@ -63,10 +51,7 @@ footer{bottom:0;height:62px;justify-content:center;display:none}
   <div class="welcome-hitbox" onclick="enterApp()"></div>
 </div>
 
-<div class="app">
-  <header id="header"><strong>ALLO85</strong></header>
-  <footer id="footer">🛒</footer>
-</div>
+<div class="app"></div>
 
 <script>
 function enterApp(){
@@ -74,8 +59,6 @@ function enterApp(){
   w.classList.add("welcome-hide");
   setTimeout(()=>{
     w.style.display="none";
-    header.style.display="flex";
-    footer.style.display="flex";
   },450);
 }
 </script>
