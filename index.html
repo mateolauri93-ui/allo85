@@ -15,22 +15,11 @@
   --text:#1f2937;
   --accent:#ffd56b;
 }
-body.night{
-  --bg:#0f172a;
-  --card:#1e293b;
-  --text:#f8fafc;
-}
-*{box-sizing:border-box}
 body{
   margin:0;
   font-family:Inter,sans-serif;
   background:var(--bg);
   color:var(--text);
-}
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
 }
 
 /* ACCUEIL IMAGE PLEIN ÉCRAN */
@@ -43,67 +32,96 @@ body{
   align-items:center;
   z-index:100;
 }
+
+/* BOUTON BIENVENUE — ALIGNÉ PRO */
 .welcome-btn{
   position:absolute;
   bottom:12%;
-  padding:16px 44px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:16px 46px;
   border-radius:999px;
   border:2px solid #fff;
-  background:rgba(0,0,0,.25);
+  background:rgba(0,0,0,.30);
   color:#fff;
   font-family:Fredoka;
   font-size:18px;
   backdrop-filter:blur(6px);
   animation:pulse 2s infinite;
 }
+
+/* DISPARITION */
 .welcome-hide{
   animation:fadeOutZoom .5s forwards;
 }
+
 @keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.06)}
-  100%{transform:scale(1)}
+  0%{transform:translateX(-50%) scale(1)}
+  50%{transform:translateX(-50%) scale(1.06)}
+  100%{transform:translateX(-50%) scale(1)}
 }
 @keyframes fadeOutZoom{
   to{opacity:0;transform:scale(1.05)}
 }
 
 /* APP */
-.page{
-  display:none;
-  padding:90px 20px 140px;
+.app{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
 }
-.page.active{display:block}
 header,footer{
   position:fixed;
   left:0;right:0;
   max-width:420px;
   margin:auto;
-  background:var(--card);
+  background:#fff;
   display:flex;
   align-items:center;
   z-index:20;
 }
-header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
-footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
-header button,footer button{
-  border:none;border-radius:999px;padding:8px 14px;
-  background:var(--accent);font-family:Fredoka;
+header{
+  top:0;height:56px;
+  justify-content:space-between;
+  padding:0 12px;
+  display:none;
 }
+footer{
+  bottom:0;height:62px;
+  justify-content:space-between;
+  padding:0 16px;
+  display:none;
+}
+header button,footer button{
+  border:none;
+  border-radius:999px;
+  padding:8px 14px;
+  background:var(--accent);
+  font-family:Fredoka;
+}
+.page{
+  display:none;
+  padding:90px 20px 140px;
+}
+.page.active{display:block}
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:16px;
 }
 .card{
-  background:var(--card);
+  background:#fff;
   border-radius:22px;
   padding:18px;
   box-shadow:0 15px 40px rgba(0,0,0,.15);
   text-align:center;
   font-family:Fredoka;
 }
-.card small{display:block;font-size:14px;font-family:Inter;opacity:.7}
+.card small{
+  display:block;
+  font-size:14px;
+  opacity:.7;
+}
 </style>
 </head>
 
