@@ -33,49 +33,11 @@ body{
   min-height:100vh;
 }
 
-/* HEADER / FOOTER */
-header,footer{
-  position:fixed;
-  left:0;right:0;
-  max-width:420px;
-  margin:auto;
-  background:var(--card);
-  display:flex;
-  align-items:center;
-  z-index:20;
-}
-header{
-  top:0;height:56px;
-  justify-content:space-between;
-  padding:0 12px;
-  display:none;
-}
-footer{
-  bottom:0;height:62px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-header button,footer button{
-  border:none;
-  border-radius:999px;
-  padding:8px 14px;
-  background:var(--accent);
-  font-family:Fredoka;
-}
-
-/* PAGES */
-.page{
-  display:none;
-  padding:90px 20px 140px;
-}
-.page.active{display:block}
-
 /* ACCUEIL IMAGE PLEIN ÉCRAN */
 .welcome-screen{
   position:fixed;
   inset:0;
-  background:url("A_2D_digital_illustration_showcases_a_welcome_scre.png") center/cover no-repeat;
+  background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -106,7 +68,28 @@ header button,footer button{
   to{opacity:0;transform:scale(1.05)}
 }
 
-/* UI */
+/* APP */
+.page{
+  display:none;
+  padding:90px 20px 140px;
+}
+.page.active{display:block}
+header,footer{
+  position:fixed;
+  left:0;right:0;
+  max-width:420px;
+  margin:auto;
+  background:var(--card);
+  display:flex;
+  align-items:center;
+  z-index:20;
+}
+header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
+footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
+header button,footer button{
+  border:none;border-radius:999px;padding:8px 14px;
+  background:var(--accent);font-family:Fredoka;
+}
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
@@ -120,48 +103,7 @@ header button,footer button{
   text-align:center;
   font-family:Fredoka;
 }
-.card small{
-  display:block;
-  font-size:14px;
-  font-family:Inter;
-  opacity:.7;
-}
-.qty{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:10px;
-}
-.qty button{
-  width:28px;height:28px;
-  border:none;border-radius:50%;
-  background:var(--accent);
-}
-.primary{
-  width:100%;
-  border:none;
-  border-radius:999px;
-  padding:14px;
-  background:var(--accent);
-  font-family:Fredoka;
-}
-input,textarea{
-  width:100%;
-  padding:12px;
-  border-radius:14px;
-  border:1px solid #ccc;
-  margin-top:10px;
-}
-.notice{
-  background:#f1f5f9;
-  border-radius:14px;
-  padding:12px;
-  font-size:14px;
-  text-align:center;
-  margin:16px 0;
-}
-body.night .notice{background:#334155}
-h2{text-align:center;font-family:Fredoka}
+.card small{display:block;font-size:14px;font-family:Inter;opacity:.7}
 </style>
 </head>
 
@@ -181,14 +123,14 @@ h2{text-align:center;font-family:Fredoka}
 </header>
 
 <footer id="footer">
-  <span>🛒 <span id="cartCount">0</span> · <span id="cartTotal">0</span> €</span>
-  <button onclick="go('cart')">Panier</button>
+  <span>🛒 0 · 0 €</span>
+  <button>Panier</button>
 </footer>
 
 <section id="home" class="page active">
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫<small>Chocolat</small></div>
-    <div class="card" onclick="go('green')">🥦<small>Green</small></div>
+    <div class="card">🍫<small>Chocolat</small></div>
+    <div class="card">🥦<small>Green</small></div>
   </div>
 </section>
 
@@ -196,15 +138,9 @@ h2{text-align:center;font-family:Fredoka}
 
 <script>
 let history=[];
-
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-}
-function go(id){
-  const cur=document.querySelector(".page.active");
-  if(cur)history.push(cur.id);
-  show(id);
 }
 function goBack(){
   const prev=history.pop();
@@ -220,7 +156,7 @@ function enterApp(){
   },450);
 }
 function toggleServices(){
-  alert("Zone Services (Accueil / Panier / Avantages / Mode nuit) – étape suivante");
+  alert("Menu services – étape suivante");
 }
 </script>
 
