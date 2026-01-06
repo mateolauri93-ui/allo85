@@ -71,6 +71,41 @@ header button,footer button{
 }
 .page.active{display:block}
 
+/* ACCUEIL IMAGE PLEIN ÉCRAN */
+.welcome-screen{
+  position:fixed;
+  inset:0;
+  background:url("A_2D_digital_illustration_showcases_a_welcome_scre.png") center/cover no-repeat;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:100;
+}
+.welcome-btn{
+  position:absolute;
+  bottom:12%;
+  padding:16px 44px;
+  border-radius:999px;
+  border:2px solid #fff;
+  background:rgba(0,0,0,.25);
+  color:#fff;
+  font-family:Fredoka;
+  font-size:18px;
+  backdrop-filter:blur(6px);
+  animation:pulse 2s infinite;
+}
+.welcome-hide{
+  animation:fadeOutZoom .5s forwards;
+}
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.06)}
+  100%{transform:scale(1)}
+}
+@keyframes fadeOutZoom{
+  to{opacity:0;transform:scale(1.05)}
+}
+
 /* UI */
 .grid{
   display:grid;
@@ -84,22 +119,12 @@ header button,footer button{
   box-shadow:0 15px 40px rgba(0,0,0,.15);
   text-align:center;
   font-family:Fredoka;
-  position:relative;
 }
 .card small{
   display:block;
   font-size:14px;
   font-family:Inter;
   opacity:.7;
-}
-.badge{
-  position:absolute;
-  top:8px;right:8px;
-  background:#ff6b6b;
-  color:#fff;
-  font-size:11px;
-  padding:4px 8px;
-  border-radius:999px;
 }
 .qty{
   display:flex;
@@ -137,52 +162,15 @@ input,textarea{
 }
 body.night .notice{background:#334155}
 h2{text-align:center;font-family:Fredoka}
-
-/* ACCUEIL 3D */
-.welcome3d{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:url("A_2D_digital_illustration_displays_a_beach-themed_.png") center/cover no-repeat;
-  position:relative;
-}
-.welcome-overlay{
-  background:rgba(255,255,255,.65);
-  backdrop-filter:blur(6px);
-  padding:30px;
-  border-radius:28px;
-  text-align:center;
-  animation:fadeIn .6s ease;
-}
-.welcome-btn{
-  margin-top:20px;
-  padding:16px 38px;
-  border:none;
-  border-radius:999px;
-  font-family:Fredoka;
-  font-size:18px;
-  background:#ffd56b;
-  animation:pulse 2s infinite;
-}
-.welcome-hide{
-  animation:fadeOutZoom .5s forwards;
-}
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.05)}
-  100%{transform:scale(1)}
-}
-@keyframes fadeOutZoom{
-  to{opacity:0;transform:scale(1.05)}
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1;transform:scale(1)}
-}
 </style>
 </head>
 
 <body>
+
+<!-- ACCUEIL -->
+<div id="welcome" class="welcome-screen">
+  <button class="welcome-btn" onclick="enterApp()">Bienvenue</button>
+</div>
 
 <div class="app">
 
@@ -197,31 +185,17 @@ h2{text-align:center;font-family:Fredoka}
   <button onclick="go('cart')">Panier</button>
 </footer>
 
-<!-- ACCUEIL 3D -->
-<section id="welcome" class="page active welcome3d">
-  <div id="welcomeBox" class="welcome-overlay">
-    <img src="7221CC22-D5D9-4406-B8C0-EA31EA882038.PNG" style="width:220px;max-width:80%">
-    <h2>🔥🌴 Commande simple et rapide 🌴🔥</h2>
-    <button class="welcome-btn" onclick="enterApp()">Bienvenue</button>
-  </div>
-</section>
-
-<!-- HOME -->
-<section id="home" class="page">
+<section id="home" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫<small>Chocolat</small></div>
     <div class="card" onclick="go('green')">🥦<small>Green</small></div>
   </div>
 </section>
 
-<!-- 🍫 / 🥦 / PRODUITS / PANIER / AVANTAGES -->
-<!-- ⚠️ ICI : TOUT LE CODE VALIDÉ RESTE IDENTIQUE -->
-<!-- (inchangé volontairement pour éviter toute régression) -->
-
 </div>
 
 <script>
-let history=[],cart=[],delivery=false;
+let history=[];
 
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -237,19 +211,16 @@ function goBack(){
   if(prev)show(prev);
 }
 function enterApp(){
-  const box=document.getElementById("welcomeBox");
-  box.classList.add("welcome-hide");
+  const w=document.getElementById("welcome");
+  w.classList.add("welcome-hide");
   setTimeout(()=>{
-    show("home");
+    w.style.display="none";
     header.style.display="flex";
     footer.style.display="flex";
   },450);
 }
 function toggleServices(){
-  alert("Zone Services (Accueil / Panier / Avantages / Mode nuit) — étape suivante");
-}
-function toggleNight(){
-  document.body.classList.toggle("night");
+  alert("Zone Services (Accueil / Panier / Avantages / Mode nuit) – étape suivante");
 }
 </script>
 
