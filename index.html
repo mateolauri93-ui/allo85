@@ -25,20 +25,18 @@ body{
   font-family:Inter,sans-serif;
   background:var(--bg);
   color:var(--text);
-  transition:background .3s,color .3s;
+  transition:.3s;
 }
 
 /* ===== ACCUEIL ===== */
 #welcome{
-  position:fixed; inset:0;
+  position:fixed;inset:0;
   background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
   z-index:100;
 }
 #welcome-hitbox{
-  position:absolute;
-  width:280px;height:90px;
-  left:50%;top:75%;
-  transform:translate(-50%,-50%);
+  position:absolute;width:280px;height:90px;
+  left:50%;top:75%;transform:translate(-50%,-50%);
 }
 .welcome-hide{animation:fadeOut .45s forwards}
 @keyframes fadeOut{to{opacity:0;transform:scale(1.03)}}
@@ -86,8 +84,7 @@ header button,footer button{
 .price{font-size:22px;margin:6px 0}
 .qty{display:flex;justify-content:center;gap:10px;margin-top:8px}
 .qty button{
-  width:28px;height:28px;
-  border:none;border-radius:50%;
+  width:28px;height:28px;border:none;border-radius:50%;
   background:var(--accent);
 }
 .notice{
@@ -191,6 +188,27 @@ body.night .notice{background:#334155}
   </button>
 </section>
 
+<!-- ⭐ AVANTAGES -->
+<section id="advantages" class="page">
+  <h2>⭐ Avantages</h2>
+
+  <div class="card">
+    <p><b>Niveau :</b></p>
+    <h3 id="levelText"></h3>
+    <p><b>Commandes :</b> <span id="orderCount"></span></p>
+  </div>
+
+  <div class="notice">
+    🎁 <b>Code parrain :</b><br>
+    <span id="refCode" style="font-size:18px;font-weight:bold"></span>
+  </div>
+
+  <div class="notice">
+    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
+    Lorsqu’ils passent commande, tu gagnes un avantage.
+  </div>
+</section>
+
 <section id="confirm" class="page">
   <div class="card" style="text-align:center;padding:28px">
     <h2>🎉 Commande prête !</h2>
@@ -218,6 +236,7 @@ body.night .notice{background:#334155}
 <div id="services">
   <div class="box">
     <button onclick="goWelcome()">🏠 Accueil</button>
+    <button onclick="go('advantages');toggleServices()">⭐ Avantages</button>
     <button onclick="toggleNight()">🌙 Mode nuit</button>
     <button onclick="toggleServices()">Fermer</button>
   </div>
@@ -246,7 +265,18 @@ localStorage.setItem("ref",ref);
 if(localStorage.getItem("night")==="1")document.body.classList.add("night");
 
 function level(){return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau"}
-function show(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active")}
+
+function updateAdvantages(){
+  levelText.innerText=level();
+  orderCount.innerText=orders;
+  refCode.innerText=ref;
+}
+
+function show(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id==="advantages")updateAdvantages();
+}
 function go(id){stack.push(id);show(id)}
 function goBack(){if(stack.length>1){stack.pop();show(stack.at(-1))}}
 
