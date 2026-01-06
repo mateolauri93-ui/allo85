@@ -16,13 +16,13 @@ body{margin:0}
   z-index:100;
 }
 
-/* ZONE CLIQUABLE – PLUS BAS */
+/* ZONE CLIQUABLE – POSITION FINALE VALIDÉE */
 .welcome-hitbox{
   position:absolute;
   width:280px;
   height:90px;
   left:50%;
-  top:72%;              /* ⬅️ ENCORE PLUS BAS */
+  top:75%;              /* ✅ POSITION FINALE */
   transform:translate(-50%,-50%);
   cursor:pointer;
 }
@@ -34,13 +34,6 @@ body{margin:0}
 @keyframes fadeOut{
   to{opacity:0;transform:scale(1.03)}
 }
-
-/* PLACEHOLDER APP (sera reconnectée juste après) */
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-}
 </style>
 </head>
 
@@ -50,8 +43,6 @@ body{margin:0}
 <div id="welcome" class="welcome-screen">
   <div class="welcome-hitbox" onclick="enterApp()"></div>
 </div>
-
-<div class="app"></div>
 
 <script>
 function enterApp(){
