@@ -35,8 +35,10 @@ body{
   z-index:100;
 }
 #welcome-hitbox{
-  position:absolute;width:280px;height:90px;
-  left:50%;top:75%;transform:translate(-50%,-50%);
+  position:absolute;
+  width:280px;height:90px;
+  left:50%;top:75%;
+  transform:translate(-50%,-50%);
 }
 .welcome-hide{animation:fadeOut .45s forwards}
 @keyframes fadeOut{to{opacity:0;transform:scale(1.03)}}
@@ -82,11 +84,20 @@ header button,footer button{
   box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
 .price{font-size:22px;margin:6px 0}
-.qty{display:flex;justify-content:center;gap:10px;margin-top:8px}
-.qty button{
-  width:28px;height:28px;border:none;border-radius:50%;
-  background:var(--accent);
+.qty{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin-top:8px;
 }
+.qty button{
+  width:28px;height:28px;
+  border:none;border-radius:50%;
+  background:var(--accent);
+  font-size:18px;
+}
+
 .notice{
   background:#f1f5f9;
   border-radius:14px;
@@ -142,7 +153,6 @@ body.night .notice{background:#334155}
   <button onclick="go('cart')">Panier</button>
 </footer>
 
-<!-- RACINE -->
 <section id="root" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫</div>
@@ -188,7 +198,6 @@ body.night .notice{background:#334155}
   </button>
 </section>
 
-<!-- ⭐ AVANTAGES -->
 <section id="advantages" class="page">
   <h2>⭐ Avantages</h2>
 
@@ -253,8 +262,7 @@ let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
 
-const tg=window.Telegram?.WebApp;
-const user=tg?.initDataUnsafe?.user||{};
+const user=window.Telegram?.WebApp?.initDataUnsafe?.user||{};
 const name=`${user.first_name||""} ${user.last_name||""}`.trim();
 const username=user.username?`@${user.username}`:"(sans username)";
 
@@ -291,7 +299,10 @@ function goWelcome(){
   services.style.display="none";
 }
 function toggleServices(){services.style.display=services.style.display==="flex"?"none":"flex"}
-function toggleNight(){document.body.classList.toggle("night");localStorage.setItem("night",document.body.classList.contains("night")?"1":"0")}
+function toggleNight(){
+  document.body.classList.toggle("night");
+  localStorage.setItem("night",document.body.classList.contains("night")?"1":"0");
+}
 
 function renderProducts(list,id){
   const el=document.getElementById(id);el.innerHTML="";
@@ -299,30 +310,61 @@ function renderProducts(list,id){
     const key=id+p.g;
     const it=cart.find(i=>i.k===key);
     el.innerHTML+=`
-    <div class="card">
-      <div>${p.g}</div>
-      <div class="price">${p.p}€</div>
-      <div class="qty">
-        ${it?`<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
-        :`<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`}
-      </div>
-    </div>`;
+      <div class="card">
+        <div>${p.g}</div>
+        <div class="price">${p.p}€</div>
+        <div class="qty">
+          ${it?`<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
+          :`<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`}
+        </div>
+      </div>`;
   });
 }
+
 function add(k,t,g,p){cart.push({k,t,g,p,q:1});save()}
-function chg(k,d){const i=cart.find(x=>x.k===k);i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.k!==k);save()}
+function chg(k,d){
+  const i=cart.find(x=>x.k===k);
+  if(!i)return;
+  i.q+=d;
+  if(i.q<=0)cart=cart.filter(x=>x.k!==k);
+  save();
+}
 function save(){localStorage.setItem("cart",JSON.stringify(cart));updateUI()}
 
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
   renderProducts(catalog.filtre,"filtreList");
   renderProducts(catalog.cali,"caliList");
-  let c=0,t=0;cartItems.innerHTML="";
-  cart.forEach(i=>{c+=i.q;t+=i.q*i.p;cartItems.innerHTML+=`${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€<br>`});
+
+  let c=0,t=0;
+  cartItems.innerHTML="";
+
+  cart.forEach(i=>{
+    c+=i.q;
+    t+=i.q*i.p;
+    cartItems.innerHTML+=`
+      <div class="card" style="margin-bottom:10px">
+        <div><b>${i.g} ${i.t}</b></div>
+        <div class="price">${i.q*i.p}€</div>
+        <div class="qty">
+          <button onclick="chg('${i.k}',-1)">−</button>
+          ${i.q}
+          <button onclick="chg('${i.k}',1)">+</button>
+        </div>
+      </div>`;
+  });
+
   if(delivery)t+=20;
-  cartCount.innerText=c;cartTotal.innerText=t+"€";total.innerText=t;
+  cartCount.innerText=c;
+  cartTotal.innerText=t+"€";
+  total.innerText=t;
 }
-function setDelivery(v){delivery=v;address.style.display=v?"block":"none";updateUI()}
+
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  updateUI();
+}
 
 function sendOrder(){
   if(cart.length===0)return alert("Panier vide");
