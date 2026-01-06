@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ALLO85</title>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-
 <style>
 body{margin:0}
 
@@ -18,17 +16,14 @@ body{margin:0}
   z-index:100;
 }
 
-/* ZONE CLIQUABLE INVISIBLE */
+/* ZONE CLIQUABLE ALIGNÉE VISUELLEMENT */
 .welcome-hitbox{
   position:absolute;
-  width:240px;
-  height:70px;
-
-  /* ⬇️ AJUSTEMENT FIN (UNE FOIS POUR TOUTES) */
+  width:260px;
+  height:80px;
   left:50%;
-  top:62%;
+  top:66%; /* ⬅️ PLUS BAS */
   transform:translate(-50%,-50%);
-
   cursor:pointer;
 }
 
@@ -40,7 +35,7 @@ body{margin:0}
   to{opacity:0;transform:scale(1.03)}
 }
 
-/* APP (inchangée) */
+/* APP PLACEHOLDER (sera reconnectée) */
 .app{
   max-width:420px;
   margin:auto;
@@ -56,8 +51,8 @@ header,footer{
   align-items:center;
   z-index:20;
 }
-header{top:0;height:56px;justify-content:space-between;padding:0 12px;display:none}
-footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display:none}
+header{top:0;height:56px;justify-content:center;display:none}
+footer{bottom:0;height:62px;justify-content:center;display:none}
 </style>
 </head>
 
@@ -69,12 +64,8 @@ footer{bottom:0;height:62px;justify-content:space-between;padding:0 16px;display
 </div>
 
 <div class="app">
-  <header id="header">
-    <strong>ALLO85</strong>
-  </header>
-  <footer id="footer">
-    <span>🛒</span>
-  </footer>
+  <header id="header"><strong>ALLO85</strong></header>
+  <footer id="footer">🛒</footer>
 </div>
 
 <script>
