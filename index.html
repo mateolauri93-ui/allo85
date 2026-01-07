@@ -42,7 +42,7 @@ body::before{
   z-index:-2;
 }
 
-/* ===== FONDS CATÉGORIES ===== */
+/* ===== FONDS ===== */
 body.bg-choco::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -66,26 +66,6 @@ body.night::before{
   filter:blur(8px);
 }
 
-/* ===== ACCUEIL ===== */
-#welcome{
-  position:fixed;
-  inset:0;
-  background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
-  z-index:100;
-}
-#welcome-hitbox{
-  position:absolute;
-  width:300px;
-  height:100px;
-  left:50%;
-  top:75%;
-  transform:translate(-50%,-50%);
-}
-.welcome-hide{animation:welcomeOut .45s forwards}
-@keyframes welcomeOut{
-  to{opacity:0;transform:scale(1.05)}
-}
-
 /* ===== STRUCTURE ===== */
 .app{max-width:420px;margin:auto;min-height:100vh}
 
@@ -100,10 +80,12 @@ header,footer{
   align-items:center;
   z-index:10;
 }
+
 header{top:0;height:56px;justify-content:space-between;padding:0 14px;display:none}
 footer{bottom:0;height:64px;justify-content:space-between;padding:0 16px;display:none}
 
 header strong{font-family:Fredoka;font-size:18px}
+
 header button,footer button{
   border:none;border-radius:999px;
   padding:8px 16px;
@@ -111,12 +93,11 @@ header button,footer button{
   font-family:Fredoka;
 }
 
-/* ===== PAGES ===== */
-.page{display:none;padding:96px 20px 160px}
+.page{display:none;padding:96px 20px 150px}
 .page.active{display:block}
 
-/* ===== UI ===== */
-.grid{display:grid;gap:20px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+
 .card{
   background:rgba(255,255,255,.78);
   border-radius:26px;
@@ -125,22 +106,18 @@ header button,footer button{
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
 }
-.card-xl{
-  background:rgba(255,255,255,.88);
-  border-radius:34px;
-  padding:36px 20px;
-  font-size:58px;
-  text-align:center;
-  font-family:Fredoka;
-}
+
 .price{font-size:22px;margin:6px 0}
-.qty{display:flex;gap:12px;justify-content:center}
+
+.qty{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:10px}
 .qty button{
-  width:30px;height:30px;border-radius:50%;
-  border:none;background:var(--accent)
+  width:30px;height:30px;border:none;border-radius:50%;
+  background:var(--accent);font-size:18px;
 }
+
 .notice{
   background:rgba(255,255,255,.7);
+  backdrop-filter:blur(6px);
   border-radius:18px;
   padding:14px;
   margin-top:16px;
@@ -148,66 +125,117 @@ header button,footer button{
 
 /* ===== BARRE CADEAU ===== */
 .gift-box{
-  margin-top:18px;
-  background:rgba(255,255,255,.75);
-  border-radius:16px;
+  margin-top:16px;
   padding:14px;
+  border-radius:18px;
+  background:rgba(255,255,255,.85);
+  text-align:center;
 }
 .gift-bar{
   height:10px;
-  background:#e5e7eb;
   border-radius:999px;
+  background:#e5e7eb;
   overflow:hidden;
+  margin:10px 0;
 }
-.gift-progress{
+.gift-fill{
   height:100%;
   width:0%;
   background:linear-gradient(90deg,#ffd56b,#ffb703);
   transition:width .3s ease;
 }
 .gift-text{
+  font-family:Fredoka;
   font-size:14px;
-  margin-top:8px;
-  text-align:center;
-  font-weight:600;
+}
+
+/* ===== SERVICES ===== */
+#services{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+#services .box{
+  background:var(--card);
+  border-radius:28px;
+  padding:26px;
+  width:82%;
+}
+#services button{
+  width:100%;
+  margin:10px 0;
+  padding:14px;
+  border:none;
+  border-radius:999px;
+  background:var(--accent);
+  font-family:Fredoka;
 }
 </style>
 </head>
 
 <body>
 
-<div id="welcome">
-  <div id="welcome-hitbox" onclick="enterApp()"></div>
-</div>
-
 <div class="app">
 
 <header id="header">
   <button onclick="goBack()">⬅</button>
   <strong>ALLO85</strong>
+  <button onclick="toggleServices()">☰</button>
 </header>
 
 <footer id="footer">
   <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
-  <button onclick="go('cart')">Panier</button>
+  <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
 <section id="root" class="page active">
   <div class="grid">
-    <div class="card-xl" onclick="selectChoco()">🍫</div>
-    <div class="card-xl" onclick="selectGreen()">🥦</div>
+    <div class="card" onclick="goChoco()">🍫</div>
+    <div class="card" onclick="goGreen()">🥦</div>
   </div>
+</section>
+
+<section id="choco" class="page">
+  <div class="grid">
+    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
+    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
+  </div>
+</section>
+
+<section id="green" class="page">
+  <div class="grid">
+    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
+  </div>
+</section>
+
+<section id="jaune" class="page">
+  <h2>🟡 Jaune</h2>
+  <div class="grid" id="jauneList"></div>
+</section>
+
+<section id="filtre" class="page">
+  <h2>🔍 Filtré</h2>
+  <div class="grid" id="filtreList"></div>
+</section>
+
+<section id="cali" class="page">
+  <h2>🇺🇸 Cali</h2>
+  <div class="grid" id="caliList"></div>
 </section>
 
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
 
+  <!-- BARRE CADEAU -->
   <div class="gift-box">
+    <div class="gift-text" id="giftText">Plus que 150€ pour le cadeau 🎁</div>
     <div class="gift-bar">
-      <div class="gift-progress" id="giftProgress"></div>
+      <div class="gift-fill" id="giftFill"></div>
     </div>
-    <div class="gift-text" id="giftText"></div>
   </div>
 
   <p><b>Total : <span id="total">0</span> €</b></p>
@@ -216,28 +244,61 @@ header button,footer button{
 </div>
 
 <script>
-let cart=[];
-function go(id){
+const catalog={
+  jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
+  filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
+  cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
+};
+
+let stack=["root"];
+let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+
+function go(id){stack.push(id);show(id)}
+function goBack(){if(stack.length>1){stack.pop();show(stack.at(-1))}}
+
+function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
-function enterApp(){
-  welcome.style.display="none";
-  header.style.display="flex";
-  footer.style.display="flex";
-}
-function selectChoco(){document.body.className="bg-choco"}
-function selectGreen(){document.body.className="bg-green"}
 
-function updateGift(total){
-  const goal=150;
-  const pct=Math.min(100,(total/goal)*100);
-  giftProgress.style.width=pct+"%";
-  giftText.innerText= total>=goal
-    ? "🎉 Cadeau débloqué !"
-    : `Encore ${goal-total}€ pour recevoir un cadeau 🎁`;
+function renderProducts(list,id){
+  const el=document.getElementById(id);
+  el.innerHTML="";
+  list.forEach(p=>{
+    const key=id+p.g;
+    const it=cart.find(i=>i.k===key);
+    el.innerHTML+=`
+      <div class="card">
+        <div>${p.g}</div>
+        <div class="price">${p.p}€</div>
+        <button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>
+      </div>`;
+  });
 }
-updateGift(0);
+
+function add(k,t,g,p){
+  cart.push({k,t,g,p,q:1});
+  updateUI();
+}
+
+function updateUI(){
+  renderProducts(catalog.jaune,"jauneList");
+  renderProducts(catalog.filtre,"filtreList");
+  renderProducts(catalog.cali,"caliList");
+
+  let total=cart.reduce((s,i)=>s+i.p*i.q,0);
+  document.getElementById("total").innerText=total;
+  document.getElementById("cartTotal").innerText=total+"€";
+  document.getElementById("cartCount").innerText=cart.length;
+
+  const goal=150;
+  const percent=Math.min(100,(total/goal)*100);
+  document.getElementById("giftFill").style.width=percent+"%";
+  document.getElementById("giftText").innerText=
+    total>=goal ? "🎉 Cadeau débloqué !" : `Plus que ${goal-total}€ pour le cadeau 🎁`;
+}
+
+updateUI();
 </script>
 
 </body>
