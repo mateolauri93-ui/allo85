@@ -15,15 +15,13 @@
   --accent:#ffd56b;
 }
 
-/* ===== FOND GLOBAL SAFE ===== */
+/* ===== FOND GLOBAL STABLE ===== */
 body{
   margin:0;
   font-family:Inter,sans-serif;
   color:var(--text);
   background:linear-gradient(180deg,#eaf6ff,#fff6e5);
 }
-
-/* Mode nuit */
 body.night{
   background:linear-gradient(180deg,#020617,#020617);
   color:#f8fafc;
@@ -49,13 +47,12 @@ body.night{
   to{opacity:0;transform:scale(1.03)}
 }
 
-/* ===== APP ===== */
+/* ===== APP STRUCTURE ===== */
 .app{
   max-width:420px;
   margin:auto;
   min-height:100vh;
 }
-
 header,footer{
   position:fixed;
   left:0;right:0;
@@ -66,7 +63,6 @@ header,footer{
   align-items:center;
   z-index:10;
 }
-
 header{
   top:0;
   height:56px;
@@ -74,7 +70,6 @@ header{
   padding:0 12px;
   display:none;
 }
-
 footer{
   bottom:0;
   height:64px;
@@ -82,7 +77,6 @@ footer{
   padding:0 16px;
   display:none;
 }
-
 header button,footer button{
   border:none;
   border-radius:999px;
@@ -91,18 +85,19 @@ header button,footer button{
   font-family:Fredoka;
 }
 
+/* ===== PAGES ===== */
 .page{
   display:none;
   padding:90px 20px 140px;
 }
 .page.active{display:block}
 
+/* ===== UI ===== */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:16px;
 }
-
 .card{
   background:var(--card);
   border-radius:22px;
@@ -111,9 +106,7 @@ header button,footer button{
   font-family:Fredoka;
   box-shadow:0 10px 30px rgba(0,0,0,.12);
 }
-
 .price{font-size:22px;margin:6px 0}
-
 .qty{
   display:flex;
   justify-content:center;
@@ -121,7 +114,6 @@ header button,footer button{
   gap:10px;
   margin-top:8px;
 }
-
 .qty button{
   width:28px;height:28px;
   border:none;
@@ -129,7 +121,6 @@ header button,footer button{
   background:var(--accent);
   font-size:18px;
 }
-
 .notice{
   background:#ffffffcc;
   border-radius:14px;
@@ -185,6 +176,7 @@ header button,footer button{
   <button onclick="go('cart')">Panier</button>
 </footer>
 
+<!-- RACINE -->
 <section id="root" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫</div>
@@ -232,15 +224,18 @@ header button,footer button{
 
 <section id="advantages" class="page">
   <h2>⭐ Avantages</h2>
+
   <div class="card">
     <p><b>Niveau :</b></p>
     <h3 id="levelText"></h3>
     <p><b>Commandes :</b> <span id="orderCount"></span></p>
   </div>
+
   <div class="notice">
     🎁 <b>Code parrain :</b><br>
     <span id="refCode" style="font-weight:bold"></span>
   </div>
+
   <div class="notice">
     Invite 5 amis à commander chez <b>ALLO85</b>.<br>
     Lorsqu’ils passent commande, tu gagnes un avantage.
@@ -309,15 +304,22 @@ function enterApp(){
 }
 function goWelcome(){
   stack=["root"];show("root");
-  header.style.display="none";footer.style.display="none";
-  welcome.style.display="block";welcome.classList.remove("welcome-hide");
+  header.style.display="none";
+  footer.style.display="none";
+  welcome.style.display="block";
+  welcome.classList.remove("welcome-hide");
   services.style.display="none";
 }
-function toggleServices(){services.style.display=services.style.display==="flex"?"none":"flex"}
-function toggleNight(){document.body.classList.toggle("night")}
+function toggleServices(){
+  services.style.display=services.style.display==="flex"?"none":"flex";
+}
+function toggleNight(){
+  document.body.classList.toggle("night");
+}
 
 function renderProducts(list,id){
-  const el=document.getElementById(id);el.innerHTML="";
+  const el=document.getElementById(id);
+  el.innerHTML="";
   list.forEach(p=>{
     const key=id+p.g;
     const it=cart.find(i=>i.k===key);
@@ -326,23 +328,41 @@ function renderProducts(list,id){
         <div>${p.g}</div>
         <div class="price">${p.p}€</div>
         <div class="qty">
-          ${it?`<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
-          :`<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`}
+          ${it
+            ? `<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
+            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`
+          }
         </div>
       </div>`;
   });
 }
-function add(k,t,g,p){cart.push({k,t,g,p,q:1});save()}
-function chg(k,d){const i=cart.find(x=>x.k===k);if(!i)return;i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.k!==k);save()}
-function save(){localStorage.setItem("cart",JSON.stringify(cart));updateUI()}
+
+function add(k,t,g,p){
+  cart.push({k,t,g,p,q:1});
+  save();
+}
+function chg(k,d){
+  const i=cart.find(x=>x.k===k);
+  if(!i)return;
+  i.q+=d;
+  if(i.q<=0)cart=cart.filter(x=>x.k!==k);
+  save();
+}
+function save(){
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateUI();
+}
 
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
   renderProducts(catalog.filtre,"filtreList");
   renderProducts(catalog.cali,"caliList");
-  let c=0,t=0;cartItems.innerHTML="";
+
+  let c=0,t=0;
+  cartItems.innerHTML="";
   cart.forEach(i=>{
-    c+=i.q;t+=i.q*i.p;
+    c+=i.q;
+    t+=i.q*i.p;
     cartItems.innerHTML+=`
       <div class="card" style="margin-bottom:10px">
         <div><b>${i.g} ${i.t}</b></div>
@@ -354,26 +374,45 @@ function updateUI(){
         </div>
       </div>`;
   });
+
   if(delivery)t+=20;
   cartCount.innerText=c;
   cartTotal.innerText=t+"€";
   total.innerText=t;
 }
-function setDelivery(v){delivery=v;address.style.display=v?"block":"none";updateUI()}
+
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  updateUI();
+}
 
 function sendOrder(){
   if(cart.length===0)return alert("Panier vide");
   if(delivery&&!address.value.trim())return alert("Adresse requise");
-  orders++;localStorage.setItem("orders",orders);
+
+  orders++;
+  localStorage.setItem("orders",orders);
+
   let msg=`🧾 COMMANDE ALLO85\n⭐ ${level()} (${orders})\n🎁 ${ref}\n\n`;
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`);
-  msg+=delivery?`\n🚚 Livraison +20€\n${address.value}\n`:`\n📍 Sur place\n`;
+  cart.forEach(i=>{
+    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
+  });
+  msg+=delivery
+    ? `\n🚚 Livraison +20€\n${address.value}\n`
+    : `\n📍 Sur place\n`;
   msg+=`\n💰 Total : ${total.innerText}€`;
+
   navigator.clipboard.writeText(msg);
-  cart=[];save();address.value="";
+  cart=[];
+  save();
+  address.value="";
   show("confirm");
 }
-function openAllo(){window.open("https://t.me/allo856","_blank")}
+
+function openAllo(){
+  window.open("https://t.me/allo856","_blank");
+}
 
 updateUI();
 </script>
