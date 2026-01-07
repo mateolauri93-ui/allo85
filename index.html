@@ -26,11 +26,37 @@ body{
   background:var(--bg);
   color:var(--text);
   transition:.3s;
+  position:relative;
+}
+
+/* ===== FOND GLOBAL (PAGES SECONDAIRES) ===== */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(
+      rgba(255,255,255,0.88),
+      rgba(255,255,255,0.88)
+    ),
+    url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG")
+    center/cover no-repeat;
+  z-index:-1;
+}
+body.night::before{
+  background:
+    linear-gradient(
+      rgba(15,23,42,0.92),
+      rgba(15,23,42,0.92)
+    ),
+    url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG")
+    center/cover no-repeat;
 }
 
 /* ===== ACCUEIL ===== */
 #welcome{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
   z-index:100;
 }
