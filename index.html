@@ -193,7 +193,7 @@ footer button:active{
   gap:16px;
 }
 
-/* ==================================================
+   /* ==================================================
    🏠 ACCUEIL – 🍫🥦 VERTICAUX & PLUS GROS
    ================================================== */
 .home-grid{
@@ -207,7 +207,6 @@ footer button:active{
   padding:34px 20px;
   border-radius:34px;
 }
-
 .card{
   background:rgba(255,255,255,.78);
   border-radius:26px;
@@ -329,8 +328,10 @@ footer button:active{
 </style>
 </head>
 
+
 <body>
-   <!-- ==================================================
+
+<!-- ==================================================
      🏠 ÉCRAN D’ACCUEIL
      ================================================== -->
 <div id="welcome">
@@ -341,33 +342,57 @@ footer button:active{
      📱 APPLICATION
      ================================================== -->
 <div class="app">
-
 <!-- ==================================================
      🔐 PAGE D’ACCÈS PAR CODE (BLOCAGE)
      ================================================== -->
 <section id="access" class="page active">
+
   <div class="card">
     <h2>🔐 Accès sécurisé</h2>
+
     <p style="font-size:14px">
       Entre ton <b>code d’accès</b> ou un <b>code de parrainage valide</b>
     </p>
 
-    <input id="accessInput" type="text" placeholder="Code d’accès"
-      style="width:100%;padding:12px;border-radius:12px;border:1px solid #ddd;
-      font-size:16px;text-align:center;margin-top:10px">
+    <input
+      id="accessInput"
+      type="text"
+      placeholder="Code d’accès"
+      style="
+        width:100%;
+        padding:12px;
+        border-radius:12px;
+        border:1px solid #ddd;
+        font-size:16px;
+        text-align:center;
+        margin-top:10px;
+      "
+    >
 
-    <button onclick="checkAccess()"
-      style="width:100%;margin-top:14px;padding:14px;border:none;
-      border-radius:999px;background:var(--accent);font-family:Fredoka;font-size:16px">
+    <button
+      onclick="checkAccess()"
+      style="
+        width:100%;
+        margin-top:14px;
+        padding:14px;
+        border:none;
+        border-radius:999px;
+        background:var(--accent);
+        font-family:Fredoka;
+        font-size:16px;
+      "
+    >
       Valider
     </button>
 
-    <p id="accessError" style="display:none;color:red;font-size:14px;margin-top:10px">
+    <p id="accessError"
+       style="display:none;color:red;font-size:14px;margin-top:10px">
       ❌ Code invalide
     </p>
-  </div>
-</section>
 
+  </div>
+
+</section>
 <!-- ==================================================
      🔝 HEADER
      ================================================== -->
@@ -385,16 +410,16 @@ footer button:active{
   <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
+
 <!-- ==================================================
      🏠 PAGE PRINCIPALE
      ================================================== -->
-<section id="root" class="page">
+<section id="root" class="page active">
   <div class="home-grid">
     <div class="card home-card" onclick="goChoco()">🍫</div>
     <div class="card home-card" onclick="goGreen()">🥦</div>
   </div>
 </section>
-
 <!-- ==================================================
      🍫 CATÉGORIES CHOCOLAT
      ================================================== -->
@@ -417,9 +442,20 @@ footer button:active{
 <!-- ==================================================
      📦 LISTES PRODUITS
      ================================================== -->
-<section id="jaune" class="page"><h2>🟡 Jaune</h2><div class="grid" id="jauneList"></div></section>
-<section id="filtre" class="page"><h2>🔍 Filtré</h2><div class="grid" id="filtreList"></div></section>
-<section id="cali" class="page"><h2>🇺🇸 Cali</h2><div class="grid" id="caliList"></div></section>
+<section id="jaune" class="page">
+  <h2>🟡 Jaune</h2>
+  <div class="grid" id="jauneList"></div>
+</section>
+
+<section id="filtre" class="page">
+  <h2>🔍 Filtré</h2>
+  <div class="grid" id="filtreList"></div>
+</section>
+
+<section id="cali" class="page">
+  <h2>🇺🇸 Cali</h2>
+  <div class="grid" id="caliList"></div>
+</section>
 
 <!-- ==================================================
      🛒 PANIER
@@ -429,18 +465,25 @@ footer button:active{
   <div id="cartItems"></div>
 
   <div class="notice">
-    <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
-    <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
+    <label>
+      <input type="radio" name="del" checked onclick="setDelivery(false)">
+      Sur place
+    </label><br>
+    <label>
+      <input type="radio" name="del" onclick="setDelivery(true)">
+      Livraison +20€
+    </label>
   </div>
 
-  <textarea id="address" placeholder="Adresse de livraison"
-    style="display:none;width:100%;margin-top:10px"></textarea>
+  <textarea id="address"
+    placeholder="Adresse de livraison"
+    style="display:none;width:100%;margin-top:10px">
+  </textarea>
 
   <p><b>Total : <span id="total">0</span> €</b></p>
 
   <button onclick="sendOrder()"
-    style="width:100%;padding:14px;border:none;border-radius:999px;
-    background:var(--accent);font-family:Fredoka">
+    style="width:100%;padding:14px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka">
     Confirmer la commande
   </button>
 </section>
@@ -450,12 +493,22 @@ footer button:active{
      ================================================== -->
 <section id="advantages" class="page">
   <h2>⭐ Avantages</h2>
+
   <div class="card">
     <p><b>Niveau :</b></p>
     <h3 id="levelText"></h3>
     <p><b>Commandes :</b> <span id="orderCount"></span></p>
   </div>
-  <div class="notice">🎁 <b>Code parrain :</b><br><span id="refCode"></span></div>
+
+  <div class="notice">
+    🎁 <b>Code parrain :</b><br>
+    <span id="refCode"></span>
+  </div>
+
+  <div class="notice">
+    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
+    Lorsqu’ils passent commande, tu gagnes un avantage.
+  </div>
 </section>
 
 <!-- ==================================================
@@ -469,14 +522,18 @@ footer button:active{
 </section>
 
 <!-- ==================================================
-     🎁 BARRE CADEAU
+     🎁 BARRE CADEAU 150€
      ================================================== -->
 <div class="gift-bar" id="giftBar" style="display:none">
-  <div class="gift-text" id="giftText"></div>
-  <div class="gift-track"><div class="gift-progress" id="giftProgress"></div></div>
+  <div class="gift-text" id="giftText">
+    🎁 Plus que <b>150€</b> pour débloquer un cadeau
+  </div>
+  <div class="gift-track">
+    <div class="gift-progress" id="giftProgress"></div>
+  </div>
 </div>
 
-</div>
+</div><!-- FIN .app -->
 
 <!-- ==================================================
      ☰ MENU SERVICES
@@ -492,113 +549,399 @@ footer button:active{
 
 <script>
 /* ==================================================
-   🔐 SÉCURITÉ
-   ================================================== */
-const MASTER_CODE = "HELLOALLO85";
-let accessGranted = localStorage.getItem("accessGranted")==="true";
-
-function checkAccess(){
-  const v = accessInput.value.trim().toUpperCase();
-  if(v===MASTER_CODE || v===ref){
-    accessGranted=true;
-    localStorage.setItem("accessGranted","true");
-    accessError.style.display="none";
-    show("root");
-  }else{
-    accessError.style.display="block";
-  }
-}
-
-/* ==================================================
-   📦 CATALOGUE
+   📦 CATALOGUE PRODUITS
    ================================================== */
 const catalog={
-  jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
-  filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
-  cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
+  jaune:[
+    {g:"4g",p:20},
+    {g:"10g",p:50},
+    {g:"20g",p:90}
+  ],
+  filtre:[
+    {g:"2.5g",p:20},
+    {g:"5g",p:40},
+    {g:"10g",p:70}
+  ],
+  cali:[
+    {g:"2.4g",p:20},
+    {g:"5g",p:50},
+    {g:"10g",p:80}
+  ]
 };
 
 /* ==================================================
-   🧠 ÉTAT
+   🧠 ÉTAT GLOBAL
    ================================================== */
+/* ==================================================
+   🔐 SYSTÈME D’ACCÈS (CODES)
+   ================================================== */
+
+// code maître
+const MASTER_CODE = "HELLOALLO85";
+
+// accès déjà validé ?
+let accessGranted = localStorage.getItem("accessGranted") === "true";
+
+// empêcher l’accès si non validé
+if(!accessGranted){
+  show("access");
+}else{
+  show("root");
+}
+
+// vérification du code
+function checkAccess(){
+  const input = document.getElementById("accessInput").value.trim().toUpperCase();
+  const error = document.getElementById("accessError");
+
+  // liste des codes autorisés
+  const allowedCodes = [
+    MASTER_CODE,
+    ref // le code de parrainage local
+  ];
+
+  if(allowedCodes.includes(input)){
+    localStorage.setItem("accessGranted","true");
+    accessGranted = true;
+    error.style.display = "none";
+    show("root");
+  }else{
+    error.style.display = "block";
+  }
+}
+   
+   
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
+
 let orders=Number(localStorage.getItem("orders")||0);
-let ref=localStorage.getItem("ref")||
+let ref=localStorage.getItem("ref") ||
   ("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
 /* ==================================================
-   🧭 NAVIGATION
+   🌈 TRANSITION DES FONDS
    ================================================== */
-function show(id){
-  if(!accessGranted && id!=="access") id="access";
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  if(id==="advantages"){
-    levelText.innerText=orders>=6?"VIP":orders>=3?"Régulier":"Nouveau";
-    orderCount.innerText=orders;
-    refCode.innerText=ref;
-  }
-}
-function go(id){stack.push(id);show(id);}
-function goBack(){if(stack.length>1){stack.pop();show(stack.at(-1));}}
-function goChoco(){transitionBg("bg-choco");go("choco");}
-function goGreen(){transitionBg("bg-green");go("green");}
-
-/* ==================================================
-   🌈 FONDS
-   ================================================== */
-function transitionBg(c){
-  document.documentElement.style.setProperty("--bg-opacity","0");
+function transitionBg(className){
+  document.documentElement.style.setProperty('--bg-opacity','0');
   setTimeout(()=>{
     document.body.classList.remove("bg-choco","bg-green");
-    if(c)document.body.classList.add(c);
-    document.documentElement.style.setProperty("--bg-opacity","1");
+    if(className) document.body.classList.add(className);
+    document.documentElement.style.setProperty('--bg-opacity','1');
   },200);
 }
 
 /* ==================================================
-   🛒 PANIER
+/* ==================================================
+   🧭 NAVIGATION (SÉCURISÉE)
+   ================================================== */
+function show(id){
+
+  // 🔒 blocage si accès non validé
+  if(!accessGranted && id !== "access"){
+    id = "access";
+  }
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  document.getElementById(id).classList.add("active");
+
+  if(id==="advantages"){
+    levelText.innerText=level();
+    orderCount.innerText=orders;
+    refCode.innerText=ref;
+  }
+}
+
+function go(id){
+  if(!accessGranted && id !== "access") return;
+  stack.push(id);
+  show(id);
+}
+
+function goBack(){
+  if(!accessGranted) return;
+
+  if(stack.length>1){
+    stack.pop();
+    show(stack.at(-1));
+  }
+
+  if(stack.length===1){
+    transitionBg(null);
+  }
+}
+
+/* ==================================================
+   🍫 / 🥦 CATÉGORIES
+   ================================================== */
+function goChoco(){
+  transitionBg("bg-choco");
+  go("choco");
+}
+
+function goGreen(){
+  transitionBg("bg-green");
+  go("green");
+}
+
+/* ==================================================
+   🏠 ACCUEIL
+   ================================================== */
+function enterApp(){
+  welcome.classList.add("welcome-hide");
+  setTimeout(()=>{
+    welcome.style.display="none";
+    header.style.display="flex";
+    footer.style.display="flex";
+  },450);
+}
+
+function goWelcome(){
+  stack=["root"];
+  show("root");
+  transitionBg(null);
+  header.style.display="none";
+  footer.style.display="none";
+  welcome.style.display="block";
+  welcome.classList.remove("welcome-hide");
+  services.style.display="none";
+}
+
+/* ==================================================
+   ☰ SERVICES
+   ================================================== */
+function toggleServices(){
+  services.style.display=
+    services.style.display==="flex" ? "none" : "flex";
+}
+
+function toggleNight(){
+  document.body.classList.toggle("night");
+}
+
+/* ==================================================
+   🛒 PRODUITS
    ================================================== */
 function renderProducts(list,id){
-  const el=document.getElementById(id);el.innerHTML="";
+  const el=document.getElementById(id);
+  el.innerHTML="";
+
   list.forEach(p=>{
-    const k=id+p.g;const it=cart.find(x=>x.k===k);
-    el.innerHTML+=`<div class="card"><div>${p.g}</div>
-    <div class="price">${p.p}€</div>
-    <div class="qty">${
-      it?`<button onclick="chg('${k}',-1)">−</button>${it.q}
-      <button onclick="chg('${k}',1)">+</button>`
-      :`<button onclick="add('${k}','${id}','${p.g}',${p.p})">Ajouter</button>`
-    }</div></div>`;
+    const key=id+p.g;
+    const it=cart.find(i=>i.k===key);
+
+    el.innerHTML+=`
+      <div class="card">
+        <div>${p.g}</div>
+        <div class="price">${p.p}€</div>
+        <div class="qty">
+          ${
+            it
+            ? `<button onclick="chg('${key}',-1)">−</button>
+               ${it.q}
+               <button onclick="chg('${key}',1)">+</button>`
+            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">
+                 Ajouter
+               </button>`
+          }
+        </div>
+      </div>`;
   });
 }
 
-function add(k,t,g,p){cart.push({k,t,g,p,q:1});save();}
-function chg(k,d){const i=cart.find(x=>x.k===k);i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.k!==k);save();}
-function save(){localStorage.setItem("cart",JSON.stringify(cart));updateUI();}
+/* ==================================================
+   ➕ / ➖ PANIER
+   ================================================== */
+function add(k,t,g,p){
+  cart.push({k,t,g,p,q:1});
+  save();
+  pulseCart();
+
+  if(window.Telegram?.WebApp){
+    Telegram.WebApp.HapticFeedback.impactOccurred("light");
+  }
+}
+
+function chg(k,d){
+  const i=cart.find(x=>x.k===k);
+  if(!i) return;
+
+  i.q+=d;
+  if(i.q<=0){
+    cart=cart.filter(x=>x.k!==k);
+  }
+  save();
+  pulseCart();
+}
+
+function save(){
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateUI();
+}
 
 /* ==================================================
-   🔄 UI
+   🎁 BARRE CADEAU 150€
+   ================================================== */
+function updateGiftBar(total){
+  const bar=document.getElementById("giftBar");
+  const prog=document.getElementById("giftProgress");
+  const txt=document.getElementById("giftText");
+
+  const goal=150;
+  bar.style.display="block";
+
+  if(total>=goal){
+    prog.style.width="100%";
+    txt.innerHTML="🎉 <b>Cadeau débloqué !</b>";
+  }else{
+    const percent=Math.min((total/goal)*100,100);
+    prog.style.width=percent+"%";
+    txt.innerHTML=
+      `🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
+  }
+}
+
+/* ==================================================
+   🔄 MISE À JOUR UI
    ================================================== */
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
   renderProducts(catalog.filtre,"filtreList");
   renderProducts(catalog.cali,"caliList");
-  let c=0,t=0;cartItems.innerHTML="";
-  cart.forEach(i=>{c+=i.q;t+=i.q*i.p;});
-  if(delivery)t+=20;
-  cartCount.innerText=c;cartTotal.innerText=t+"€";total.innerText=t;
+
+  let c=0,t=0;
+  cartItems.innerHTML="";
+
+  cart.forEach(i=>{
+    c+=i.q;
+    t+=i.q*i.p;
+
+    cartItems.innerHTML+=`
+      <div class="card">
+        <div><b>${i.g} ${i.t}</b></div>
+        <div class="price">${i.q*i.p}€</div>
+        <div class="qty">
+          <button onclick="chg('${i.k}',-1)">−</button>
+          ${i.q}
+          <button onclick="chg('${i.k}',1)">+</button>
+        </div>
+      </div>`;
+  });
+
+  if(delivery) t+=20;
+
+  cartCount.innerText=c;
+  cartTotal.innerText=t+"€";
+  total.innerText=t;
+
+  updateGiftBar(t);
 }
 
 /* ==================================================
+   💥 ANIM PANIER
+   ================================================== */
+function pulseCart(){
+  cartBtn.classList.remove("pulse");
+  void cartBtn.offsetWidth;
+  cartBtn.classList.add("pulse");
+}
+
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  updateUI();
+}
+
+/* ==================================================
+   📤 COMMANDE
+   ================================================== */
+function sendOrder(){
+  if(cart.length===0) return alert("Panier vide");
+  if(delivery && !address.value.trim())
+    return alert("Adresse requise");
+
+  orders++;
+  localStorage.setItem("orders",orders);
+
+  let msg=
+`🧾 COMMANDE ALLO85
+⭐ ${level()} (${orders})
+🎁 ${ref}
+
+`;
+
+  cart.forEach(i=>{
+    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
+  });
+
+  msg+=delivery
+    ? `\n🚚 Livraison +20€\n${address.value}\n`
+    : `\n📍 Sur place\n`;
+
+  msg+=`\n💰 Total : ${total.innerText}€`;
+
+  navigator.clipboard.writeText(msg);
+  cart=[];
+  save();
+  address.value="";
+  show("confirm");
+}
+
+function openAllo(){
+  window.open("https://t.me/allo856","_blank");
+}
+
+   /* ==================================================
+   🔒 SÉCURITÉ UI
+   ================================================== */
+document.addEventListener("DOMContentLoaded",()=>{
+  if(!accessGranted){
+    show("access");
+  }
+});
+/* ==================================================
    🚀 INIT
    ================================================== */
-show(accessGranted?"root":"access");
 updateUI();
 </script>
 
+<style>
+/* ==================================================
+   ✨ ANIMATION PANIER (PULSE)
+   ================================================== */
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+#cartBtn.pulse{
+  animation:pulse .3s ease;
+}
+
+/* ==================================================
+   🎉 CONFIRMATION COMMANDE (POP)
+   ================================================== */
+@keyframes pop{
+  0%{transform:scale(.7);opacity:0}
+  60%{transform:scale(1.15);opacity:1}
+  100%{transform:scale(1)}
+}
+.confirm-pop{
+  animation:pop .45s ease;
+}
+
+/* ==================================================
+   ✨ PETITES AMÉLIORATIONS VISUELLES
+   ================================================== */
+.card:hover{
+  transform:translateY(-2px);
+}
+.qty button:hover{
+  transform:scale(1.1);
+}
+</style>
+
 </body>
-</html>
