@@ -16,7 +16,6 @@
   --card:#ffffff;
   --text:#1f2937;
   --accent:#ffd56b;
-  --accent-soft:#fff3c7;
 }
 
 /* ======================================================
@@ -26,12 +25,43 @@ body{
   margin:0;
   font-family:Inter,sans-serif;
   color:var(--text);
-  background:linear-gradient(180deg,#eaf6ff,#fff6e5);
-  transition:background .4s,color .4s;
+  background:#fff;
+  position:relative;
+  transition:.4s;
 }
+
+/* ======================================================
+   FOND IMAGE FLOUTÉ (PAGES INTERNES)
+====================================================== */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(
+      rgba(255,255,255,.82),
+      rgba(255,255,255,.82)
+    ),
+    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.png")
+    center/cover no-repeat;
+  filter:blur(14px) saturate(1.05);
+  transform:scale(1.08);
+  z-index:-2;
+}
+
+/* MODE NUIT */
 body.night{
-  background:linear-gradient(180deg,#020617,#020617);
   color:#f8fafc;
+}
+body.night::before{
+  background:
+    linear-gradient(
+      rgba(2,6,23,.88),
+      rgba(2,6,23,.88)
+    ),
+    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.png")
+    center/cover no-repeat;
+  filter:blur(16px) saturate(1.05);
 }
 
 /* ======================================================
@@ -86,6 +116,7 @@ header{
   padding:0 14px;
   display:none;
 }
+
 footer{
   bottom:0;
   height:64px;
@@ -97,7 +128,6 @@ footer{
 header strong{
   font-family:Fredoka;
   font-size:18px;
-  letter-spacing:.5px;
 }
 
 header button,
@@ -107,11 +137,6 @@ footer button{
   padding:8px 16px;
   background:var(--accent);
   font-family:Fredoka;
-  transition:.2s;
-}
-header button:active,
-footer button:active{
-  transform:scale(.94);
 }
 
 /* ======================================================
@@ -120,14 +145,8 @@ footer button:active{
 .page{
   display:none;
   padding:96px 20px 150px;
-  animation:pageIn .35s ease;
 }
 .page.active{display:block}
-
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:none}
-}
 
 /* ======================================================
    UI
@@ -145,11 +164,6 @@ footer button:active{
   text-align:center;
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:transform .25s, box-shadow .25s;
-}
-.card:active{
-  transform:scale(.96);
-  box-shadow:0 12px 24px rgba(0,0,0,.18);
 }
 
 .price{
@@ -164,6 +178,7 @@ footer button:active{
   gap:12px;
   margin-top:10px;
 }
+
 .qty button{
   width:30px;
   height:30px;
@@ -171,10 +186,6 @@ footer button:active{
   border-radius:50%;
   background:var(--accent);
   font-size:18px;
-  transition:.15s;
-}
-.qty button:active{
-  transform:scale(.9);
 }
 
 .notice{
@@ -197,13 +208,14 @@ footer button:active{
   align-items:center;
   z-index:50;
 }
+
 #services .box{
   background:var(--card);
   border-radius:28px;
   padding:26px;
   width:82%;
-  animation:pageIn .3s ease;
 }
+
 #services button{
   width:100%;
   margin:10px 0;
@@ -219,7 +231,7 @@ footer button:active{
 
 <body>
 
-<!-- ACCUEIL -->
+<!-- ================= ACCUEIL ================= -->
 <div id="welcome">
   <div id="welcome-hitbox" onclick="enterApp()"></div>
 </div>
@@ -237,8 +249,7 @@ footer button:active{
   <button onclick="go('cart')">Panier</button>
 </footer>
 
-<!-- ===== CONTENU (STRICTEMENT IDENTIQUE À LA BASE) ===== -->
-
+<!-- ================= NAVIGATION ================= -->
 <section id="root" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫</div>
@@ -277,9 +288,7 @@ footer button:active{
 
   <p><b>Total : <span id="total">0</span> €</b></p>
 
-  <button onclick="sendOrder()"
-    style="width:100%;padding:14px;border:none;border-radius:999px;
-    background:var(--accent);font-family:Fredoka">
+  <button onclick="sendOrder()" style="width:100%;padding:14px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka">
     Confirmer la commande
   </button>
 </section>
@@ -308,9 +317,7 @@ footer button:active{
   <div class="card" style="text-align:center;padding:28px">
     <h2>🎉 Commande prête !</h2>
     <p>Message copié automatiquement.</p>
-    <button onclick="openAllo()"
-      style="width:100%;padding:14px;border:none;border-radius:999px;
-      background:var(--accent);font-family:Fredoka">
+    <button onclick="openAllo()" style="width:100%;padding:14px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka">
       📨 Ouvrir le chat ALLO85
     </button>
   </div>
@@ -328,10 +335,7 @@ footer button:active{
 </div>
 
 <script>
-/* ===========================
-   JS = BASE SAUVEGARDÉE
-   (AUCUNE LIGNE SUPPRIMÉE)
-=========================== */
+/* ================= JS BASE SAUVEGARDÉE ================= */
 
 const catalog={
   jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
@@ -370,7 +374,8 @@ function enterApp(){
   },450);
 }
 function goWelcome(){
-  stack=["root"];show("root");
+  stack=["root"];
+  show("root");
   header.style.display="none";
   footer.style.display="none";
   welcome.style.display="block";
