@@ -633,15 +633,19 @@ function transitionBg(className){
 }
 
 /* ==================================================
-   🧭 NAVIGATION
+/* ==================================================
+   🧭 NAVIGATION (SÉCURISÉE)
    ================================================== */
-function level(){
-  return orders>=6 ? "VIP" : orders>=3 ? "Régulier" : "Nouveau";
-}
-
 function show(id){
+
+  // 🔒 blocage si accès non validé
+  if(!accessGranted && id !== "access"){
+    id = "access";
+  }
+
   document.querySelectorAll(".page")
     .forEach(p=>p.classList.remove("active"));
+
   document.getElementById(id).classList.add("active");
 
   if(id==="advantages"){
@@ -652,16 +656,22 @@ function show(id){
 }
 
 function go(id){
+  if(!accessGranted && id !== "access") return;
   stack.push(id);
   show(id);
 }
 
 function goBack(){
+  if(!accessGranted) return;
+
   if(stack.length>1){
     stack.pop();
     show(stack.at(-1));
   }
-  if(stack.length===1) transitionBg(null);
+
+  if(stack.length===1){
+    transitionBg(null);
+  }
 }
 
 /* ==================================================
@@ -884,6 +894,14 @@ function openAllo(){
   window.open("https://t.me/allo856","_blank");
 }
 
+   /* ==================================================
+   🔒 SÉCURITÉ UI
+   ================================================== */
+document.addEventListener("DOMContentLoaded",()=>{
+  if(!accessGranted){
+    show("access");
+  }
+});
 /* ==================================================
    🚀 INIT
    ================================================== */
