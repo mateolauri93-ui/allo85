@@ -469,13 +469,14 @@ function goGreen(){
    🏠 ACCUEIL
    ================================================== */
 function enterApp(){
-  checkAccess();
-
   welcome.classList.add("welcome-hide");
+
   setTimeout(()=>{
     welcome.style.display="none";
     header.style.display="flex";
     footer.style.display="flex";
+
+    checkAccess(); // ✅ déplacé ICI
   },450);
 }
 
