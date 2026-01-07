@@ -35,8 +35,6 @@ body{
 /* ==================================================
    🎨 BACKGROUNDS & AMBIANCES
    ================================================== */
-
-/* --- Fond global --- */
 body::before{
   content:"";
   position:fixed;
@@ -77,18 +75,6 @@ body.night::before{
     center/cover no-repeat;
   filter:blur(8px);
 }
-body.night.bg-choco::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
-    center/cover no-repeat;
-}
-body.night.bg-green::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
-    center/cover no-repeat;
-}
 
 /* ==================================================
    🏠 ÉCRAN D’ACCUEIL
@@ -113,6 +99,60 @@ body.night.bg-green::before{
 }
 
 /* ==================================================
+   🔒 PAGE ACCÈS (NOUVEAU)
+   ================================================== */
+#access{
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:90;
+}
+
+.access-box{
+  width:86%;
+  max-width:360px;
+  background:#fff;
+  border-radius:26px;
+  padding:26px;
+  text-align:center;
+  box-shadow:0 30px 60px rgba(0,0,0,.2);
+  font-family:Fredoka;
+}
+
+.access-box h2{
+  margin-top:0;
+}
+
+.access-box input{
+  width:100%;
+  padding:14px;
+  border-radius:999px;
+  border:1px solid #ddd;
+  margin:12px 0;
+  font-size:16px;
+}
+
+.access-box button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:999px;
+  background:var(--accent);
+  font-family:Fredoka;
+  font-size:16px;
+}
+
+.access-error{
+  color:#dc2626;
+  font-size:14px;
+  display:none;
+}
+
+/* ==================================================
    🧱 STRUCTURE GÉNÉRALE
    ================================================== */
 .app{
@@ -120,214 +160,31 @@ body.night.bg-green::before{
   margin:auto;
   min-height:100vh;
 }
-
-/* ==================================================
-   🔝 HEADER & FOOTER
-   ================================================== */
-header,footer{
-  position:fixed;
-  left:0;right:0;
-  max-width:420px;
-  margin:auto;
-  background:rgba(255,255,255,.82);
-  backdrop-filter:blur(8px);
-  display:flex;
-  align-items:center;
-  z-index:10;
-}
-
-header{
-  top:0;
-  height:56px;
-  justify-content:space-between;
-  padding:0 14px;
-  display:none;
-}
-footer{
-  bottom:0;
-  height:64px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-
-header strong{
-  font-family:Fredoka;
-  font-size:18px;
-}
-
-header button,
-footer button{
-  border:none;
-  border-radius:999px;
-  padding:8px 16px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-header button:active,
-footer button:active{
-  transform:scale(.94);
-}
-
-/* ==================================================
-   📄 PAGES
-   ================================================== */
-.page{
-  display:none;
-  padding:96px 20px 150px;
-  animation:pageIn .25s ease;
-}
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
-}
-.page.active{display:block}
-
-/* ==================================================
-   🎛️ UI & COMPOSANTS
-   ================================================== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
-   /* ==================================================
-   🏠 ACCUEIL – 🍫🥦 VERTICAUX & PLUS GROS
-   ================================================== */
-.home-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:24px;
-}
-
-.home-card{
-  font-size:56px;
-  padding:34px 20px;
-  border-radius:34px;
-}
-.card{
-  background:rgba(255,255,255,.78);
-  border-radius:26px;
-  padding:20px;
-  text-align:center;
-  font-family:Fredoka;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.card:active{
-  transform:scale(.97);
-  box-shadow:0 12px 26px rgba(0,0,0,.18);
-}
-
-.price{
-  font-size:22px;
-  margin:6px 0;
-}
-
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  margin-top:10px;
-}
-
-.qty button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
-  background:var(--accent);
-  font-size:18px;
-  transition:transform .15s ease;
-}
-.qty button:active{
-  transform:scale(.85);
-}
-
-.notice{
-  background:rgba(255,255,255,.7);
-  backdrop-filter:blur(6px);
-  border-radius:18px;
-  padding:14px;
-  margin-top:16px;
-}
-
-/* ==================================================
-   🧩 SERVICES (MENU)
-   ================================================== */
-#services{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:50;
-}
-#services .box{
-  background:var(--card);
-  border-radius:28px;
-  padding:26px;
-  width:82%;
-}
-#services button{
-  width:100%;
-  margin:10px 0;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-#services button:active{
-  transform:scale(.96);
-}
-
-/* ==================================================
-   🎁 BARRE CADEAU 150€
-   ================================================== */
-.gift-bar{
-  position:fixed;
-  left:50%;
-  bottom:74px;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:380px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(8px);
-  border-radius:18px;
-  padding:12px 14px;
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-  font-family:Fredoka;
-  z-index:9;
-}
-.gift-text{
-  font-size:14px;
-  text-align:center;
-}
-.gift-track{
-  width:100%;
-  height:10px;
-  background:rgba(0,0,0,.1);
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:6px;
-}
-.gift-progress{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ffd56b,#ffb703);
-  border-radius:999px;
-  transition:width .35s ease;
-}
-
 </style>
 </head>
 
+<body>
+
+<!-- ==================================================
+     🏠 ÉCRAN D’ACCUEIL
+     ================================================== -->
+<div id="welcome">
+  <div id="welcome-hitbox" onclick="enterApp()"></div>
+</div>
+
+<!-- ==================================================
+     🔒 PAGE D’ACCÈS (BLOQUANTE)
+     ================================================== -->
+<div id="access">
+  <div class="access-box">
+    <h2>🔐 Accès ALLO85</h2>
+    <p>Entre ton code d’accès</p>
+    <input id="accessInput" placeholder="Code d’accès">
+    <button onclick="validateAccess()">Valider</button>
+    <p class="access-error" id="accessError">Code invalide</p>
+  </div>
+</div>
+   </head>
 
 <body>
 
@@ -342,57 +199,7 @@ footer button:active{
      📱 APPLICATION
      ================================================== -->
 <div class="app">
-<!-- ==================================================
-     🔐 PAGE D’ACCÈS PAR CODE (BLOCAGE)
-     ================================================== -->
-<section id="access" class="page active">
 
-  <div class="card">
-    <h2>🔐 Accès sécurisé</h2>
-
-    <p style="font-size:14px">
-      Entre ton <b>code d’accès</b> ou un <b>code de parrainage valide</b>
-    </p>
-
-    <input
-      id="accessInput"
-      type="text"
-      placeholder="Code d’accès"
-      style="
-        width:100%;
-        padding:12px;
-        border-radius:12px;
-        border:1px solid #ddd;
-        font-size:16px;
-        text-align:center;
-        margin-top:10px;
-      "
-    >
-
-    <button
-      onclick="checkAccess()"
-      style="
-        width:100%;
-        margin-top:14px;
-        padding:14px;
-        border:none;
-        border-radius:999px;
-        background:var(--accent);
-        font-family:Fredoka;
-        font-size:16px;
-      "
-    >
-      Valider
-    </button>
-
-    <p id="accessError"
-       style="display:none;color:red;font-size:14px;margin-top:10px">
-      ❌ Code invalide
-    </p>
-
-  </div>
-
-</section>
 <!-- ==================================================
      🔝 HEADER
      ================================================== -->
@@ -410,16 +217,16 @@ footer button:active{
   <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
-
 <!-- ==================================================
      🏠 PAGE PRINCIPALE
      ================================================== -->
 <section id="root" class="page active">
-  <div class="home-grid">
-    <div class="card home-card" onclick="goChoco()">🍫</div>
-    <div class="card home-card" onclick="goGreen()">🥦</div>
+  <div class="grid root-grid">
+    <div class="card card-main" onclick="goChoco()">🍫</div>
+    <div class="card card-main" onclick="goGreen()">🥦</div>
   </div>
 </section>
+
 <!-- ==================================================
      🍫 CATÉGORIES CHOCOLAT
      ================================================== -->
@@ -504,11 +311,6 @@ footer button:active{
     🎁 <b>Code parrain :</b><br>
     <span id="refCode"></span>
   </div>
-
-  <div class="notice">
-    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
-    Lorsqu’ils passent commande, tu gagnes un avantage.
-  </div>
 </section>
 
 <!-- ==================================================
@@ -546,71 +348,59 @@ footer button:active{
     <button onclick="toggleServices()">Fermer</button>
   </div>
 </div>
+   <script>
+/* ==================================================
+   🔐 SÉCURITÉ D’ACCÈS (OBLIGATOIRE)
+   ================================================== */
 
-<script>
+/*
+Règles :
+- 1er accès → code requis
+- Code valide :
+  • HELLOALLO85 (code maître)
+  • OU un code de parrainage existant
+- Une fois validé → stocké en local
+*/
+
+const MASTER_CODE = "HELLOALLO85";
+let accessGranted = localStorage.getItem("accessGranted") === "true";
+
+/* Blocage si pas validé */
+function checkAccess(){
+  if(accessGranted) return;
+
+  let code = prompt(
+    "🔒 Accès réservé\n\n" +
+    "Entre ton code d’accès ou un code de parrainage existant :"
+  );
+
+  if(!code) return checkAccess();
+
+  code = code.trim().toUpperCase();
+
+  const savedRef = localStorage.getItem("ref");
+
+  if(code === MASTER_CODE || code === savedRef){
+    localStorage.setItem("accessGranted","true");
+    accessGranted = true;
+  }else{
+    alert("⛔ Code invalide");
+    checkAccess();
+  }
+}
+
 /* ==================================================
    📦 CATALOGUE PRODUITS
    ================================================== */
 const catalog={
-  jaune:[
-    {g:"4g",p:20},
-    {g:"10g",p:50},
-    {g:"20g",p:90}
-  ],
-  filtre:[
-    {g:"2.5g",p:20},
-    {g:"5g",p:40},
-    {g:"10g",p:70}
-  ],
-  cali:[
-    {g:"2.4g",p:20},
-    {g:"5g",p:50},
-    {g:"10g",p:80}
-  ]
+  jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
+  filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
+  cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
 };
 
 /* ==================================================
    🧠 ÉTAT GLOBAL
    ================================================== */
-/* ==================================================
-   🔐 SYSTÈME D’ACCÈS (CODES)
-   ================================================== */
-
-// code maître
-const MASTER_CODE = "HELLOALLO85";
-
-// accès déjà validé ?
-let accessGranted = localStorage.getItem("accessGranted") === "true";
-
-// empêcher l’accès si non validé
-if(!accessGranted){
-  show("access");
-}else{
-  show("root");
-}
-
-// vérification du code
-function checkAccess(){
-  const input = document.getElementById("accessInput").value.trim().toUpperCase();
-  const error = document.getElementById("accessError");
-
-  // liste des codes autorisés
-  const allowedCodes = [
-    MASTER_CODE,
-    ref // le code de parrainage local
-  ];
-
-  if(allowedCodes.includes(input)){
-    localStorage.setItem("accessGranted","true");
-    accessGranted = true;
-    error.style.display = "none";
-    show("root");
-  }else{
-    error.style.display = "block";
-  }
-}
-   
-   
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
@@ -621,7 +411,7 @@ let ref=localStorage.getItem("ref") ||
 localStorage.setItem("ref",ref);
 
 /* ==================================================
-   🌈 TRANSITION DES FONDS
+   🌈 TRANSITIONS FOND
    ================================================== */
 function transitionBg(className){
   document.documentElement.style.setProperty('--bg-opacity','0');
@@ -633,19 +423,14 @@ function transitionBg(className){
 }
 
 /* ==================================================
-/* ==================================================
-   🧭 NAVIGATION (SÉCURISÉE)
+   🧭 NAVIGATION
    ================================================== */
+function level(){
+  return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau";
+}
+
 function show(id){
-
-  // 🔒 blocage si accès non validé
-  if(!accessGranted && id !== "access"){
-    id = "access";
-  }
-
-  document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
-
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 
   if(id==="advantages"){
@@ -656,22 +441,16 @@ function show(id){
 }
 
 function go(id){
-  if(!accessGranted && id !== "access") return;
   stack.push(id);
   show(id);
 }
 
 function goBack(){
-  if(!accessGranted) return;
-
   if(stack.length>1){
     stack.pop();
     show(stack.at(-1));
   }
-
-  if(stack.length===1){
-    transitionBg(null);
-  }
+  if(stack.length===1) transitionBg(null);
 }
 
 /* ==================================================
@@ -681,7 +460,6 @@ function goChoco(){
   transitionBg("bg-choco");
   go("choco");
 }
-
 function goGreen(){
   transitionBg("bg-green");
   go("green");
@@ -691,6 +469,8 @@ function goGreen(){
    🏠 ACCUEIL
    ================================================== */
 function enterApp(){
+  checkAccess();
+
   welcome.classList.add("welcome-hide");
   setTimeout(()=>{
     welcome.style.display="none";
@@ -714,7 +494,7 @@ function goWelcome(){
    ☰ SERVICES
    ================================================== */
 function toggleServices(){
-  services.style.display=
+  services.style.display =
     services.style.display==="flex" ? "none" : "flex";
 }
 
@@ -770,9 +550,7 @@ function chg(k,d){
   if(!i) return;
 
   i.q+=d;
-  if(i.q<=0){
-    cart=cart.filter(x=>x.k!==k);
-  }
+  if(i.q<=0) cart=cart.filter(x=>x.k!==k);
   save();
   pulseCart();
 }
@@ -799,8 +577,7 @@ function updateGiftBar(total){
   }else{
     const percent=Math.min((total/goal)*100,100);
     prog.style.width=percent+"%";
-    txt.innerHTML=
-      `🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
+    txt.innerHTML=`🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
   }
 }
 
@@ -894,55 +671,8 @@ function openAllo(){
   window.open("https://t.me/allo856","_blank");
 }
 
-   /* ==================================================
-   🔒 SÉCURITÉ UI
-   ================================================== */
-document.addEventListener("DOMContentLoaded",()=>{
-  if(!accessGranted){
-    show("access");
-  }
-});
 /* ==================================================
    🚀 INIT
    ================================================== */
 updateUI();
 </script>
-
-<style>
-/* ==================================================
-   ✨ ANIMATION PANIER (PULSE)
-   ================================================== */
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.08)}
-  100%{transform:scale(1)}
-}
-#cartBtn.pulse{
-  animation:pulse .3s ease;
-}
-
-/* ==================================================
-   🎉 CONFIRMATION COMMANDE (POP)
-   ================================================== */
-@keyframes pop{
-  0%{transform:scale(.7);opacity:0}
-  60%{transform:scale(1.15);opacity:1}
-  100%{transform:scale(1)}
-}
-.confirm-pop{
-  animation:pop .45s ease;
-}
-
-/* ==================================================
-   ✨ PETITES AMÉLIORATIONS VISUELLES
-   ================================================== */
-.card:hover{
-  transform:translateY(-2px);
-}
-.qty button:hover{
-  transform:scale(1.1);
-}
-</style>
-
-</body>
-</html>
