@@ -337,6 +337,31 @@ footer button:active{
 <div id="welcome">
   <div id="welcome-hitbox" onclick="enterApp()"></div>
 </div>
+   <!-- ==================================================
+     🔒 PAGE DE VERROUILLAGE (ACCÈS)
+     ================================================== -->
+<div id="lockScreen" style="display:none;position:fixed;inset:0;background:#fff;z-index:200;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px">
+
+  <h2>🔒 Accès sécurisé</h2>
+
+  <input
+    id="accessCodeInput"
+    placeholder="Code d’accès"
+    style="padding:12px;border-radius:12px;border:1px solid #ccc;width:100%;max-width:260px;text-align:center"
+  >
+
+  <button
+    onclick="validateAccessCode()"
+    style="margin-top:14px;padding:12px 20px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka"
+  >
+    Entrer
+  </button>
+
+  <p id="lockError" style="color:red;margin-top:10px;display:none">
+    Code invalide
+  </p>
+
+</div>
 
 <!-- ==================================================
      📱 APPLICATION
@@ -572,7 +597,41 @@ const catalog={
 /* ==================================================
    🧠 ÉTAT GLOBAL
    ================================================== */
+/* ====
+
 /* ==================================================
+   🔒 SÉCURITÉ ACCÈS PREMIÈRE CONNEXION
+   ================================================== */
+const MASTER_CODE = "HELLOALLO85";
+
+let users = JSON.parse(localStorage.getItem("users") || "{}");
+let accessCode = localStorage.getItem("accessCode");
+
+function isValidCode(code){
+  if(code === MASTER_CODE) return true;
+  return users.hasOwnProperty(code);
+}
+
+function validateAccessCode(){
+  const input = document.getElementById("accessCodeInput");
+  const error = document.getElementById("lockError");
+  const code = input.value.trim().toUpperCase();
+
+  if(isValidCode(code)){
+    localStorage.setItem("accessCode", code);
+
+    if(!users[code]){
+      users[code] = { orders: 0 };
+      localStorage.setItem("users", JSON.stringify(users));
+    }
+
+    document.getElementById("lockScreen").style.display = "none";
+  }else{
+    error.style.display = "block";
+  }
+}
+
+==============================================
    🔐 SYSTÈME D’ACCÈS (CODES)
    ================================================== */
 
@@ -905,7 +964,14 @@ document.addEventListener("DOMContentLoaded",()=>{
 /* ==================================================
    🚀 INIT
    ================================================== */
-updateUI();
+/* ==================================================
+   🔐 VÉRIFICATION AU DÉMARRAGE
+   ================================================== */
+if(!accessCode){
+  document.getElementById("lockScreen").style.display = "flex";
+}
+   
+   updateUI();
 </script>
 
 <style>
