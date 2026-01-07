@@ -9,31 +9,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* ======================================================
+   VARIABLES
+====================================================== */
 :root{
   --card:#ffffff;
   --text:#1f2937;
   --accent:#ffd56b;
-  --accent-soft:#fff2c4;
+  --accent-soft:#fff3c7;
 }
 
-/* ===== FOND ===== */
+/* ======================================================
+   BASE
+====================================================== */
 body{
   margin:0;
   font-family:Inter,sans-serif;
   color:var(--text);
   background:linear-gradient(180deg,#eaf6ff,#fff6e5);
-  animation:fadeIn .6s ease;
+  transition:background .4s,color .4s;
 }
 body.night{
   background:linear-gradient(180deg,#020617,#020617);
   color:#f8fafc;
 }
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
-}
 
-/* ===== ACCUEIL ===== */
+/* ======================================================
+   ACCUEIL
+====================================================== */
 #welcome{
   position:fixed;
   inset:0;
@@ -42,8 +45,10 @@ body.night{
 }
 #welcome-hitbox{
   position:absolute;
-  width:300px;height:100px;
-  left:50%;top:75%;
+  width:300px;
+  height:100px;
+  left:50%;
+  top:75%;
   transform:translate(-50%,-50%);
 }
 .welcome-hide{
@@ -53,12 +58,15 @@ body.night{
   to{opacity:0;transform:scale(1.05)}
 }
 
-/* ===== STRUCTURE ===== */
+/* ======================================================
+   STRUCTURE APP
+====================================================== */
 .app{
   max-width:420px;
   margin:auto;
   min-height:100vh;
 }
+
 header,footer{
   position:fixed;
   left:0;right:0;
@@ -70,6 +78,7 @@ header,footer{
   align-items:center;
   z-index:10;
 }
+
 header{
   top:0;
   height:56px;
@@ -84,11 +93,15 @@ footer{
   padding:0 16px;
   display:none;
 }
+
 header strong{
   font-family:Fredoka;
   font-size:18px;
+  letter-spacing:.5px;
 }
-header button,footer button{
+
+header button,
+footer button{
   border:none;
   border-radius:999px;
   padding:8px 16px;
@@ -98,27 +111,33 @@ header button,footer button{
 }
 header button:active,
 footer button:active{
-  transform:scale(.95);
+  transform:scale(.94);
 }
 
-/* ===== PAGES ===== */
+/* ======================================================
+   PAGES
+====================================================== */
 .page{
   display:none;
   padding:96px 20px 150px;
   animation:pageIn .35s ease;
 }
 .page.active{display:block}
+
 @keyframes pageIn{
-  from{opacity:0;transform:translateY(10px)}
+  from{opacity:0;transform:translateY(12px)}
   to{opacity:1;transform:none}
 }
 
-/* ===== UI ===== */
+/* ======================================================
+   UI
+====================================================== */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:16px;
 }
+
 .card{
   background:var(--card);
   border-radius:26px;
@@ -126,15 +145,18 @@ footer button:active{
   text-align:center;
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:.25s;
+  transition:transform .25s, box-shadow .25s;
 }
 .card:active{
   transform:scale(.96);
+  box-shadow:0 12px 24px rgba(0,0,0,.18);
 }
+
 .price{
   font-size:22px;
   margin:6px 0;
 }
+
 .qty{
   display:flex;
   justify-content:center;
@@ -143,7 +165,8 @@ footer button:active{
   margin-top:10px;
 }
 .qty button{
-  width:30px;height:30px;
+  width:30px;
+  height:30px;
   border:none;
   border-radius:50%;
   background:var(--accent);
@@ -162,7 +185,9 @@ footer button:active{
   margin-top:16px;
 }
 
-/* ===== SERVICES ===== */
+/* ======================================================
+   SERVICES
+====================================================== */
 #services{
   position:fixed;
   inset:0;
@@ -212,6 +237,8 @@ footer button:active{
   <button onclick="go('cart')">Panier</button>
 </footer>
 
+<!-- ===== CONTENU (STRICTEMENT IDENTIQUE À LA BASE) ===== -->
+
 <section id="root" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫</div>
@@ -236,13 +263,225 @@ footer button:active{
 <section id="filtre" class="page"><h2>🔍 Filtré</h2><div class="grid" id="filtreList"></div></section>
 <section id="cali" class="page"><h2>🇺🇸 Cali</h2><div class="grid" id="caliList"></div></section>
 
-<!-- le JS + panier + avantages + confirmation restent IDENTIQUES à la base validée -->
-<!-- (aucune logique modifiée) -->
+<section id="cart" class="page">
+  <h2>🛒 Panier</h2>
+  <div id="cartItems"></div>
+
+  <div class="notice">
+    <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
+    <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
+  </div>
+
+  <textarea id="address" placeholder="Adresse de livraison"
+    style="display:none;width:100%;margin-top:10px"></textarea>
+
+  <p><b>Total : <span id="total">0</span> €</b></p>
+
+  <button onclick="sendOrder()"
+    style="width:100%;padding:14px;border:none;border-radius:999px;
+    background:var(--accent);font-family:Fredoka">
+    Confirmer la commande
+  </button>
+</section>
+
+<section id="advantages" class="page">
+  <h2>⭐ Avantages</h2>
+
+  <div class="card">
+    <p><b>Niveau :</b></p>
+    <h3 id="levelText"></h3>
+    <p><b>Commandes :</b> <span id="orderCount"></span></p>
+  </div>
+
+  <div class="notice">
+    🎁 <b>Code parrain :</b><br>
+    <span id="refCode" style="font-weight:bold"></span>
+  </div>
+
+  <div class="notice">
+    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
+    Lorsqu’ils passent commande, tu gagnes un avantage.
+  </div>
+</section>
+
+<section id="confirm" class="page">
+  <div class="card" style="text-align:center;padding:28px">
+    <h2>🎉 Commande prête !</h2>
+    <p>Message copié automatiquement.</p>
+    <button onclick="openAllo()"
+      style="width:100%;padding:14px;border:none;border-radius:999px;
+      background:var(--accent);font-family:Fredoka">
+      📨 Ouvrir le chat ALLO85
+    </button>
+  </div>
+</section>
+
+</div>
+
+<div id="services">
+  <div class="box">
+    <button onclick="goWelcome()">🏠 Accueil</button>
+    <button onclick="go('advantages');toggleServices()">⭐ Avantages</button>
+    <button onclick="toggleNight()">🌙 Mode nuit</button>
+    <button onclick="toggleServices()">Fermer</button>
+  </div>
+</div>
 
 <script>
-/* 👉 EXACTEMENT le même JS que la base validée
-   (panier, navigation, fidélité, commande, etc.)
-   👉 À garder tel quel */
+/* ===========================
+   JS = BASE SAUVEGARDÉE
+   (AUCUNE LIGNE SUPPRIMÉE)
+=========================== */
+
+const catalog={
+  jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
+  filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
+  cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
+};
+
+let stack=["root"];
+let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+let delivery=false;
+
+let orders=Number(localStorage.getItem("orders")||0);
+let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
+localStorage.setItem("ref",ref);
+
+function level(){return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau"}
+
+function show(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  if(id==="advantages"){
+    levelText.innerText=level();
+    orderCount.innerText=orders;
+    refCode.innerText=ref;
+  }
+}
+function go(id){stack.push(id);show(id)}
+function goBack(){if(stack.length>1){stack.pop();show(stack.at(-1))}}
+
+function enterApp(){
+  welcome.classList.add("welcome-hide");
+  setTimeout(()=>{
+    welcome.style.display="none";
+    header.style.display="flex";
+    footer.style.display="flex";
+  },450);
+}
+function goWelcome(){
+  stack=["root"];show("root");
+  header.style.display="none";
+  footer.style.display="none";
+  welcome.style.display="block";
+  welcome.classList.remove("welcome-hide");
+  services.style.display="none";
+}
+function toggleServices(){
+  services.style.display=services.style.display==="flex"?"none":"flex";
+}
+function toggleNight(){
+  document.body.classList.toggle("night");
+}
+
+function renderProducts(list,id){
+  const el=document.getElementById(id);
+  el.innerHTML="";
+  list.forEach(p=>{
+    const key=id+p.g;
+    const it=cart.find(i=>i.k===key);
+    el.innerHTML+=`
+      <div class="card">
+        <div>${p.g}</div>
+        <div class="price">${p.p}€</div>
+        <div class="qty">
+          ${it
+            ? `<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
+            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`
+          }
+        </div>
+      </div>`;
+  });
+}
+
+function add(k,t,g,p){
+  cart.push({k,t,g,p,q:1});
+  save();
+}
+function chg(k,d){
+  const i=cart.find(x=>x.k===k);
+  if(!i)return;
+  i.q+=d;
+  if(i.q<=0)cart=cart.filter(x=>x.k!==k);
+  save();
+}
+function save(){
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateUI();
+}
+
+function updateUI(){
+  renderProducts(catalog.jaune,"jauneList");
+  renderProducts(catalog.filtre,"filtreList");
+  renderProducts(catalog.cali,"caliList");
+
+  let c=0,t=0;
+  cartItems.innerHTML="";
+  cart.forEach(i=>{
+    c+=i.q;
+    t+=i.q*i.p;
+    cartItems.innerHTML+=`
+      <div class="card" style="margin-bottom:10px">
+        <div><b>${i.g} ${i.t}</b></div>
+        <div class="price">${i.q*i.p}€</div>
+        <div class="qty">
+          <button onclick="chg('${i.k}',-1)">−</button>
+          ${i.q}
+          <button onclick="chg('${i.k}',1)">+</button>
+        </div>
+      </div>`;
+  });
+
+  if(delivery)t+=20;
+  cartCount.innerText=c;
+  cartTotal.innerText=t+"€";
+  total.innerText=t;
+}
+
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  updateUI();
+}
+
+function sendOrder(){
+  if(cart.length===0)return alert("Panier vide");
+  if(delivery&&!address.value.trim())return alert("Adresse requise");
+
+  orders++;
+  localStorage.setItem("orders",orders);
+
+  let msg=`🧾 COMMANDE ALLO85\n⭐ ${level()} (${orders})\n🎁 ${ref}\n\n`;
+  cart.forEach(i=>{
+    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
+  });
+  msg+=delivery
+    ? `\n🚚 Livraison +20€\n${address.value}\n`
+    : `\n📍 Sur place\n`;
+  msg+=`\n💰 Total : ${total.innerText}€`;
+
+  navigator.clipboard.writeText(msg);
+  cart=[];
+  save();
+  address.value="";
+  show("confirm");
+}
+
+function openAllo(){
+  window.open("https://t.me/allo856","_blank");
+}
+
+updateUI();
 </script>
 
 </body>
