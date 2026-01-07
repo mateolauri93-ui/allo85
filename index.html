@@ -193,6 +193,20 @@ footer button:active{
   gap:16px;
 }
 
+   /* ==================================================
+   🏠 ACCUEIL – 🍫🥦 VERTICAUX & PLUS GROS
+   ================================================== */
+.home-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:24px;
+}
+
+.home-card{
+  font-size:56px;
+  padding:34px 20px;
+  border-radius:34px;
+}
 .card{
   background:rgba(255,255,255,.78);
   border-radius:26px;
@@ -346,16 +360,16 @@ footer button:active{
   <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
+
 <!-- ==================================================
      🏠 PAGE PRINCIPALE
      ================================================== -->
 <section id="root" class="page active">
-  <div class="grid">
-    <div class="card" onclick="goChoco()">🍫</div>
-    <div class="card" onclick="goGreen()">🥦</div>
+  <div class="home-grid">
+    <div class="card home-card" onclick="goChoco()">🍫</div>
+    <div class="card home-card" onclick="goGreen()">🥦</div>
   </div>
 </section>
-
 <!-- ==================================================
      🍫 CATÉGORIES CHOCOLAT
      ================================================== -->
