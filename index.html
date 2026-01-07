@@ -25,16 +25,13 @@ body{
   transition:.4s;
 }
 
-/* ===== FOND IMAGE FLOUTÉ (VISIBILITÉ MAX, FLOU RÉDUIT) ===== */
+/* ===== FOND GLOBAL ===== */
 body::before{
   content:"";
   position:fixed;
   inset:0;
   background:
-    linear-gradient(
-      rgba(255,255,255,.55),
-      rgba(255,255,255,.55)
-    ),
+    linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
     url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
   filter:blur(6px) saturate(1.08);
@@ -42,19 +39,42 @@ body::before{
   z-index:-2;
 }
 
-/* MODE NUIT */
-body.night{
-  color:#f8fafc;
+/* ===== FOND 🍫 ===== */
+body.bg-choco::before{
+  background:
+    linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
+    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
+    center/cover no-repeat;
 }
+
+/* ===== FOND 🥦 ===== */
+body.bg-green::before{
+  background:
+    linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
+    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
+    center/cover no-repeat;
+}
+
+/* ===== MODE NUIT ===== */
+body.night{color:#f8fafc}
 body.night::before{
   background:
-    linear-gradient(
-      rgba(2,6,23,.75),
-      rgba(2,6,23,.75)
-    ),
+    linear-gradient(rgba(2,6,23,.75),rgba(2,6,23,.75)),
     url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
-  filter:blur(8px) saturate(1.05);
+  filter:blur(8px);
+}
+body.night.bg-choco::before{
+  background:
+    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
+    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
+    center/cover no-repeat;
+}
+body.night.bg-green::before{
+  background:
+    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
+    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
+    center/cover no-repeat;
 }
 
 /* ===== ACCUEIL ===== */
@@ -73,16 +93,10 @@ body.night::before{
   transform:translate(-50%,-50%);
 }
 .welcome-hide{animation:welcomeOut .45s forwards}
-@keyframes welcomeOut{
-  to{opacity:0;transform:scale(1.05)}
-}
+@keyframes welcomeOut{to{opacity:0;transform:scale(1.05)}}
 
 /* ===== STRUCTURE ===== */
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-}
+.app{max-width:420px;margin:auto;min-height:100vh}
 
 header,footer{
   position:fixed;
@@ -95,50 +109,32 @@ header,footer{
   align-items:center;
   z-index:10;
 }
-
 header{
-  top:0;
-  height:56px;
+  top:0;height:56px;
   justify-content:space-between;
   padding:0 14px;
   display:none;
 }
 footer{
-  bottom:0;
-  height:64px;
+  bottom:0;height:64px;
   justify-content:space-between;
   padding:0 16px;
   display:none;
 }
-
-header strong{
-  font-family:Fredoka;
-  font-size:18px;
-}
-
-header button,
-footer button{
-  border:none;
-  border-radius:999px;
+header strong{font-family:Fredoka;font-size:18px}
+header button,footer button{
+  border:none;border-radius:999px;
   padding:8px 16px;
   background:var(--accent);
   font-family:Fredoka;
 }
 
 /* ===== PAGES ===== */
-.page{
-  display:none;
-  padding:96px 20px 150px;
-}
+.page{display:none;padding:96px 20px 150px}
 .page.active{display:block}
 
 /* ===== UI ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .card{
   background:rgba(255,255,255,.78);
   border-radius:26px;
@@ -147,38 +143,29 @@ footer button{
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
 }
-
 .price{font-size:22px;margin:6px 0}
-
 .qty{
   display:flex;
   justify-content:center;
-  align-items:center;
   gap:12px;
   margin-top:10px;
 }
-
 .qty button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
+  width:30px;height:30px;
+  border:none;border-radius:50%;
   background:var(--accent);
   font-size:18px;
 }
-
 .notice{
   background:rgba(255,255,255,.7);
   backdrop-filter:blur(6px);
   border-radius:18px;
-  padding:14px;
-  margin-top:16px;
+  padding:14px;margin-top:16px;
 }
 
 /* ===== SERVICES ===== */
 #services{
-  position:fixed;
-  inset:0;
+  position:fixed;inset:0;
   background:rgba(0,0,0,.4);
   display:none;
   justify-content:center;
@@ -224,8 +211,8 @@ footer button{
 
 <section id="root" class="page active">
   <div class="grid">
-    <div class="card" onclick="go('choco')">🍫</div>
-    <div class="card" onclick="go('green')">🥦</div>
+    <div class="card" onclick="goChoco()">🍫</div>
+    <div class="card" onclick="goGreen()">🥦</div>
   </div>
 </section>
 
@@ -305,11 +292,17 @@ const catalog={
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
-
 let orders=Number(localStorage.getItem("orders")||0);
 let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
+/* ===== GESTION FONDS (AJOUT) ===== */
+function setBg(type){
+  document.body.classList.remove("bg-choco","bg-green");
+  if(type) document.body.classList.add(type);
+}
+
+/* ===== NAVIGATION EXISTANTE ===== */
 function level(){return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau"}
 
 function show(id){
@@ -322,7 +315,23 @@ function show(id){
   }
 }
 function go(id){stack.push(id);show(id)}
-function goBack(){if(stack.length>1){stack.pop();show(stack.at(-1))}}
+function goBack(){
+  if(stack.length>1){
+    stack.pop();
+    show(stack.at(-1));
+  }
+  if(stack.length===1) setBg(null);
+}
+
+/* ===== NOUVEAUX POINTS 🍫 / 🥦 ===== */
+function goChoco(){
+  setBg("bg-choco");
+  go("choco");
+}
+function goGreen(){
+  setBg("bg-green");
+  go("green");
+}
 
 function enterApp(){
   welcome.classList.add("welcome-hide");
@@ -335,6 +344,7 @@ function enterApp(){
 function goWelcome(){
   stack=["root"];
   show("root");
+  setBg(null);
   header.style.display="none";
   footer.style.display="none";
   welcome.style.display="block";
@@ -344,6 +354,7 @@ function goWelcome(){
 function toggleServices(){services.style.display=services.style.display==="flex"?"none":"flex"}
 function toggleNight(){document.body.classList.toggle("night")}
 
+/* ===== PANIER (INCHANGÉ) ===== */
 function renderProducts(list,id){
   const el=document.getElementById(id);el.innerHTML="";
   list.forEach(p=>{
@@ -354,21 +365,29 @@ function renderProducts(list,id){
         <div>${p.g}</div>
         <div class="price">${p.p}€</div>
         <div class="qty">
-          ${it?`<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`:`<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`}
+          ${it?`<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`:
+          `<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`}
         </div>
       </div>`;
   });
 }
 
 function add(k,t,g,p){cart.push({k,t,g,p,q:1});save()}
-function chg(k,d){const i=cart.find(x=>x.k===k);if(!i)return;i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.k!==k);save()}
+function chg(k,d){
+  const i=cart.find(x=>x.k===k);
+  if(!i)return;
+  i.q+=d;
+  if(i.q<=0)cart=cart.filter(x=>x.k!==k);
+  save();
+}
 function save(){localStorage.setItem("cart",JSON.stringify(cart));updateUI()}
 
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
   renderProducts(catalog.filtre,"filtreList");
   renderProducts(catalog.cali,"caliList");
-  let c=0,t=0;cartItems.innerHTML="";
+  let c=0,t=0;
+  cartItems.innerHTML="";
   cart.forEach(i=>{
     c+=i.q;t+=i.q*i.p;
     cartItems.innerHTML+=`
@@ -400,6 +419,7 @@ function sendOrder(){
   show("confirm");
 }
 function openAllo(){window.open("https://t.me/allo856","_blank")}
+
 updateUI();
 </script>
 
