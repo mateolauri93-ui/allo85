@@ -42,15 +42,13 @@ body::before{
   z-index:-2;
 }
 
-/* ===== FOND 🍫 ===== */
+/* ===== FONDS ===== */
 body.bg-choco::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
     url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
     center/cover no-repeat;
 }
-
-/* ===== FOND 🥦 ===== */
 body.bg-green::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -66,38 +64,6 @@ body.night::before{
     url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
   filter:blur(8px);
-}
-body.night.bg-choco::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
-    center/cover no-repeat;
-}
-body.night.bg-green::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
-    center/cover no-repeat;
-}
-
-/* ===== ACCUEIL ===== */
-#welcome{
-  position:fixed;
-  inset:0;
-  background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
-  z-index:100;
-}
-#welcome-hitbox{
-  position:absolute;
-  width:300px;
-  height:100px;
-  left:50%;
-  top:75%;
-  transform:translate(-50%,-50%);
-}
-.welcome-hide{animation:welcomeOut .45s forwards}
-@keyframes welcomeOut{
-  to{opacity:0;transform:scale(1.05)}
 }
 
 /* ===== STRUCTURE ===== */
@@ -119,57 +85,35 @@ header,footer{
   z-index:10;
 }
 
-header{
-  top:0;
-  height:56px;
-  justify-content:space-between;
-  padding:0 14px;
-  display:none;
-}
-footer{
-  bottom:0;
-  height:64px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
+header{top:0;height:56px;justify-content:space-between;padding:0 14px;display:none}
+footer{bottom:0;height:64px;justify-content:space-between;padding:0 16px;display:none}
 
-header strong{
-  font-family:Fredoka;
-  font-size:18px;
-}
+header strong{font-family:Fredoka;font-size:18px}
 
-header button,
-footer button{
+header button,footer button{
   border:none;
   border-radius:999px;
   padding:8px 16px;
   background:var(--accent);
   font-family:Fredoka;
-  transition:transform .15s ease;
-}
-header button:active,
-footer button:active{
-  transform:scale(.94);
 }
 
 /* ===== PAGES ===== */
 .page{
   display:none;
   padding:96px 20px 150px;
-  animation:pageIn .25s ease;
-}
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
 }
 .page.active{display:block}
 
 /* ===== UI ===== */
 .grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
+  gap:24px;
+}
+
+/* ===== BOUTONS ACCUEIL VERTICAUX XL ===== */
+.grid-vertical{
+  grid-template-columns:1fr;
 }
 
 .card{
@@ -179,114 +123,16 @@ footer button:active{
   text-align:center;
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.card:active{
-  transform:scale(.97);
-  box-shadow:0 12px 26px rgba(0,0,0,.18);
 }
 
-.price{
-  font-size:22px;
-  margin:6px 0;
-}
-
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  margin-top:10px;
-}
-
-.qty button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
-  background:var(--accent);
-  font-size:18px;
-  transition:transform .15s ease;
-}
-.qty button:active{
-  transform:scale(.85);
-}
-
-.notice{
-  background:rgba(255,255,255,.7);
-  backdrop-filter:blur(6px);
-  border-radius:18px;
-  padding:14px;
-  margin-top:16px;
-}
-
-/* ===== SERVICES ===== */
-#services{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:50;
-}
-#services .box{
-  background:var(--card);
-  border-radius:28px;
-  padding:26px;
-  width:82%;
-}
-#services button{
-  width:100%;
-  margin:10px 0;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-#services button:active{
-  transform:scale(.96);
-}
-
-/* ===== BARRE CADEAU 150€ (AJOUT) ===== */
-.gift-bar{
-  position:fixed;
-  left:50%;
-  bottom:74px;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:380px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(8px);
-  border-radius:18px;
-  padding:12px 14px;
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-  font-family:Fredoka;
-  z-index:9;
-}
-.gift-text{
-  font-size:14px;
-  text-align:center;
-}
-.gift-track{
-  width:100%;
-  height:10px;
-  background:rgba(0,0,0,.1);
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:6px;
-}
-.gift-progress{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ffd56b,#ffb703);
-  border-radius:999px;
-  transition:width .35s ease;
+.card-big{
+  font-size:64px;
+  padding:36px 20px;
+  border-radius:32px;
 }
 </style>
 </head>
+
 <body>
 
 <div id="welcome">
@@ -306,10 +152,11 @@ footer button:active{
   <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
+<!-- ===== ACCUEIL ===== -->
 <section id="root" class="page active">
-  <div class="grid">
-    <div class="card" onclick="goChoco()">🍫</div>
-    <div class="card" onclick="goGreen()">🥦</div>
+  <div class="grid grid-vertical">
+    <div class="card card-big" onclick="goChoco()">🍫</div>
+    <div class="card card-big" onclick="goGreen()">🥦</div>
   </div>
 </section>
 
@@ -346,14 +193,8 @@ footer button:active{
   <div id="cartItems"></div>
 
   <div class="notice">
-    <label>
-      <input type="radio" name="del" checked onclick="setDelivery(false)">
-      Sur place
-    </label><br>
-    <label>
-      <input type="radio" name="del" onclick="setDelivery(true)">
-      Livraison +20€
-    </label>
+    <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
+    <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
   </div>
 
   <textarea id="address" placeholder="Adresse de livraison"
@@ -374,13 +215,10 @@ footer button:active{
     <h3 id="levelText"></h3>
     <p><b>Commandes :</b> <span id="orderCount"></span></p>
   </div>
+
   <div class="notice">
     🎁 <b>Code parrain :</b><br>
     <span id="refCode"></span>
-  </div>
-  <div class="notice">
-    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
-    Lorsqu’ils passent commande, tu gagnes un avantage.
   </div>
 </section>
 
@@ -390,16 +228,6 @@ footer button:active{
     <button onclick="openAllo()">📨 Ouvrir le chat ALLO85</button>
   </div>
 </section>
-
-<!-- ===== BARRE CADEAU 150€ (AJOUT) ===== -->
-<div class="gift-bar" id="giftBar" style="display:none">
-  <div class="gift-text" id="giftText">
-    🎁 Plus que <b>150€</b> pour débloquer un cadeau
-  </div>
-  <div class="gift-track">
-    <div class="gift-progress" id="giftProgress"></div>
-  </div>
-</div>
 
 </div>
 
@@ -423,12 +251,11 @@ const catalog={
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
-
 let orders=Number(localStorage.getItem("orders")||0);
 let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
-/* ================= TRANSITION FOND ================= */
+/* ================= BACKGROUND ================= */
 function transitionBg(className){
   document.documentElement.style.setProperty('--bg-opacity','0');
   setTimeout(()=>{
@@ -547,27 +374,6 @@ function save(){
   updateUI();
 }
 
-/* ================= BARRE CADEAU 150€ (AJOUT) ================= */
-function updateGiftBar(total){
-  const bar=document.getElementById("giftBar");
-  const prog=document.getElementById("giftProgress");
-  const txt=document.getElementById("giftText");
-
-  if(!bar)return;
-
-  const goal=150;
-  bar.style.display="block";
-
-  if(total>=goal){
-    prog.style.width="100%";
-    txt.innerHTML="🎉 <b>Cadeau débloqué !</b>";
-  }else{
-    const percent=Math.min((total/goal)*100,100);
-    prog.style.width=percent+"%";
-    txt.innerHTML=`🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
-  }
-}
-
 /* ================= UI ================= */
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
@@ -596,8 +402,6 @@ function updateUI(){
   cartCount.innerText=c;
   cartTotal.innerText=t+"€";
   total.innerText=t;
-
-  updateGiftBar(t);
 }
 
 function pulseCart(){
@@ -621,12 +425,8 @@ function sendOrder(){
   localStorage.setItem("orders",orders);
 
   let msg=`🧾 COMMANDE ALLO85\n⭐ ${level()} (${orders})\n🎁 ${ref}\n\n`;
-  cart.forEach(i=>{
-    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
-  });
-  msg+=delivery
-    ? `\n🚚 Livraison +20€\n${address.value}\n`
-    : `\n📍 Sur place\n`;
+  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`);
+  msg+=delivery?`\n🚚 Livraison +20€\n${address.value}\n`:`\n📍 Sur place\n`;
   msg+=`\n💰 Total : ${total.innerText}€`;
 
   navigator.clipboard.writeText(msg);
@@ -643,3 +443,6 @@ function openAllo(){
 /* ================= INIT ================= */
 updateUI();
 </script>
+
+</body>
+</html>
