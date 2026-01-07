@@ -31,7 +31,7 @@ body{
 }
 
 /* ======================================================
-   FOND IMAGE FLOUTÉ (PAGES INTERNES)
+   FOND IMAGE FLOUTÉ – PAGES INTERNES (CORRIGÉ)
 ====================================================== */
 body::before{
   content:"";
@@ -39,12 +39,12 @@ body::before{
   inset:0;
   background:
     linear-gradient(
-      rgba(255,255,255,.82),
-      rgba(255,255,255,.82)
+      rgba(255,255,255,.78),
+      rgba(255,255,255,.78)
     ),
-    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.png")
+    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
-  filter:blur(14px) saturate(1.05);
+  filter:blur(12px) saturate(1.05);
   transform:scale(1.08);
   z-index:-2;
 }
@@ -59,9 +59,9 @@ body.night::before{
       rgba(2,6,23,.88),
       rgba(2,6,23,.88)
     ),
-    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.png")
+    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
-  filter:blur(16px) saturate(1.05);
+  filter:blur(14px) saturate(1.05);
 }
 
 /* ======================================================
@@ -102,7 +102,7 @@ header,footer{
   left:0;right:0;
   max-width:420px;
   margin:auto;
-  background:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.88);
   backdrop-filter:blur(8px);
   display:flex;
   align-items:center;
@@ -116,7 +116,6 @@ header{
   padding:0 14px;
   display:none;
 }
-
 footer{
   bottom:0;
   height:64px;
@@ -158,7 +157,7 @@ footer button{
 }
 
 .card{
-  background:var(--card);
+  background:rgba(255,255,255,.9);
   border-radius:26px;
   padding:20px;
   text-align:center;
@@ -249,7 +248,6 @@ footer button{
   <button onclick="go('cart')">Panier</button>
 </footer>
 
-<!-- ================= NAVIGATION ================= -->
 <section id="root" class="page active">
   <div class="grid">
     <div class="card" onclick="go('choco')">🍫</div>
