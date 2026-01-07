@@ -600,66 +600,28 @@ const catalog={
 /* ====
 
 /* ==================================================
-   🔒 SÉCURITÉ ACCÈS PREMIÈRE CONNEXION
+   🔒 SÉCURITÉ ACCÈS (SIMPLE & STABLE)
    ================================================== */
 const MASTER_CODE = "HELLOALLO85";
 
-let users = JSON.parse(localStorage.getItem("users") || "{}");
-let accessCode = localStorage.getItem("accessCode");
-
-function isValidCode(code){
-  if(code === MASTER_CODE) return true;
-  return users.hasOwnProperty(code);
-}
-
-function validateAccessCode(){
-  const input = document.getElementById("accessCodeInput");
-  const error = document.getElementById("lockError");
-  const code = input.value.trim().toUpperCase();
-
-  if(isValidCode(code)){
-    localStorage.setItem("accessCode", code);
-
-    if(!users[code]){
-      users[code] = { orders: 0 };
-      localStorage.setItem("users", JSON.stringify(users));
-    }
-
-    document.getElementById("lockScreen").style.display = "none";
-  }else{
-    error.style.display = "block";
-  }
-}
-
-==============================================
-   🔐 SYSTÈME D’ACCÈS (CODES)
-   ================================================== */
-
-// code maître
-const MASTER_CODE = "HELLOALLO85";
-
-// accès déjà validé ?
+// état accès
 let accessGranted = localStorage.getItem("accessGranted") === "true";
 
-// empêcher l’accès si non validé
-if(!accessGranted){
-  show("access");
-}else{
-  show("root");
+// vérifie un code (maître OU code parrain local)
+function isValidAccess(code){
+  return code === MASTER_CODE || code === ref;
 }
 
-// vérification du code
+// validation depuis la page "access"
 function checkAccess(){
-  const input = document.getElementById("accessInput").value.trim().toUpperCase();
+  const input = document.getElementById("accessInput");
   const error = document.getElementById("accessError");
 
-  // liste des codes autorisés
-  const allowedCodes = [
-    MASTER_CODE,
-    ref // le code de parrainage local
-  ];
+  if(!input) return;
 
-  if(allowedCodes.includes(input)){
+  const code = input.value.trim().toUpperCase();
+
+  if(isValidAccess(code)){
     localStorage.setItem("accessGranted","true");
     accessGranted = true;
     error.style.display = "none";
@@ -668,16 +630,7 @@ function checkAccess(){
     error.style.display = "block";
   }
 }
-   
-   
-let stack=["root"];
-let cart=JSON.parse(localStorage.getItem("cart")||"[]");
-let delivery=false;
 
-let orders=Number(localStorage.getItem("orders")||0);
-let ref=localStorage.getItem("ref") ||
-  ("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
-localStorage.setItem("ref",ref);
 
 /* ==================================================
    🌈 TRANSITION DES FONDS
@@ -695,12 +648,13 @@ function transitionBg(className){
 /* ==================================================
    🧭 NAVIGATION (SÉCURISÉE)
    ================================================== */
-function show(id){
-
   // 🔒 blocage si accès non validé
   if(!accessGranted && id !== "access"){
     id = "access";
   }
+   
+   function show(id){
+
 
   document.querySelectorAll(".page")
     .forEach(p=>p.classList.remove("active"));
