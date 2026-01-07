@@ -29,14 +29,11 @@ body{
   color:var(--text);
   background:#fff;
   position:relative;
-  transition:background .4s,color .4s;
 }
 
 /* ==================================================
-   🎨 BACKGROUNDS & AMBIANCES
+   🎨 FOND GLOBAL
    ================================================== */
-
-/* --- Fond global --- */
 body::before{
   content:"";
   position:fixed;
@@ -46,13 +43,11 @@ body::before{
     linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
     url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
-  filter:blur(6px) saturate(1.08);
-  transform:scale(1.05);
-  transition:opacity .45s ease;
-  z-index:-2;
+  filter:blur(6px);
+  z-index:-1;
 }
 
-/* --- Fond 🍫 --- */
+/* ===== FOND 🍫 ===== */
 body.bg-choco::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -60,32 +55,10 @@ body.bg-choco::before{
     center/cover no-repeat;
 }
 
-/* --- Fond 🥦 --- */
+/* ===== FOND 🥦 ===== */
 body.bg-green::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
-    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
-    center/cover no-repeat;
-}
-
-/* --- Mode nuit --- */
-body.night{color:#f8fafc}
-body.night::before{
-  background:
-    linear-gradient(rgba(2,6,23,.75),rgba(2,6,23,.75)),
-    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
-    center/cover no-repeat;
-  filter:blur(8px);
-}
-body.night.bg-choco::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
-    center/cover no-repeat;
-}
-body.night.bg-green::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
     url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
     center/cover no-repeat;
 }
@@ -107,13 +80,9 @@ body.night.bg-green::before{
   top:75%;
   transform:translate(-50%,-50%);
 }
-.welcome-hide{animation:welcomeOut .45s forwards}
-@keyframes welcomeOut{
-  to{opacity:0;transform:scale(1.05)}
-}
 
 /* ==================================================
-   🧱 STRUCTURE GÉNÉRALE
+   📱 STRUCTURE APP
    ================================================== */
 .app{
   max-width:420px;
@@ -126,12 +95,12 @@ body.night.bg-green::before{
    ================================================== */
 header,footer{
   position:fixed;
-  left:0;right:0;
+  left:0;
+  right:0;
   max-width:420px;
   margin:auto;
-  background:rgba(255,255,255,.82);
-  backdrop-filter:blur(8px);
-  display:flex;
+  background:rgba(255,255,255,.85);
+  display:none;
   align-items:center;
   z-index:10;
 }
@@ -141,14 +110,13 @@ header{
   height:56px;
   justify-content:space-between;
   padding:0 14px;
-  display:none;
 }
+
 footer{
   bottom:0;
   height:64px;
   justify-content:space-between;
   padding:0 16px;
-  display:none;
 }
 
 header strong{
@@ -163,11 +131,6 @@ footer button{
   padding:8px 16px;
   background:var(--accent);
   font-family:Fredoka;
-  transition:transform .15s ease;
-}
-header button:active,
-footer button:active{
-  transform:scale(.94);
 }
 
 /* ==================================================
@@ -176,25 +139,13 @@ footer button:active{
 .page{
   display:none;
   padding:96px 20px 150px;
-  animation:pageIn .25s ease;
 }
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
+.page.active{
+  display:block;
 }
-.page.active{display:block}
 
 /* ==================================================
-   🎛️ UI & COMPOSANTS
-   ================================================== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
-   /* ==================================================
-   🏠 ACCUEIL – 🍫🥦 VERTICAUX & PLUS GROS
+   🏠 PAGE PRINCIPALE 🍫🥦
    ================================================== */
 .home-grid{
   display:grid;
@@ -204,130 +155,40 @@ footer button:active{
 
 .home-card{
   font-size:56px;
-  padding:34px 20px;
+  padding:36px;
   border-radius:34px;
 }
+
+/* ==================================================
+   🎛️ COMPOSANTS UI
+   ================================================== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
 .card{
-  background:rgba(255,255,255,.78);
+  background:rgba(255,255,255,.85);
   border-radius:26px;
   padding:20px;
   text-align:center;
   font-family:Fredoka;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.card:active{
-  transform:scale(.97);
-  box-shadow:0 12px 26px rgba(0,0,0,.18);
-}
-
-.price{
-  font-size:22px;
-  margin:6px 0;
-}
-
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  margin-top:10px;
-}
-
-.qty button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
-  background:var(--accent);
-  font-size:18px;
-  transition:transform .15s ease;
-}
-.qty button:active{
-  transform:scale(.85);
-}
-
-.notice{
-  background:rgba(255,255,255,.7);
-  backdrop-filter:blur(6px);
-  border-radius:18px;
-  padding:14px;
-  margin-top:16px;
 }
 
 /* ==================================================
-   🧩 SERVICES (MENU)
+   🔒 PAGE D’ACCÈS
    ================================================== */
-#services{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:50;
-}
-#services .box{
-  background:var(--card);
-  border-radius:28px;
-  padding:26px;
-  width:82%;
-}
-#services button{
+#access input{
   width:100%;
-  margin:10px 0;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-#services button:active{
-  transform:scale(.96);
-}
-
-/* ==================================================
-   🎁 BARRE CADEAU 150€
-   ================================================== */
-.gift-bar{
-  position:fixed;
-  left:50%;
-  bottom:74px;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:380px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(8px);
-  border-radius:18px;
-  padding:12px 14px;
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-  font-family:Fredoka;
-  z-index:9;
-}
-.gift-text{
-  font-size:14px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
   text-align:center;
-}
-.gift-track{
-  width:100%;
-  height:10px;
-  background:rgba(0,0,0,.1);
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:6px;
-}
-.gift-progress{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ffd56b,#ffb703);
-  border-radius:999px;
-  transition:width .35s ease;
 }
 
 </style>
 </head>
-
 
 <body>
 
@@ -337,87 +198,26 @@ footer button:active{
 <div id="welcome">
   <div id="welcome-hitbox" onclick="enterApp()"></div>
 </div>
-   <!-- ==================================================
-     🔒 PAGE DE VERROUILLAGE (ACCÈS)
-     ================================================== -->
-<div id="lockScreen" style="display:none;position:fixed;inset:0;background:#fff;z-index:200;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px">
-
-  <h2>🔒 Accès sécurisé</h2>
-
-  <input
-    id="accessCodeInput"
-    placeholder="Code d’accès"
-    style="padding:12px;border-radius:12px;border:1px solid #ccc;width:100%;max-width:260px;text-align:center"
-  >
-
-  <button
-    onclick="validateAccessCode()"
-    style="margin-top:14px;padding:12px 20px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka"
-  >
-    Entrer
-  </button>
-
-  <p id="lockError" style="color:red;margin-top:10px;display:none">
-    Code invalide
-  </p>
-
-</div>
 
 <!-- ==================================================
      📱 APPLICATION
      ================================================== -->
 <div class="app">
-<!-- ==================================================
-     🔐 PAGE D’ACCÈS PAR CODE (BLOCAGE)
-     ================================================== -->
-<section id="access" class="page active">
 
+<!-- ==================================================
+     🔐 PAGE D’ACCÈS
+     ================================================== -->
+<section id="access" class="page">
   <div class="card">
     <h2>🔐 Accès sécurisé</h2>
-
-    <p style="font-size:14px">
-      Entre ton <b>code d’accès</b> ou un <b>code de parrainage valide</b>
+    <input id="accessInput" placeholder="Code d’accès">
+    <button onclick="checkAccess()">Valider</button>
+    <p id="accessError" style="color:red;display:none">
+      Code invalide
     </p>
-
-    <input
-      id="accessInput"
-      type="text"
-      placeholder="Code d’accès"
-      style="
-        width:100%;
-        padding:12px;
-        border-radius:12px;
-        border:1px solid #ddd;
-        font-size:16px;
-        text-align:center;
-        margin-top:10px;
-      "
-    >
-
-    <button
-      onclick="checkAccess()"
-      style="
-        width:100%;
-        margin-top:14px;
-        padding:14px;
-        border:none;
-        border-radius:999px;
-        background:var(--accent);
-        font-family:Fredoka;
-        font-size:16px;
-      "
-    >
-      Valider
-    </button>
-
-    <p id="accessError"
-       style="display:none;color:red;font-size:14px;margin-top:10px">
-      ❌ Code invalide
-    </p>
-
   </div>
-
 </section>
+
 <!-- ==================================================
      🔝 HEADER
      ================================================== -->
@@ -428,191 +228,60 @@ footer button:active{
 </header>
 
 <!-- ==================================================
-     🛒 FOOTER PANIER
+     🛒 FOOTER
      ================================================== -->
 <footer id="footer">
   <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
-  <button id="cartBtn" onclick="go('cart')">Panier</button>
+  <button onclick="go('cart')">Panier</button>
 </footer>
-
 
 <!-- ==================================================
      🏠 PAGE PRINCIPALE
      ================================================== -->
-<section id="root" class="page active">
+<section id="root" class="page">
   <div class="home-grid">
     <div class="card home-card" onclick="goChoco()">🍫</div>
     <div class="card home-card" onclick="goGreen()">🥦</div>
   </div>
 </section>
-<!-- ==================================================
-     🍫 CATÉGORIES CHOCOLAT
-     ================================================== -->
-<section id="choco" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
-    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
-  </div>
-</section>
-
-<!-- ==================================================
-     🥦 CATÉGORIES GREEN
-     ================================================== -->
-<section id="green" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
-  </div>
-</section>
-
-<!-- ==================================================
-     📦 LISTES PRODUITS
-     ================================================== -->
-<section id="jaune" class="page">
-  <h2>🟡 Jaune</h2>
-  <div class="grid" id="jauneList"></div>
-</section>
-
-<section id="filtre" class="page">
-  <h2>🔍 Filtré</h2>
-  <div class="grid" id="filtreList"></div>
-</section>
-
-<section id="cali" class="page">
-  <h2>🇺🇸 Cali</h2>
-  <div class="grid" id="caliList"></div>
-</section>
-
-<!-- ==================================================
-     🛒 PANIER
-     ================================================== -->
-<section id="cart" class="page">
-  <h2>🛒 Panier</h2>
-  <div id="cartItems"></div>
-
-  <div class="notice">
-    <label>
-      <input type="radio" name="del" checked onclick="setDelivery(false)">
-      Sur place
-    </label><br>
-    <label>
-      <input type="radio" name="del" onclick="setDelivery(true)">
-      Livraison +20€
-    </label>
-  </div>
-
-  <textarea id="address"
-    placeholder="Adresse de livraison"
-    style="display:none;width:100%;margin-top:10px">
-  </textarea>
-
-  <p><b>Total : <span id="total">0</span> €</b></p>
-
-  <button onclick="sendOrder()"
-    style="width:100%;padding:14px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka">
-    Confirmer la commande
-  </button>
-</section>
-
-<!-- ==================================================
-     ⭐ AVANTAGES
-     ================================================== -->
-<section id="advantages" class="page">
-  <h2>⭐ Avantages</h2>
-
-  <div class="card">
-    <p><b>Niveau :</b></p>
-    <h3 id="levelText"></h3>
-    <p><b>Commandes :</b> <span id="orderCount"></span></p>
-  </div>
-
-  <div class="notice">
-    🎁 <b>Code parrain :</b><br>
-    <span id="refCode"></span>
-  </div>
-
-  <div class="notice">
-    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
-    Lorsqu’ils passent commande, tu gagnes un avantage.
-  </div>
-</section>
-
-<!-- ==================================================
-     🎉 CONFIRMATION
-     ================================================== -->
-<section id="confirm" class="page">
-  <div class="card">
-    <h2 class="confirm-pop">🎉 Commande prête !</h2>
-    <button onclick="openAllo()">📨 Ouvrir le chat ALLO85</button>
-  </div>
-</section>
-
-<!-- ==================================================
-     🎁 BARRE CADEAU 150€
-     ================================================== -->
-<div class="gift-bar" id="giftBar" style="display:none">
-  <div class="gift-text" id="giftText">
-    🎁 Plus que <b>150€</b> pour débloquer un cadeau
-  </div>
-  <div class="gift-track">
-    <div class="gift-progress" id="giftProgress"></div>
-  </div>
-</div>
-
-</div><!-- FIN .app -->
-
-<!-- ==================================================
-     ☰ MENU SERVICES
-     ================================================== -->
-<div id="services">
-  <div class="box">
-    <button onclick="goWelcome()">🏠 Accueil</button>
-    <button onclick="go('advantages');toggleServices()">⭐ Avantages</button>
-    <button onclick="toggleNight()">🌙 Mode nuit</button>
-    <button onclick="toggleServices()">Fermer</button>
-  </div>
-</div>
-
 <script>
+
 /* ==================================================
-   📦 CATALOGUE PRODUITS
+   🔒 SÉCURITÉ D’ACCÈS (PREMIÈRE CONNEXION)
    ================================================== */
-const catalog={
-  jaune:[
-    {g:"4g",p:20},
-    {g:"10g",p:50},
-    {g:"20g",p:90}
-  ],
-  filtre:[
-    {g:"2.5g",p:20},
-    {g:"5g",p:40},
-    {g:"10g",p:70}
-  ],
-  cali:[
-    {g:"2.4g",p:20},
-    {g:"5g",p:50},
-    {g:"10g",p:80}
-  ]
-};
+
+/*
+  RÈGLES :
+  - Code maître fixe : HELLOALLO85
+  - OU code de parrainage local (ref)
+  - Une fois validé → accès mémorisé
+*/
+
+const MASTER_CODE = "HELLOALLO85";
+
+/* état accès */
+let accessGranted = localStorage.getItem("accessGranted") === "true";
 
 /* ==================================================
    🧠 ÉTAT GLOBAL
    ================================================== */
-/* ====
+let stack = ["root"];
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+let delivery = false;
+
+let orders = Number(localStorage.getItem("orders") || 0);
+let ref = localStorage.getItem("ref") ||
+  ("ALLO85-" + Math.random().toString(36).slice(2,7).toUpperCase());
+
+localStorage.setItem("ref", ref);
 
 /* ==================================================
-   🔒 SÉCURITÉ ACCÈS (SIMPLE & STABLE)
+   🔐 VALIDATION CODE
    ================================================== */
-const MASTER_CODE = "HELLOALLO85";
-
-// état accès
-let accessGranted = localStorage.getItem("accessGranted") === "true";
-
-// vérifie un code (maître OU code parrain local)
 function isValidAccess(code){
   return code === MASTER_CODE || code === ref;
 }
 
-// validation depuis la page "access"
 function checkAccess(){
   const input = document.getElementById("accessInput");
   const error = document.getElementById("accessError");
@@ -631,41 +300,21 @@ function checkAccess(){
   }
 }
 
-
-/* ==================================================
-   🌈 TRANSITION DES FONDS
-   ================================================== */
-function transitionBg(className){
-  document.documentElement.style.setProperty('--bg-opacity','0');
-  setTimeout(()=>{
-    document.body.classList.remove("bg-choco","bg-green");
-    if(className) document.body.classList.add(className);
-    document.documentElement.style.setProperty('--bg-opacity','1');
-  },200);
-}
-
-/* ==================================================
 /* ==================================================
    🧭 NAVIGATION (SÉCURISÉE)
    ================================================== */
-  // 🔒 blocage si accès non validé
+function show(id){
+
+  /* blocage si non autorisé */
   if(!accessGranted && id !== "access"){
     id = "access";
   }
-   
-   function show(id){
-
 
   document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+    .forEach(p => p.classList.remove("active"));
 
-  document.getElementById(id).classList.add("active");
-
-  if(id==="advantages"){
-    levelText.innerText=level();
-    orderCount.innerText=orders;
-    refCode.innerText=ref;
-  }
+  const page = document.getElementById(id);
+  if(page) page.classList.add("active");
 }
 
 function go(id){
@@ -677,13 +326,9 @@ function go(id){
 function goBack(){
   if(!accessGranted) return;
 
-  if(stack.length>1){
+  if(stack.length > 1){
     stack.pop();
     show(stack.at(-1));
-  }
-
-  if(stack.length===1){
-    transitionBg(null);
   }
 }
 
@@ -691,12 +336,14 @@ function goBack(){
    🍫 / 🥦 CATÉGORIES
    ================================================== */
 function goChoco(){
-  transitionBg("bg-choco");
+  document.body.classList.add("bg-choco");
+  document.body.classList.remove("bg-green");
   go("choco");
 }
 
 function goGreen(){
-  transitionBg("bg-green");
+  document.body.classList.add("bg-green");
+  document.body.classList.remove("bg-choco");
   go("green");
 }
 
@@ -704,49 +351,81 @@ function goGreen(){
    🏠 ACCUEIL
    ================================================== */
 function enterApp(){
-  welcome.classList.add("welcome-hide");
-  setTimeout(()=>{
-    welcome.style.display="none";
-    header.style.display="flex";
-    footer.style.display="flex";
-  },450);
-}
+  const welcome = document.getElementById("welcome");
+  const header = document.getElementById("header");
+  const footer = document.getElementById("footer");
 
-function goWelcome(){
-  stack=["root"];
-  show("root");
-  transitionBg(null);
-  header.style.display="none";
-  footer.style.display="none";
-  welcome.style.display="block";
-  welcome.classList.remove("welcome-hide");
-  services.style.display="none";
+  welcome.style.display = "none";
+  header.style.display = "flex";
+  footer.style.display = "flex";
+
+  if(!accessGranted){
+    show("access");
+  }else{
+    show("root");
+  }
 }
 
 /* ==================================================
    ☰ SERVICES
    ================================================== */
 function toggleServices(){
-  services.style.display=
-    services.style.display==="flex" ? "none" : "flex";
+  const services = document.getElementById("services");
+  if(!services) return;
+
+  services.style.display =
+    services.style.display === "flex" ? "none" : "flex";
 }
 
-function toggleNight(){
-  document.body.classList.toggle("night");
-}
+/* ==================================================
+   🚀 INIT AU CHARGEMENT
+   ================================================== */
+document.addEventListener("DOMContentLoaded", ()=>{
+  if(!accessGranted){
+    show("access");
+  }else{
+    show("root");
+  }
+});
+
+</script>
+<script>
+
+/* ==================================================
+   📦 CATALOGUE PRODUITS
+   ================================================== */
+const catalog = {
+  jaune: [
+    { g: "4g", p: 20 },
+    { g: "10g", p: 50 },
+    { g: "20g", p: 90 }
+  ],
+  filtre: [
+    { g: "2.5g", p: 20 },
+    { g: "5g", p: 40 },
+    { g: "10g", p: 70 }
+  ],
+  cali: [
+    { g: "2.4g", p: 20 },
+    { g: "5g", p: 50 },
+    { g: "10g", p: 80 }
+  ]
+};
 
 /* ==================================================
    🛒 PRODUITS
    ================================================== */
-function renderProducts(list,id){
-  const el=document.getElementById(id);
-  el.innerHTML="";
+function renderProducts(list, id){
+  const el = document.getElementById(id);
+  if(!el) return;
+
+  el.innerHTML = "";
 
   list.forEach(p=>{
-    const key=id+p.g;
-    const it=cart.find(i=>i.k===key);
+    const key = id + p.g;
+    const it = cart.find(i => i.k === key);
 
-    el.innerHTML+=`
+    el.innerHTML += `
       <div class="card">
         <div>${p.g}</div>
         <div class="price">${p.p}€</div>
@@ -761,7 +440,8 @@ function renderProducts(list,id){
                </button>`
           }
         </div>
-      </div>`;
+      </div>
+    `;
   });
 }
 
@@ -769,29 +449,24 @@ function renderProducts(list,id){
    ➕ / ➖ PANIER
    ================================================== */
 function add(k,t,g,p){
-  cart.push({k,t,g,p,q:1});
+  cart.push({ k, t, g, p, q: 1 });
   save();
   pulseCart();
-
-  if(window.Telegram?.WebApp){
-    Telegram.WebApp.HapticFeedback.impactOccurred("light");
-  }
 }
 
 function chg(k,d){
-  const i=cart.find(x=>x.k===k);
+  const i = cart.find(x => x.k === k);
   if(!i) return;
 
-  i.q+=d;
-  if(i.q<=0){
-    cart=cart.filter(x=>x.k!==k);
+  i.q += d;
+  if(i.q <= 0){
+    cart = cart.filter(x => x.k !== k);
   }
   save();
-  pulseCart();
 }
 
 function save(){
-  localStorage.setItem("cart",JSON.stringify(cart));
+  localStorage.setItem("cart", JSON.stringify(cart));
   updateUI();
 }
 
@@ -799,21 +474,23 @@ function save(){
    🎁 BARRE CADEAU 150€
    ================================================== */
 function updateGiftBar(total){
-  const bar=document.getElementById("giftBar");
-  const prog=document.getElementById("giftProgress");
-  const txt=document.getElementById("giftText");
+  const bar = document.getElementById("giftBar");
+  const prog = document.getElementById("giftProgress");
+  const txt  = document.getElementById("giftText");
 
-  const goal=150;
-  bar.style.display="block";
+  if(!bar) return;
 
-  if(total>=goal){
-    prog.style.width="100%";
-    txt.innerHTML="🎉 <b>Cadeau débloqué !</b>";
+  const goal = 150;
+  bar.style.display = "block";
+
+  if(total >= goal){
+    prog.style.width = "100%";
+    txt.innerHTML = "🎉 <b>Cadeau débloqué !</b>";
   }else{
-    const percent=Math.min((total/goal)*100,100);
-    prog.style.width=percent+"%";
-    txt.innerHTML=
-      `🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
+    const percent = Math.min((total / goal) * 100, 100);
+    prog.style.width = percent + "%";
+    txt.innerHTML =
+      `🎁 Plus que <b>${goal - total}€</b> pour débloquer un cadeau`;
   }
 }
 
@@ -821,50 +498,61 @@ function updateGiftBar(total){
    🔄 MISE À JOUR UI
    ================================================== */
 function updateUI(){
-  renderProducts(catalog.jaune,"jauneList");
-  renderProducts(catalog.filtre,"filtreList");
-  renderProducts(catalog.cali,"caliList");
+  renderProducts(catalog.jaune, "jauneList");
+  renderProducts(catalog.filtre, "filtreList");
+  renderProducts(catalog.cali, "caliList");
 
-  let c=0,t=0;
-  cartItems.innerHTML="";
+  let c = 0;
+  let t = 0;
+  const cartItems = document.getElementById("cartItems");
+  if(!cartItems) return;
+
+  cartItems.innerHTML = "";
 
   cart.forEach(i=>{
-    c+=i.q;
-    t+=i.q*i.p;
+    c += i.q;
+    t += i.q * i.p;
 
-    cartItems.innerHTML+=`
+    cartItems.innerHTML += `
       <div class="card">
         <div><b>${i.g} ${i.t}</b></div>
-        <div class="price">${i.q*i.p}€</div>
+        <div class="price">${i.q * i.p}€</div>
         <div class="qty">
           <button onclick="chg('${i.k}',-1)">−</button>
           ${i.q}
           <button onclick="chg('${i.k}',1)">+</button>
         </div>
-      </div>`;
+      </div>
+    `;
   });
 
-  if(delivery) t+=20;
+  if(delivery) t += 20;
 
-  cartCount.innerText=c;
-  cartTotal.innerText=t+"€";
-  total.innerText=t;
+  document.getElementById("cartCount").innerText = c;
+  document.getElementById("cartTotal").innerText = t + "€";
+  document.getElementById("total").innerText = t;
 
   updateGiftBar(t);
 }
 
 /* ==================================================
-   💥 ANIM PANIER
+   💥 ANIMATION PANIER
    ================================================== */
 function pulseCart(){
-  cartBtn.classList.remove("pulse");
-  void cartBtn.offsetWidth;
-  cartBtn.classList.add("pulse");
+  const btn = document.getElementById("cartBtn");
+  if(!btn) return;
+
+  btn.classList.remove("pulse");
+  void btn.offsetWidth;
+  btn.classList.add("pulse");
 }
 
 function setDelivery(v){
-  delivery=v;
-  address.style.display=v?"block":"none";
+  delivery = v;
+  const address = document.getElementById("address");
+  if(address){
+    address.style.display = v ? "block" : "none";
+  }
   updateUI();
 }
 
@@ -872,97 +560,41 @@ function setDelivery(v){
    📤 COMMANDE
    ================================================== */
 function sendOrder(){
-  if(cart.length===0) return alert("Panier vide");
-  if(delivery && !address.value.trim())
-    return alert("Adresse requise");
+  if(cart.length === 0){
+    alert("Panier vide");
+    return;
+  }
 
   orders++;
-  localStorage.setItem("orders",orders);
+  localStorage.setItem("orders", orders);
 
-  let msg=
+  let msg =
 `🧾 COMMANDE ALLO85
-⭐ ${level()} (${orders})
-🎁 ${ref}
+⭐ Commande #${orders}
+🎁 Parrain : ${ref}
 
 `;
 
   cart.forEach(i=>{
-    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
+    msg += `• ${i.q}× ${i.g} ${i.t} — ${i.q * i.p}€\n`;
   });
 
-  msg+=delivery
+  msg += delivery
     ? `\n🚚 Livraison +20€\n${address.value}\n`
     : `\n📍 Sur place\n`;
 
-  msg+=`\n💰 Total : ${total.innerText}€`;
+  msg += `\n💰 Total : ${total.innerText}€`;
 
   navigator.clipboard.writeText(msg);
-  cart=[];
+
+  cart = [];
   save();
-  address.value="";
   show("confirm");
 }
 
-function openAllo(){
-  window.open("https://t.me/allo856","_blank");
-}
+/* ==================================================
+   🚀 INIT FINAL
+   ================================================== */
+updateUI();
 
-   /* ==================================================
-   🔒 SÉCURITÉ UI
-   ================================================== */
-document.addEventListener("DOMContentLoaded",()=>{
-  if(!accessGranted){
-    show("access");
-  }
-});
-/* ==================================================
-   🚀 INIT
-   ================================================== */
-/* ==================================================
-   🔐 VÉRIFICATION AU DÉMARRAGE
-   ================================================== */
-if(!accessCode){
-  document.getElementById("lockScreen").style.display = "flex";
-}
-   
-   updateUI();
 </script>
-
-<style>
-/* ==================================================
-   ✨ ANIMATION PANIER (PULSE)
-   ================================================== */
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.08)}
-  100%{transform:scale(1)}
-}
-#cartBtn.pulse{
-  animation:pulse .3s ease;
-}
-
-/* ==================================================
-   🎉 CONFIRMATION COMMANDE (POP)
-   ================================================== */
-@keyframes pop{
-  0%{transform:scale(.7);opacity:0}
-  60%{transform:scale(1.15);opacity:1}
-  100%{transform:scale(1)}
-}
-.confirm-pop{
-  animation:pop .45s ease;
-}
-
-/* ==================================================
-   ✨ PETITES AMÉLIORATIONS VISUELLES
-   ================================================== */
-.card:hover{
-  transform:translateY(-2px);
-}
-.qty button:hover{
-  transform:scale(1.1);
-}
-</style>
-
-</body>
-</html>
