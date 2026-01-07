@@ -13,6 +13,9 @@
   --card:#ffffff;
   --text:#1f2937;
   --accent:#ffd56b;
+
+  /* AJOUT — transition fond */
+  --bg-opacity:1;
 }
 
 /* ===== BASE ===== */
@@ -25,17 +28,19 @@ body{
   transition:.4s;
 }
 
-/* ===== FOND GLOBAL ===== */
+/* ===== FOND GLOBAL (ANIMABLE) ===== */
 body::before{
   content:"";
   position:fixed;
   inset:0;
+  opacity:var(--bg-opacity);
   background:
     linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
     url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
   filter:blur(6px) saturate(1.08);
   transform:scale(1.05);
+  transition:opacity .45s ease;
   z-index:-2;
 }
 
@@ -56,7 +61,9 @@ body.bg-green::before{
 }
 
 /* ===== MODE NUIT ===== */
-body.night{color:#f8fafc}
+body.night{
+  color:#f8fafc;
+}
 body.night::before{
   background:
     linear-gradient(rgba(2,6,23,.75),rgba(2,6,23,.75)),
@@ -92,11 +99,19 @@ body.night.bg-green::before{
   top:75%;
   transform:translate(-50%,-50%);
 }
-.welcome-hide{animation:welcomeOut .45s forwards}
-@keyframes welcomeOut{to{opacity:0;transform:scale(1.05)}}
+.welcome-hide{
+  animation:welcomeOut .45s forwards;
+}
+@keyframes welcomeOut{
+  to{opacity:0;transform:scale(1.05)}
+}
 
 /* ===== STRUCTURE ===== */
-.app{max-width:420px;margin:auto;min-height:100vh}
+.app{
+  max-width:420px;
+  margin:auto;
+  min-height:100vh;
+}
 
 header,footer{
   position:fixed;
@@ -109,32 +124,52 @@ header,footer{
   align-items:center;
   z-index:10;
 }
+
 header{
-  top:0;height:56px;
+  top:0;
+  height:56px;
   justify-content:space-between;
   padding:0 14px;
   display:none;
 }
 footer{
-  bottom:0;height:64px;
+  bottom:0;
+  height:64px;
   justify-content:space-between;
   padding:0 16px;
   display:none;
 }
-header strong{font-family:Fredoka;font-size:18px}
-header button,footer button{
-  border:none;border-radius:999px;
+
+header strong{
+  font-family:Fredoka;
+  font-size:18px;
+}
+
+header button,
+footer button{
+  border:none;
+  border-radius:999px;
   padding:8px 16px;
   background:var(--accent);
   font-family:Fredoka;
 }
 
 /* ===== PAGES ===== */
-.page{display:none;padding:96px 20px 150px}
-.page.active{display:block}
+.page{
+  display:none;
+  padding:96px 20px 150px;
+}
+.page.active{
+  display:block;
+}
 
 /* ===== UI ===== */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
+
 .card{
   background:rgba(255,255,255,.78);
   border-radius:26px;
@@ -143,29 +178,41 @@ header button,footer button{
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
 }
-.price{font-size:22px;margin:6px 0}
+
+.price{
+  font-size:22px;
+  margin:6px 0;
+}
+
 .qty{
   display:flex;
   justify-content:center;
+  align-items:center;
   gap:12px;
   margin-top:10px;
 }
+
 .qty button{
-  width:30px;height:30px;
-  border:none;border-radius:50%;
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:50%;
   background:var(--accent);
   font-size:18px;
 }
+
 .notice{
   background:rgba(255,255,255,.7);
   backdrop-filter:blur(6px);
   border-radius:18px;
-  padding:14px;margin-top:16px;
+  padding:14px;
+  margin-top:16px;
 }
 
 /* ===== SERVICES ===== */
 #services{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.4);
   display:none;
   justify-content:center;
@@ -229,16 +276,33 @@ header button,footer button{
   </div>
 </section>
 
-<section id="jaune" class="page"><h2>🟡 Jaune</h2><div class="grid" id="jauneList"></div></section>
-<section id="filtre" class="page"><h2>🔍 Filtré</h2><div class="grid" id="filtreList"></div></section>
-<section id="cali" class="page"><h2>🇺🇸 Cali</h2><div class="grid" id="caliList"></div></section>
+<section id="jaune" class="page">
+  <h2>🟡 Jaune</h2>
+  <div class="grid" id="jauneList"></div>
+</section>
+
+<section id="filtre" class="page">
+  <h2>🔍 Filtré</h2>
+  <div class="grid" id="filtreList"></div>
+</section>
+
+<section id="cali" class="page">
+  <h2>🇺🇸 Cali</h2>
+  <div class="grid" id="caliList"></div>
+</section>
 
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
   <div class="notice">
-    <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
-    <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
+    <label>
+      <input type="radio" name="del" checked onclick="setDelivery(false)">
+      Sur place
+    </label><br>
+    <label>
+      <input type="radio" name="del" onclick="setDelivery(true)">
+      Livraison +20€
+    </label>
   </div>
   <textarea id="address" placeholder="Adresse de livraison" style="display:none;width:100%;margin-top:10px"></textarea>
   <p><b>Total : <span id="total">0</span> €</b></p>
@@ -281,29 +345,37 @@ header button,footer button{
     <button onclick="toggleServices()">Fermer</button>
   </div>
 </div>
-
-<script>
+  <script>
+/* ================= CATALOGUE ================= */
 const catalog={
   jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
   filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
   cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
 };
 
+/* ================= ETAT ================= */
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
+
 let orders=Number(localStorage.getItem("orders")||0);
 let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
-/* ===== GESTION FONDS (AJOUT) ===== */
-function setBg(type){
-  document.body.classList.remove("bg-choco","bg-green");
-  if(type) document.body.classList.add(type);
+/* ================= TRANSITION FOND (AJOUT) ================= */
+function transitionBg(className){
+  document.documentElement.style.setProperty('--bg-opacity','0');
+  setTimeout(()=>{
+    document.body.classList.remove("bg-choco","bg-green");
+    if(className) document.body.classList.add(className);
+    document.documentElement.style.setProperty('--bg-opacity','1');
+  },200);
 }
 
-/* ===== NAVIGATION EXISTANTE ===== */
-function level(){return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau"}
+/* ================= LOGIQUE EXISTANTE ================= */
+function level(){
+  return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau";
+}
 
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -314,25 +386,33 @@ function show(id){
     refCode.innerText=ref;
   }
 }
-function go(id){stack.push(id);show(id)}
+
+function go(id){
+  stack.push(id);
+  show(id);
+}
+
 function goBack(){
   if(stack.length>1){
     stack.pop();
     show(stack.at(-1));
   }
-  if(stack.length===1) setBg(null);
+  if(stack.length===1){
+    transitionBg(null);
+  }
 }
 
-/* ===== NOUVEAUX POINTS 🍫 / 🥦 ===== */
+/* ================= POINTS 🍫 / 🥦 ================= */
 function goChoco(){
-  setBg("bg-choco");
+  transitionBg("bg-choco");
   go("choco");
 }
 function goGreen(){
-  setBg("bg-green");
+  transitionBg("bg-green");
   go("green");
 }
 
+/* ================= ACCUEIL ================= */
 function enterApp(){
   welcome.classList.add("welcome-hide");
   setTimeout(()=>{
@@ -341,22 +421,29 @@ function enterApp(){
     footer.style.display="flex";
   },450);
 }
+
 function goWelcome(){
   stack=["root"];
   show("root");
-  setBg(null);
+  transitionBg(null);
   header.style.display="none";
   footer.style.display="none";
   welcome.style.display="block";
   welcome.classList.remove("welcome-hide");
   services.style.display="none";
 }
-function toggleServices(){services.style.display=services.style.display==="flex"?"none":"flex"}
-function toggleNight(){document.body.classList.toggle("night")}
 
-/* ===== PANIER (INCHANGÉ) ===== */
+function toggleServices(){
+  services.style.display=services.style.display==="flex"?"none":"flex";
+}
+function toggleNight(){
+  document.body.classList.toggle("night");
+}
+
+/* ================= PANIER ================= */
 function renderProducts(list,id){
-  const el=document.getElementById(id);el.innerHTML="";
+  const el=document.getElementById(id);
+  el.innerHTML="";
   list.forEach(p=>{
     const key=id+p.g;
     const it=cart.find(i=>i.k===key);
@@ -365,61 +452,106 @@ function renderProducts(list,id){
         <div>${p.g}</div>
         <div class="price">${p.p}€</div>
         <div class="qty">
-          ${it?`<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`:
-          `<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`}
+          ${
+            it
+            ? `<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
+            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`
+          }
         </div>
       </div>`;
   });
 }
 
-function add(k,t,g,p){cart.push({k,t,g,p,q:1});save()}
+function add(k,t,g,p){
+  cart.push({k,t,g,p,q:1});
+  save();
+}
+
 function chg(k,d){
   const i=cart.find(x=>x.k===k);
   if(!i)return;
   i.q+=d;
-  if(i.q<=0)cart=cart.filter(x=>x.k!==k);
+  if(i.q<=0){
+    cart=cart.filter(x=>x.k!==k);
+  }
   save();
 }
-function save(){localStorage.setItem("cart",JSON.stringify(cart));updateUI()}
+
+function save(){
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateUI();
+}
 
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
   renderProducts(catalog.filtre,"filtreList");
   renderProducts(catalog.cali,"caliList");
+
   let c=0,t=0;
   cartItems.innerHTML="";
   cart.forEach(i=>{
-    c+=i.q;t+=i.q*i.p;
+    c+=i.q;
+    t+=i.q*i.p;
     cartItems.innerHTML+=`
       <div class="card">
         <div><b>${i.g} ${i.t}</b></div>
         <div class="price">${i.q*i.p}€</div>
         <div class="qty">
-          <button onclick="chg('${i.k}',-1)">−</button>${i.q}<button onclick="chg('${i.k}',1)">+</button>
+          <button onclick="chg('${i.k}',-1)">−</button>
+          ${i.q}
+          <button onclick="chg('${i.k}',1)">+</button>
         </div>
       </div>`;
   });
+
   if(delivery)t+=20;
+
   cartCount.innerText=c;
   cartTotal.innerText=t+"€";
   total.innerText=t;
 }
-function setDelivery(v){delivery=v;address.style.display=v?"block":"none";updateUI()}
 
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  updateUI();
+}
+
+/* ================= COMMANDE ================= */
 function sendOrder(){
   if(cart.length===0)return alert("Panier vide");
-  if(delivery&&!address.value.trim())return alert("Adresse requise");
-  orders++;localStorage.setItem("orders",orders);
-  let msg=`🧾 COMMANDE ALLO85\n⭐ ${level()} (${orders})\n🎁 ${ref}\n\n`;
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`);
-  msg+=delivery?`\n🚚 Livraison +20€\n${address.value}\n`:`\n📍 Sur place\n`;
+  if(delivery && !address.value.trim())return alert("Adresse requise");
+
+  orders++;
+  localStorage.setItem("orders",orders);
+
+  let msg=`🧾 COMMANDE ALLO85\n`;
+  msg+=`⭐ ${level()} (${orders})\n`;
+  msg+=`🎁 Code parrain : ${ref}\n\n`;
+
+  cart.forEach(i=>{
+    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
+  });
+
+  msg+=delivery
+    ? `\n🚚 Livraison +20€\n${address.value}\n`
+    : `\n📍 Sur place\n`;
+
   msg+=`\n💰 Total : ${total.innerText}€`;
+
   navigator.clipboard.writeText(msg);
-  cart=[];save();address.value="";
+
+  cart=[];
+  save();
+  address.value="";
   show("confirm");
 }
-function openAllo(){window.open("https://t.me/allo856","_blank")}
 
+function openAllo(){
+  window.open("https://t.me/allo856","_blank");
+}
+
+/* ================= INIT ================= */
 updateUI();
 </script>
 
