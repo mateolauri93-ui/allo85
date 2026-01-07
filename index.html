@@ -342,7 +342,57 @@ footer button:active{
      📱 APPLICATION
      ================================================== -->
 <div class="app">
+<!-- ==================================================
+     🔐 PAGE D’ACCÈS PAR CODE (BLOCAGE)
+     ================================================== -->
+<section id="access" class="page active">
 
+  <div class="card">
+    <h2>🔐 Accès sécurisé</h2>
+
+    <p style="font-size:14px">
+      Entre ton <b>code d’accès</b> ou un <b>code de parrainage valide</b>
+    </p>
+
+    <input
+      id="accessInput"
+      type="text"
+      placeholder="Code d’accès"
+      style="
+        width:100%;
+        padding:12px;
+        border-radius:12px;
+        border:1px solid #ddd;
+        font-size:16px;
+        text-align:center;
+        margin-top:10px;
+      "
+    >
+
+    <button
+      onclick="checkAccess()"
+      style="
+        width:100%;
+        margin-top:14px;
+        padding:14px;
+        border:none;
+        border-radius:999px;
+        background:var(--accent);
+        font-family:Fredoka;
+        font-size:16px;
+      "
+    >
+      Valider
+    </button>
+
+    <p id="accessError"
+       style="display:none;color:red;font-size:14px;margin-top:10px">
+      ❌ Code invalide
+    </p>
+
+  </div>
+
+</section>
 <!-- ==================================================
      🔝 HEADER
      ================================================== -->
@@ -522,6 +572,45 @@ const catalog={
 /* ==================================================
    🧠 ÉTAT GLOBAL
    ================================================== */
+/* ==================================================
+   🔐 SYSTÈME D’ACCÈS (CODES)
+   ================================================== */
+
+// code maître
+const MASTER_CODE = "HELLOALLO85";
+
+// accès déjà validé ?
+let accessGranted = localStorage.getItem("accessGranted") === "true";
+
+// empêcher l’accès si non validé
+if(!accessGranted){
+  show("access");
+}else{
+  show("root");
+}
+
+// vérification du code
+function checkAccess(){
+  const input = document.getElementById("accessInput").value.trim().toUpperCase();
+  const error = document.getElementById("accessError");
+
+  // liste des codes autorisés
+  const allowedCodes = [
+    MASTER_CODE,
+    ref // le code de parrainage local
+  ];
+
+  if(allowedCodes.includes(input)){
+    localStorage.setItem("accessGranted","true");
+    accessGranted = true;
+    error.style.display = "none";
+    show("root");
+  }else{
+    error.style.display = "block";
+  }
+}
+   
+   
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
