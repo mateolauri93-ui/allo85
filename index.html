@@ -13,8 +13,6 @@
   --card:#ffffff;
   --text:#1f2937;
   --accent:#ffd56b;
-
-  /* AJOUT — transition fond */
   --bg-opacity:1;
 }
 
@@ -25,7 +23,7 @@ body{
   color:var(--text);
   background:#fff;
   position:relative;
-  transition:.4s;
+  transition:background .4s,color .4s;
 }
 
 /* ===== FOND GLOBAL (ANIMABLE) ===== */
@@ -61,9 +59,7 @@ body.bg-green::before{
 }
 
 /* ===== MODE NUIT ===== */
-body.night{
-  color:#f8fafc;
-}
+body.night{color:#f8fafc}
 body.night::before{
   background:
     linear-gradient(rgba(2,6,23,.75),rgba(2,6,23,.75)),
@@ -99,9 +95,7 @@ body.night.bg-green::before{
   top:75%;
   transform:translate(-50%,-50%);
 }
-.welcome-hide{
-  animation:welcomeOut .45s forwards;
-}
+.welcome-hide{animation:welcomeOut .45s forwards}
 @keyframes welcomeOut{
   to{opacity:0;transform:scale(1.05)}
 }
@@ -152,16 +146,24 @@ footer button{
   padding:8px 16px;
   background:var(--accent);
   font-family:Fredoka;
+  transition:transform .15s ease;
+}
+header button:active,
+footer button:active{
+  transform:scale(.94);
 }
 
 /* ===== PAGES ===== */
 .page{
   display:none;
   padding:96px 20px 150px;
+  animation:pageIn .25s ease;
 }
-.page.active{
-  display:block;
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
 }
+.page.active{display:block}
 
 /* ===== UI ===== */
 .grid{
@@ -177,6 +179,11 @@ footer button{
   text-align:center;
   font-family:Fredoka;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.card:active{
+  transform:scale(.97);
+  box-shadow:0 12px 26px rgba(0,0,0,.18);
 }
 
 .price{
@@ -199,6 +206,10 @@ footer button{
   border-radius:50%;
   background:var(--accent);
   font-size:18px;
+  transition:transform .15s ease;
+}
+.qty button:active{
+  transform:scale(.85);
 }
 
 .notice{
@@ -233,6 +244,10 @@ footer button{
   border-radius:999px;
   background:var(--accent);
   font-family:Fredoka;
+  transition:transform .15s ease;
+}
+#services button:active{
+  transform:scale(.96);
 }
 </style>
 </head>
@@ -253,9 +268,8 @@ footer button{
 
 <footer id="footer">
   <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
-  <button onclick="go('cart')">Panier</button>
+  <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
-
 <section id="root" class="page active">
   <div class="grid">
     <div class="card" onclick="goChoco()">🍫</div>
@@ -330,7 +344,7 @@ footer button{
 
 <section id="confirm" class="page">
   <div class="card">
-    <h2>🎉 Commande prête !</h2>
+    <h2 class="confirm-pop">🎉 Commande prête !</h2>
     <button onclick="openAllo()">📨 Ouvrir le chat ALLO85</button>
   </div>
 </section>
@@ -345,7 +359,8 @@ footer button{
     <button onclick="toggleServices()">Fermer</button>
   </div>
 </div>
-  <script>
+
+<script>
 /* ================= CATALOGUE ================= */
 const catalog={
   jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
@@ -362,7 +377,7 @@ let orders=Number(localStorage.getItem("orders")||0);
 let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
-/* ================= TRANSITION FOND (AJOUT) ================= */
+/* ================= TRANSITION FOND ================= */
 function transitionBg(className){
   document.documentElement.style.setProperty('--bg-opacity','0');
   setTimeout(()=>{
@@ -372,10 +387,8 @@ function transitionBg(className){
   },200);
 }
 
-/* ================= LOGIQUE EXISTANTE ================= */
-function level(){
-  return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau";
-}
+/* ================= NAVIGATION ================= */
+function level(){return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau"}
 
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -397,12 +410,10 @@ function goBack(){
     stack.pop();
     show(stack.at(-1));
   }
-  if(stack.length===1){
-    transitionBg(null);
-  }
+  if(stack.length===1) transitionBg(null);
 }
 
-/* ================= POINTS 🍫 / 🥦 ================= */
+/* ================= CATÉGORIES ================= */
 function goChoco(){
   transitionBg("bg-choco");
   go("choco");
@@ -465,16 +476,19 @@ function renderProducts(list,id){
 function add(k,t,g,p){
   cart.push({k,t,g,p,q:1});
   save();
+  pulseCart();
+  if(window.Telegram?.WebApp){
+    Telegram.WebApp.HapticFeedback.impactOccurred("light");
+  }
 }
 
 function chg(k,d){
   const i=cart.find(x=>x.k===k);
   if(!i)return;
   i.q+=d;
-  if(i.q<=0){
-    cart=cart.filter(x=>x.k!==k);
-  }
+  if(i.q<=0) cart=cart.filter(x=>x.k!==k);
   save();
+  pulseCart();
 }
 
 function save(){
@@ -511,6 +525,12 @@ function updateUI(){
   total.innerText=t;
 }
 
+function pulseCart(){
+  cartBtn.classList.remove("pulse");
+  void cartBtn.offsetWidth;
+  cartBtn.classList.add("pulse");
+}
+
 function setDelivery(v){
   delivery=v;
   address.style.display=v?"block":"none";
@@ -525,22 +545,16 @@ function sendOrder(){
   orders++;
   localStorage.setItem("orders",orders);
 
-  let msg=`🧾 COMMANDE ALLO85\n`;
-  msg+=`⭐ ${level()} (${orders})\n`;
-  msg+=`🎁 Code parrain : ${ref}\n\n`;
-
+  let msg=`🧾 COMMANDE ALLO85\n⭐ ${level()} (${orders})\n🎁 ${ref}\n\n`;
   cart.forEach(i=>{
     msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
   });
-
   msg+=delivery
     ? `\n🚚 Livraison +20€\n${address.value}\n`
     : `\n📍 Sur place\n`;
-
   msg+=`\n💰 Total : ${total.innerText}€`;
 
   navigator.clipboard.writeText(msg);
-
   cart=[];
   save();
   address.value="";
@@ -554,6 +568,25 @@ function openAllo(){
 /* ================= INIT ================= */
 updateUI();
 </script>
+
+<style>
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+#cartBtn.pulse{
+  animation:pulse .3s ease;
+}
+.confirm-pop{
+  animation:pop .45s ease;
+}
+@keyframes pop{
+  0%{transform:scale(.7);opacity:0}
+  60%{transform:scale(1.15);opacity:1}
+  100%{transform:scale(1)}
+}
+</style>
 
 </body>
 </html>
