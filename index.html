@@ -9,6 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
+/* ==================================================
+   🔧 CONFIGURATION GLOBALE
+   ================================================== */
 :root{
   --card:#ffffff;
   --text:#1f2937;
@@ -16,7 +20,9 @@
   --bg-opacity:1;
 }
 
-/* ===== BASE ===== */
+/* ==================================================
+   🧱 BASE HTML & BODY
+   ================================================== */
 body{
   margin:0;
   font-family:Inter,sans-serif;
@@ -26,7 +32,11 @@ body{
   transition:background .4s,color .4s;
 }
 
-/* ===== FOND GLOBAL (ANIMABLE) ===== */
+/* ==================================================
+   🎨 BACKGROUNDS & AMBIANCES
+   ================================================== */
+
+/* --- Fond global --- */
 body::before{
   content:"";
   position:fixed;
@@ -42,7 +52,7 @@ body::before{
   z-index:-2;
 }
 
-/* ===== FOND 🍫 ===== */
+/* --- Fond 🍫 --- */
 body.bg-choco::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -50,7 +60,7 @@ body.bg-choco::before{
     center/cover no-repeat;
 }
 
-/* ===== FOND 🥦 ===== */
+/* --- Fond 🥦 --- */
 body.bg-green::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -58,7 +68,7 @@ body.bg-green::before{
     center/cover no-repeat;
 }
 
-/* ===== MODE NUIT ===== */
+/* --- Mode nuit --- */
 body.night{color:#f8fafc}
 body.night::before{
   background:
@@ -80,7 +90,9 @@ body.night.bg-green::before{
     center/cover no-repeat;
 }
 
-/* ===== ACCUEIL ===== */
+/* ==================================================
+   🏠 ÉCRAN D’ACCUEIL
+   ================================================== */
 #welcome{
   position:fixed;
   inset:0;
@@ -100,13 +112,18 @@ body.night.bg-green::before{
   to{opacity:0;transform:scale(1.05)}
 }
 
-/* ===== STRUCTURE ===== */
+/* ==================================================
+   🧱 STRUCTURE GÉNÉRALE
+   ================================================== */
 .app{
   max-width:420px;
   margin:auto;
   min-height:100vh;
 }
 
+/* ==================================================
+   🔝 HEADER & FOOTER
+   ================================================== */
 header,footer{
   position:fixed;
   left:0;right:0;
@@ -153,7 +170,9 @@ footer button:active{
   transform:scale(.94);
 }
 
-/* ===== PAGES ===== */
+/* ==================================================
+   📄 PAGES
+   ================================================== */
 .page{
   display:none;
   padding:96px 20px 150px;
@@ -165,33 +184,33 @@ footer button:active{
 }
 .page.active{display:block}
 
-/* ===== UI ===== */
+/* ==================================================
+   🎛️ UI & COMPOSANTS
+   ================================================== */
 .grid{
   display:grid;
-  gap:18px;
-}
-
-/* 👉 MODIF : boutons 🍫 🥦 en colonne + plus gros */
-.grid.root-grid{
-  grid-template-columns:1fr;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
 }
 
 .card{
   background:rgba(255,255,255,.78);
-  border-radius:30px;
-  padding:28px;
+  border-radius:26px;
+  padding:20px;
   text-align:center;
   font-family:Fredoka;
-  font-size:40px;
   box-shadow:0 20px 40px rgba(0,0,0,.12);
   transition:transform .2s ease, box-shadow .2s ease;
 }
 .card:active{
-  transform:scale(.96);
+  transform:scale(.97);
   box-shadow:0 12px 26px rgba(0,0,0,.18);
 }
 
-.price{font-size:22px;margin:6px 0}
+.price{
+  font-size:22px;
+  margin:6px 0;
+}
 
 .qty{
   display:flex;
@@ -200,13 +219,21 @@ footer button:active{
   gap:12px;
   margin-top:10px;
 }
+
 .qty button{
-  width:30px;height:30px;
-  border:none;border-radius:50%;
+  width:30px;
+  height:30px;
+  border:none;
+  border-radius:50%;
   background:var(--accent);
   font-size:18px;
+  transition:transform .15s ease;
 }
-  .notice{
+.qty button:active{
+  transform:scale(.85);
+}
+
+.notice{
   background:rgba(255,255,255,.7);
   backdrop-filter:blur(6px);
   border-radius:18px;
@@ -214,7 +241,9 @@ footer button:active{
   margin-top:16px;
 }
 
-/* ===== SERVICES ===== */
+/* ==================================================
+   🧩 SERVICES (MENU)
+   ================================================== */
 #services{
   position:fixed;
   inset:0;
@@ -240,9 +269,13 @@ footer button:active{
   font-family:Fredoka;
   transition:transform .15s ease;
 }
-#services button:active{transform:scale(.96)}
+#services button:active{
+  transform:scale(.96);
+}
 
-/* ===== BARRE CADEAU 150€ ===== */
+/* ==================================================
+   🎁 BARRE CADEAU 150€
+   ================================================== */
 .gift-bar{
   position:fixed;
   left:50%;
@@ -277,35 +310,55 @@ footer button:active{
   border-radius:999px;
   transition:width .35s ease;
 }
+
 </style>
 </head>
 
+
 <body>
 
+<!-- ==================================================
+     🏠 ÉCRAN D’ACCUEIL
+     ================================================== -->
 <div id="welcome">
   <div id="welcome-hitbox" onclick="enterApp()"></div>
 </div>
 
+<!-- ==================================================
+     📱 APPLICATION
+     ================================================== -->
 <div class="app">
 
+<!-- ==================================================
+     🔝 HEADER
+     ================================================== -->
 <header id="header">
   <button onclick="goBack()">⬅</button>
   <strong>ALLO85</strong>
   <button onclick="toggleServices()">☰</button>
 </header>
 
+<!-- ==================================================
+     🛒 FOOTER PANIER
+     ================================================== -->
 <footer id="footer">
   <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
   <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
+<!-- ==================================================
+     🏠 PAGE PRINCIPALE
+     ================================================== -->
 <section id="root" class="page active">
-  <div class="grid root-grid">
+  <div class="grid">
     <div class="card" onclick="goChoco()">🍫</div>
     <div class="card" onclick="goGreen()">🥦</div>
   </div>
 </section>
 
+<!-- ==================================================
+     🍫 CATÉGORIES CHOCOLAT
+     ================================================== -->
 <section id="choco" class="page">
   <div class="grid">
     <div class="card" onclick="go('jaune')">🟡 Jaune</div>
@@ -313,12 +366,18 @@ footer button:active{
   </div>
 </section>
 
+<!-- ==================================================
+     🥦 CATÉGORIES GREEN
+     ================================================== -->
 <section id="green" class="page">
   <div class="grid">
     <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
   </div>
 </section>
 
+<!-- ==================================================
+     📦 LISTES PRODUITS
+     ================================================== -->
 <section id="jaune" class="page">
   <h2>🟡 Jaune</h2>
   <div class="grid" id="jauneList"></div>
@@ -334,17 +393,28 @@ footer button:active{
   <div class="grid" id="caliList"></div>
 </section>
 
+<!-- ==================================================
+     🛒 PANIER
+     ================================================== -->
 <section id="cart" class="page">
   <h2>🛒 Panier</h2>
   <div id="cartItems"></div>
 
   <div class="notice">
-    <label><input type="radio" name="del" checked onclick="setDelivery(false)"> Sur place</label><br>
-    <label><input type="radio" name="del" onclick="setDelivery(true)"> Livraison +20€</label>
+    <label>
+      <input type="radio" name="del" checked onclick="setDelivery(false)">
+      Sur place
+    </label><br>
+    <label>
+      <input type="radio" name="del" onclick="setDelivery(true)">
+      Livraison +20€
+    </label>
   </div>
 
-  <textarea id="address" placeholder="Adresse de livraison"
-    style="display:none;width:100%;margin-top:10px"></textarea>
+  <textarea id="address"
+    placeholder="Adresse de livraison"
+    style="display:none;width:100%;margin-top:10px">
+  </textarea>
 
   <p><b>Total : <span id="total">0</span> €</b></p>
 
@@ -354,13 +424,56 @@ footer button:active{
   </button>
 </section>
 
-<!-- BARRE CADEAU -->
+<!-- ==================================================
+     ⭐ AVANTAGES
+     ================================================== -->
+<section id="advantages" class="page">
+  <h2>⭐ Avantages</h2>
+
+  <div class="card">
+    <p><b>Niveau :</b></p>
+    <h3 id="levelText"></h3>
+    <p><b>Commandes :</b> <span id="orderCount"></span></p>
+  </div>
+
+  <div class="notice">
+    🎁 <b>Code parrain :</b><br>
+    <span id="refCode"></span>
+  </div>
+
+  <div class="notice">
+    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
+    Lorsqu’ils passent commande, tu gagnes un avantage.
+  </div>
+</section>
+
+<!-- ==================================================
+     🎉 CONFIRMATION
+     ================================================== -->
+<section id="confirm" class="page">
+  <div class="card">
+    <h2 class="confirm-pop">🎉 Commande prête !</h2>
+    <button onclick="openAllo()">📨 Ouvrir le chat ALLO85</button>
+  </div>
+</section>
+
+<!-- ==================================================
+     🎁 BARRE CADEAU 150€
+     ================================================== -->
 <div class="gift-bar" id="giftBar" style="display:none">
-  <div class="gift-text" id="giftText"></div>
+  <div class="gift-text" id="giftText">
+    🎁 Plus que <b>150€</b> pour débloquer un cadeau
+  </div>
   <div class="gift-track">
     <div class="gift-progress" id="giftProgress"></div>
   </div>
 </div>
+
+</div><!-- FIN .app -->
+
+<!-- ==================================================
+     ☰ MENU SERVICES
+     ================================================== -->
 <div id="services">
   <div class="box">
     <button onclick="goWelcome()">🏠 Accueil</button>
@@ -371,37 +484,63 @@ footer button:active{
 </div>
 
 <script>
-/* ================= CATALOGUE ================= */
+/* ==================================================
+   📦 CATALOGUE PRODUITS
+   ================================================== */
 const catalog={
-  jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
-  filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
-  cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
+  jaune:[
+    {g:"4g",p:20},
+    {g:"10g",p:50},
+    {g:"20g",p:90}
+  ],
+  filtre:[
+    {g:"2.5g",p:20},
+    {g:"5g",p:40},
+    {g:"10g",p:70}
+  ],
+  cali:[
+    {g:"2.4g",p:20},
+    {g:"5g",p:50},
+    {g:"10g",p:80}
+  ]
 };
 
-/* ================= ETAT ================= */
+/* ==================================================
+   🧠 ÉTAT GLOBAL
+   ================================================== */
 let stack=["root"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
 let delivery=false;
+
 let orders=Number(localStorage.getItem("orders")||0);
-let ref=localStorage.getItem("ref")||("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
+let ref=localStorage.getItem("ref") ||
+  ("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
-/* ================= FOND ================= */
-function transitionBg(cls){
+/* ==================================================
+   🌈 TRANSITION DES FONDS
+   ================================================== */
+function transitionBg(className){
   document.documentElement.style.setProperty('--bg-opacity','0');
   setTimeout(()=>{
     document.body.classList.remove("bg-choco","bg-green");
-    if(cls) document.body.classList.add(cls);
+    if(className) document.body.classList.add(className);
     document.documentElement.style.setProperty('--bg-opacity','1');
   },200);
 }
 
-/* ================= NAV ================= */
-function level(){return orders>=6?"VIP":orders>=3?"Régulier":"Nouveau"}
+/* ==================================================
+   🧭 NAVIGATION
+   ================================================== */
+function level(){
+  return orders>=6 ? "VIP" : orders>=3 ? "Régulier" : "Nouveau";
+}
 
 function show(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+
   if(id==="advantages"){
     levelText.innerText=level();
     orderCount.innerText=orders;
@@ -409,13 +548,35 @@ function show(id){
   }
 }
 
-function go(id){stack.push(id);show(id)}
+function go(id){
+  stack.push(id);
+  show(id);
+}
+
 function goBack(){
-  if(stack.length>1){stack.pop();show(stack.at(-1))}
+  if(stack.length>1){
+    stack.pop();
+    show(stack.at(-1));
+  }
   if(stack.length===1) transitionBg(null);
 }
 
-/* ================= ACCUEIL ================= */
+/* ==================================================
+   🍫 / 🥦 CATÉGORIES
+   ================================================== */
+function goChoco(){
+  transitionBg("bg-choco");
+  go("choco");
+}
+
+function goGreen(){
+  transitionBg("bg-green");
+  go("green");
+}
+
+/* ==================================================
+   🏠 ACCUEIL
+   ================================================== */
 function enterApp(){
   welcome.classList.add("welcome-hide");
   setTimeout(()=>{
@@ -424,115 +585,243 @@ function enterApp(){
     footer.style.display="flex";
   },450);
 }
+
 function goWelcome(){
-  stack=["root"];show("root");transitionBg(null);
-  header.style.display="none";footer.style.display="none";
-  welcome.style.display="block";welcome.classList.remove("welcome-hide");
+  stack=["root"];
+  show("root");
+  transitionBg(null);
+  header.style.display="none";
+  footer.style.display="none";
+  welcome.style.display="block";
+  welcome.classList.remove("welcome-hide");
   services.style.display="none";
 }
-function toggleServices(){services.style.display=services.style.display==="flex"?"none":"flex"}
-function toggleNight(){document.body.classList.toggle("night")}
 
-/* ================= CATEGORIES ================= */
-function goChoco(){transitionBg("bg-choco");go("choco")}
-function goGreen(){transitionBg("bg-green");go("green")}
+/* ==================================================
+   ☰ SERVICES
+   ================================================== */
+function toggleServices(){
+  services.style.display=
+    services.style.display==="flex" ? "none" : "flex";
+}
 
-/* ================= PRODUITS ================= */
+function toggleNight(){
+  document.body.classList.toggle("night");
+}
+
+/* ==================================================
+   🛒 PRODUITS
+   ================================================== */
 function renderProducts(list,id){
-  const el=document.getElementById(id); el.innerHTML="";
+  const el=document.getElementById(id);
+  el.innerHTML="";
+
   list.forEach(p=>{
     const key=id+p.g;
     const it=cart.find(i=>i.k===key);
+
     el.innerHTML+=`
       <div class="card">
         <div>${p.g}</div>
         <div class="price">${p.p}€</div>
         <div class="qty">
-          ${it
-            ? `<button onclick="chg('${key}',-1)">−</button>${it.q}<button onclick="chg('${key}',1)">+</button>`
-            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">Ajouter</button>`
+          ${
+            it
+            ? `<button onclick="chg('${key}',-1)">−</button>
+               ${it.q}
+               <button onclick="chg('${key}',1)">+</button>`
+            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">
+                 Ajouter
+               </button>`
           }
         </div>
       </div>`;
   });
 }
 
+/* ==================================================
+   ➕ / ➖ PANIER
+   ================================================== */
 function add(k,t,g,p){
   cart.push({k,t,g,p,q:1});
-  save(); pulseCart();
-  if(window.Telegram?.WebApp){Telegram.WebApp.HapticFeedback.impactOccurred("light")}
-}
-function chg(k,d){
-  const i=cart.find(x=>x.k===k); if(!i)return;
-  i.q+=d; if(i.q<=0) cart=cart.filter(x=>x.k!==k);
-  save(); pulseCart();
-}
-function save(){localStorage.setItem("cart",JSON.stringify(cart));updateUI()}
+  save();
+  pulseCart();
 
-/* ================= BARRE CADEAU ================= */
+  if(window.Telegram?.WebApp){
+    Telegram.WebApp.HapticFeedback.impactOccurred("light");
+  }
+}
+
+function chg(k,d){
+  const i=cart.find(x=>x.k===k);
+  if(!i) return;
+
+  i.q+=d;
+  if(i.q<=0){
+    cart=cart.filter(x=>x.k!==k);
+  }
+  save();
+  pulseCart();
+}
+
+function save(){
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateUI();
+}
+
+/* ==================================================
+   🎁 BARRE CADEAU 150€
+   ================================================== */
 function updateGiftBar(total){
-  const bar=giftBar, prog=giftProgress, txt=giftText;
-  const goal=150; bar.style.display="block";
+  const bar=document.getElementById("giftBar");
+  const prog=document.getElementById("giftProgress");
+  const txt=document.getElementById("giftText");
+
+  const goal=150;
+  bar.style.display="block";
+
   if(total>=goal){
     prog.style.width="100%";
     txt.innerHTML="🎉 <b>Cadeau débloqué !</b>";
   }else{
-    const pct=Math.min(total/goal*100,100);
-    prog.style.width=pct+"%";
-    txt.innerHTML=`🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
+    const percent=Math.min((total/goal)*100,100);
+    prog.style.width=percent+"%";
+    txt.innerHTML=
+      `🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
   }
 }
 
-/* ================= UI ================= */
+/* ==================================================
+   🔄 MISE À JOUR UI
+   ================================================== */
 function updateUI(){
   renderProducts(catalog.jaune,"jauneList");
   renderProducts(catalog.filtre,"filtreList");
   renderProducts(catalog.cali,"caliList");
 
-  let c=0,t=0; cartItems.innerHTML="";
+  let c=0,t=0;
+  cartItems.innerHTML="";
+
   cart.forEach(i=>{
-    c+=i.q; t+=i.q*i.p;
+    c+=i.q;
+    t+=i.q*i.p;
+
     cartItems.innerHTML+=`
       <div class="card">
         <div><b>${i.g} ${i.t}</b></div>
         <div class="price">${i.q*i.p}€</div>
         <div class="qty">
-          <button onclick="chg('${i.k}',-1)">−</button>${i.q}<button onclick="chg('${i.k}',1)">+</button>
+          <button onclick="chg('${i.k}',-1)">−</button>
+          ${i.q}
+          <button onclick="chg('${i.k}',1)">+</button>
         </div>
       </div>`;
   });
-  if(delivery)t+=20;
-  cartCount.innerText=c; cartTotal.innerText=t+"€"; total.innerText=t;
+
+  if(delivery) t+=20;
+
+  cartCount.innerText=c;
+  cartTotal.innerText=t+"€";
+  total.innerText=t;
+
   updateGiftBar(t);
 }
 
+/* ==================================================
+   💥 ANIM PANIER
+   ================================================== */
 function pulseCart(){
   cartBtn.classList.remove("pulse");
   void cartBtn.offsetWidth;
   cartBtn.classList.add("pulse");
 }
-function setDelivery(v){delivery=v; address.style.display=v?"block":"none"; updateUI()}
 
-/* ================= COMMANDE ================= */
+function setDelivery(v){
+  delivery=v;
+  address.style.display=v?"block":"none";
+  updateUI();
+}
+
+/* ==================================================
+   📤 COMMANDE
+   ================================================== */
 function sendOrder(){
-  if(cart.length===0)return alert("Panier vide");
-  if(delivery && !address.value.trim())return alert("Adresse requise");
-  orders++; localStorage.setItem("orders",orders);
+  if(cart.length===0) return alert("Panier vide");
+  if(delivery && !address.value.trim())
+    return alert("Adresse requise");
 
-  let msg=`🧾 COMMANDE ALLO85\n⭐ ${level()} (${orders})\n🎁 ${ref}\n\n`;
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`);
-  msg+=delivery?`\n🚚 Livraison +20€\n${address.value}\n`:`\n📍 Sur place\n`;
+  orders++;
+  localStorage.setItem("orders",orders);
+
+  let msg=
+`🧾 COMMANDE ALLO85
+⭐ ${level()} (${orders})
+🎁 ${ref}
+
+`;
+
+  cart.forEach(i=>{
+    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
+  });
+
+  msg+=delivery
+    ? `\n🚚 Livraison +20€\n${address.value}\n`
+    : `\n📍 Sur place\n`;
+
   msg+=`\n💰 Total : ${total.innerText}€`;
 
   navigator.clipboard.writeText(msg);
-  cart=[]; save(); address.value="";
+  cart=[];
+  save();
+  address.value="";
   show("confirm");
 }
-function openAllo(){window.open("https://t.me/allo856","_blank")}
 
-/* ================= INIT ================= */
+function openAllo(){
+  window.open("https://t.me/allo856","_blank");
+}
+
+/* ==================================================
+   🚀 INIT
+   ================================================== */
 updateUI();
 </script>
+
+<style>
+/* ==================================================
+   ✨ ANIMATION PANIER (PULSE)
+   ================================================== */
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+#cartBtn.pulse{
+  animation:pulse .3s ease;
+}
+
+/* ==================================================
+   🎉 CONFIRMATION COMMANDE (POP)
+   ================================================== */
+@keyframes pop{
+  0%{transform:scale(.7);opacity:0}
+  60%{transform:scale(1.15);opacity:1}
+  100%{transform:scale(1)}
+}
+.confirm-pop{
+  animation:pop .45s ease;
+}
+
+/* ==================================================
+   ✨ PETITES AMÉLIORATIONS VISUELLES
+   ================================================== */
+.card:hover{
+  transform:translateY(-2px);
+}
+.qty button:hover{
+  transform:scale(1.1);
+}
+</style>
 
 </body>
 </html>
