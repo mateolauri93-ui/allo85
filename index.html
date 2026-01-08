@@ -36,8 +36,6 @@ body{
 /* ==================================================
    🎨 BACKGROUNDS & AMBIANCES
    ================================================== */
-
-/* --- Fond global --- */
 body::before{
   content:"";
   position:fixed;
@@ -53,7 +51,6 @@ body::before{
   z-index:-2;
 }
 
-/* --- Fond 🍫 --- */
 body.bg-choco::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -61,7 +58,6 @@ body.bg-choco::before{
     center/cover no-repeat;
 }
 
-/* --- Fond 🥦 --- */
 body.bg-green::before{
   background:
     linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
@@ -69,7 +65,6 @@ body.bg-green::before{
     center/cover no-repeat;
 }
 
-/* --- Mode nuit --- */
 body.night{color:#f8fafc}
 body.night::before{
   background:
@@ -78,12 +73,14 @@ body.night::before{
     center/cover no-repeat;
   filter:blur(8px);
 }
+
 body.night.bg-choco::before{
   background:
     linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
     url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
     center/cover no-repeat;
 }
+
 body.night.bg-green::before{
   background:
     linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
@@ -100,6 +97,7 @@ body.night.bg-green::before{
   background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
   z-index:100;
 }
+
 #welcome-hitbox{
   position:absolute;
   width:300px;
@@ -108,7 +106,9 @@ body.night.bg-green::before{
   top:75%;
   transform:translate(-50%,-50%);
 }
+
 .welcome-hide{animation:welcomeOut .45s forwards}
+
 @keyframes welcomeOut{
   to{opacity:0;transform:scale(1.05)}
 }
@@ -121,228 +121,6 @@ body.night.bg-green::before{
   margin:auto;
   min-height:100vh;
 }
-
-/* ==================================================
-   🔝 HEADER & FOOTER
-   ================================================== */
-header,footer{
-  position:fixed;
-  left:0;right:0;
-  max-width:420px;
-  margin:auto;
-  background:rgba(255,255,255,.82);
-  backdrop-filter:blur(8px);
-  display:flex;
-  align-items:center;
-  z-index:10;
-}
-
-header{
-  top:0;
-  height:56px;
-  justify-content:space-between;
-  padding:0 14px;
-  display:none;
-}
-footer{
-  bottom:0;
-  height:64px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-
-header strong{
-  font-family:Fredoka;
-  font-size:18px;
-}
-
-header button,
-footer button{
-  border:none;
-  border-radius:999px;
-  padding:8px 16px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-header button:active,
-footer button:active{
-  transform:scale(.94);
-}
-
-/* ==================================================
-   📄 PAGES
-   ================================================== */
-.page{
-  display:none;
-  padding:96px 20px 150px;
-  animation:pageIn .25s ease;
-}
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
-}
-.page.active{display:block}
-
-/* ==================================================
-   🎛️ UI & COMPOSANTS
-   ================================================== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
-   /* ==================================================
-   🏠 ACCUEIL – 🍫🥦 VERTICAUX & PLUS GROS
-   ================================================== */
-.home-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:24px;
-}
-
-.home-card{
-  font-size:56px;
-  padding:34px 20px;
-  border-radius:34px;
-}
-.card{
-  background:rgba(255,255,255,.78);
-  border-radius:26px;
-  padding:20px;
-  text-align:center;
-  font-family:Fredoka;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.card:active{
-  transform:scale(.97);
-  box-shadow:0 12px 26px rgba(0,0,0,.18);
-}
-
-.price{
-  font-size:22px;
-  margin:6px 0;
-}
-
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  margin-top:10px;
-}
-
-.qty button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
-  background:var(--accent);
-  font-size:18px;
-  transition:transform .15s ease;
-}
-.qty button:active{
-  transform:scale(.85);
-}
-
-.notice{
-  background:rgba(255,255,255,.7);
-  backdrop-filter:blur(6px);
-  border-radius:18px;
-  padding:14px;
-  margin-top:16px;
-}
-
-/* ==================================================
-   🧩 SERVICES (MENU)
-   ================================================== */
-#services{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:50;
-}
-#services .box{
-  background:var(--card);
-  border-radius:28px;
-  padding:26px;
-  width:82%;
-}
-#services button{
-  width:100%;
-  margin:10px 0;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-#services button:active{
-  transform:scale(.96);
-}
-
-/* ==================================================
-   🎁 BARRE CADEAU 150€
-   ================================================== */
-.gift-bar{
-  position:fixed;
-  left:50%;
-  bottom:74px;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:380px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(8px);
-  border-radius:18px;
-  padding:12px 14px;
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-  font-family:Fredoka;
-  z-index:9;
-}
-.gift-text{
-  font-size:14px;
-  text-align:center;
-}
-.gift-track{
-  width:100%;
-  height:10px;
-  background:rgba(0,0,0,.1);
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:6px;
-}
-.gift-progress{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ffd56b,#ffb703);
-  border-radius:999px;
-  transition:width .35s ease;
-}
-
-</style>
-</head>
-
-
-<body>
-
-<!-- ==================================================
-     🏠 ÉCRAN D’ACCUEIL
-     ================================================== -->
-<div id="welcome">
-  <div id="welcome-hitbox" onclick="enterApp()"></div>
-</div>
-
-<!-- ==================================================
-     📱 APPLICATION
-     ================================================== -->
-<div class="app">
 <!-- ==================================================
      🔐 PAGE D’ACCÈS PAR CODE (BLOCAGE)
      ================================================== -->
@@ -394,10 +172,11 @@ footer button:active{
   </div>
 
 </section>
+
 <!-- ==================================================
      🔝 HEADER
      ================================================== -->
-<header id="header">
+<header id="header" style="display:none">
   <button onclick="goBack()">⬅</button>
   <strong>ALLO85</strong>
   <button onclick="toggleServices()">☰</button>
@@ -406,21 +185,21 @@ footer button:active{
 <!-- ==================================================
      🛒 FOOTER PANIER
      ================================================== -->
-<footer id="footer">
+<footer id="footer" style="display:none">
   <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
   <button id="cartBtn" onclick="go('cart')">Panier</button>
 </footer>
 
-
 <!-- ==================================================
      🏠 PAGE PRINCIPALE
      ================================================== -->
-<section id="root" class="page active">
+<section id="root" class="page">
   <div class="home-grid">
     <div class="card home-card" onclick="goChoco()">🍫</div>
     <div class="card home-card" onclick="goGreen()">🥦</div>
   </div>
 </section>
+
 <!-- ==================================================
      🍫 CATÉGORIES CHOCOLAT
      ================================================== -->
@@ -526,9 +305,7 @@ footer button:active{
      🎁 BARRE CADEAU 150€
      ================================================== -->
 <div class="gift-bar" id="giftBar" style="display:none">
-  <div class="gift-text" id="giftText">
-    🎁 Plus que <b>150€</b> pour débloquer un cadeau
-  </div>
+  <div class="gift-text" id="giftText"></div>
   <div class="gift-track">
     <div class="gift-progress" id="giftProgress"></div>
   </div>
@@ -573,80 +350,43 @@ const catalog={
 /* ==================================================
    🧠 ÉTAT GLOBAL
    ================================================== */
-/* ==================================================
-   🔐 SYSTÈME D’ACCÈS (CODES)
-   ================================================== */
+const MASTER_CODE="HELLOALLO85";
 
-// code maître
-const MASTER_CODE = "HELLOALLO85";
-
-// accès déjà validé ?
-let accessGranted = localStorage.getItem("accessGranted") === "true";
-
-// empêcher l’accès si non validé
-if(!accessGranted){
-  show("access");
-}else{
-  show("root");
-}
-
-// vérification du code
-function checkAccess(){
-  const input = document.getElementById("accessInput").value.trim().toUpperCase();
-  const error = document.getElementById("accessError");
-
-  // liste des codes autorisés
-  const allowedCodes = [
-    MASTER_CODE,
-    ref // le code de parrainage local
-  ];
-
-  if(allowedCodes.includes(input)){
-    localStorage.setItem("accessGranted","true");
-    accessGranted = true;
-    error.style.display = "none";
-    show("root");
-  }else{
-    error.style.display = "block";
-  }
-}
-   
-   
-let stack=["root"];
-let cart=JSON.parse(localStorage.getItem("cart")||"[]");
-let delivery=false;
-
-let orders=Number(localStorage.getItem("orders")||0);
 let ref=localStorage.getItem("ref") ||
   ("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
 localStorage.setItem("ref",ref);
 
+let accessGranted=localStorage.getItem("accessGranted")==="true";
+let stack=["root"];
+let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+let delivery=false;
+let orders=Number(localStorage.getItem("orders")||0);
+
 /* ==================================================
-   🌈 TRANSITION DES FONDS
+   🔐 ACCÈS
    ================================================== */
-function transitionBg(className){
-  document.documentElement.style.setProperty('--bg-opacity','0');
-  setTimeout(()=>{
-    document.body.classList.remove("bg-choco","bg-green");
-    if(className) document.body.classList.add(className);
-    document.documentElement.style.setProperty('--bg-opacity','1');
-  },200);
+function checkAccess(){
+  const input=accessInput.value.trim().toUpperCase();
+  const allowedCodes=[MASTER_CODE,ref];
+
+  if(allowedCodes.includes(input)){
+    localStorage.setItem("accessGranted","true");
+    accessGranted=true;
+    accessError.style.display="none";
+    header.style.display="flex";
+    footer.style.display="flex";
+    show("root");
+  }else{
+    accessError.style.display="block";
+  }
 }
 
 /* ==================================================
-/* ==================================================
-   🧭 NAVIGATION (SÉCURISÉE)
+   🧭 NAVIGATION
    ================================================== */
 function show(id){
-
-  // 🔒 blocage si accès non validé
-  if(!accessGranted && id !== "access"){
-    id = "access";
-  }
-
-  document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
-
+  if(!accessGranted && id!=="access") id="access";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 
   if(id==="advantages"){
@@ -657,293 +397,55 @@ function show(id){
 }
 
 function go(id){
-  if(!accessGranted && id !== "access") return;
+  if(!accessGranted) return;
   stack.push(id);
   show(id);
 }
 
 function goBack(){
-  if(!accessGranted) return;
-
   if(stack.length>1){
     stack.pop();
     show(stack.at(-1));
   }
-
-  if(stack.length===1){
-    transitionBg(null);
-  }
 }
 
 /* ==================================================
-   🍫 / 🥦 CATÉGORIES
-   ================================================== */
-function goChoco(){
-  transitionBg("bg-choco");
-  go("choco");
-}
-
-function goGreen(){
-  transitionBg("bg-green");
-  go("green");
-}
-
-/* ==================================================
-   🏠 ACCUEIL
-   ================================================== */
-function enterApp(){
-  welcome.classList.add("welcome-hide");
-  setTimeout(()=>{
-    welcome.style.display="none";
-    header.style.display="flex";
-    footer.style.display="flex";
-  },450);
-}
-
-function goWelcome(){
-  stack=["root"];
-  show("root");
-  transitionBg(null);
-  header.style.display="none";
-  footer.style.display="none";
-  welcome.style.display="block";
-  welcome.classList.remove("welcome-hide");
-  services.style.display="none";
-}
-
-/* ==================================================
-   ☰ SERVICES
-   ================================================== */
-function toggleServices(){
-  services.style.display=
-    services.style.display==="flex" ? "none" : "flex";
-}
-
-function toggleNight(){
-  document.body.classList.toggle("night");
-}
-
-/* ==================================================
-   🛒 PRODUITS
-   ================================================== */
-function renderProducts(list,id){
-  const el=document.getElementById(id);
-  el.innerHTML="";
-
-  list.forEach(p=>{
-    const key=id+p.g;
-    const it=cart.find(i=>i.k===key);
-
-    el.innerHTML+=`
-      <div class="card">
-        <div>${p.g}</div>
-        <div class="price">${p.p}€</div>
-        <div class="qty">
-          ${
-            it
-            ? `<button onclick="chg('${key}',-1)">−</button>
-               ${it.q}
-               <button onclick="chg('${key}',1)">+</button>`
-            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">
-                 Ajouter
-               </button>`
-          }
-        </div>
-      </div>`;
-  });
-}
-
-/* ==================================================
-   ➕ / ➖ PANIER
-   ================================================== */
-function add(k,t,g,p){
-  cart.push({k,t,g,p,q:1});
-  save();
-  pulseCart();
-
-  if(window.Telegram?.WebApp){
-    Telegram.WebApp.HapticFeedback.impactOccurred("light");
-  }
-}
-
-function chg(k,d){
-  const i=cart.find(x=>x.k===k);
-  if(!i) return;
-
-  i.q+=d;
-  if(i.q<=0){
-    cart=cart.filter(x=>x.k!==k);
-  }
-  save();
-  pulseCart();
-}
-
-function save(){
-  localStorage.setItem("cart",JSON.stringify(cart));
-  updateUI();
-}
-
-/* ==================================================
-   🎁 BARRE CADEAU 150€
+   🎁 BARRE CADEAU
    ================================================== */
 function updateGiftBar(total){
-  const bar=document.getElementById("giftBar");
-  const prog=document.getElementById("giftProgress");
-  const txt=document.getElementById("giftText");
+  if(total<=0){
+    giftBar.style.display="none";
+    return;
+  }
 
   const goal=150;
-  bar.style.display="block";
+  giftBar.style.display="block";
 
   if(total>=goal){
-    prog.style.width="100%";
-    txt.innerHTML="🎉 <b>Cadeau débloqué !</b>";
+    giftProgress.style.width="100%";
+    giftText.innerHTML="🎉 <b>Cadeau débloqué !</b>";
   }else{
-    const percent=Math.min((total/goal)*100,100);
-    prog.style.width=percent+"%";
-    txt.innerHTML=
-      `🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
+    const percent=(total/goal)*100;
+    giftProgress.style.width=percent+"%";
+    giftText.innerHTML=`🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
   }
 }
 
 /* ==================================================
-   🔄 MISE À JOUR UI
-   ================================================== */
-function updateUI(){
-  renderProducts(catalog.jaune,"jauneList");
-  renderProducts(catalog.filtre,"filtreList");
-  renderProducts(catalog.cali,"caliList");
-
-  let c=0,t=0;
-  cartItems.innerHTML="";
-
-  cart.forEach(i=>{
-    c+=i.q;
-    t+=i.q*i.p;
-
-    cartItems.innerHTML+=`
-      <div class="card">
-        <div><b>${i.g} ${i.t}</b></div>
-        <div class="price">${i.q*i.p}€</div>
-        <div class="qty">
-          <button onclick="chg('${i.k}',-1)">−</button>
-          ${i.q}
-          <button onclick="chg('${i.k}',1)">+</button>
-        </div>
-      </div>`;
-  });
-
-  if(delivery) t+=20;
-
-  cartCount.innerText=c;
-  cartTotal.innerText=t+"€";
-  total.innerText=t;
-
-  updateGiftBar(t);
-}
-
-/* ==================================================
-   💥 ANIM PANIER
-   ================================================== */
-function pulseCart(){
-  cartBtn.classList.remove("pulse");
-  void cartBtn.offsetWidth;
-  cartBtn.classList.add("pulse");
-}
-
-function setDelivery(v){
-  delivery=v;
-  address.style.display=v?"block":"none";
-  updateUI();
-}
-
-/* ==================================================
-   📤 COMMANDE
-   ================================================== */
-function sendOrder(){
-  if(cart.length===0) return alert("Panier vide");
-  if(delivery && !address.value.trim())
-    return alert("Adresse requise");
-
-  orders++;
-  localStorage.setItem("orders",orders);
-
-  let msg=
-`🧾 COMMANDE ALLO85
-⭐ ${level()} (${orders})
-🎁 ${ref}
-
-`;
-
-  cart.forEach(i=>{
-    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
-  });
-
-  msg+=delivery
-    ? `\n🚚 Livraison +20€\n${address.value}\n`
-    : `\n📍 Sur place\n`;
-
-  msg+=`\n💰 Total : ${total.innerText}€`;
-
-  navigator.clipboard.writeText(msg);
-  cart=[];
-  save();
-  address.value="";
-  show("confirm");
-}
-
-function openAllo(){
-  window.open("https://t.me/allo856","_blank");
-}
-
-   /* ==================================================
-   🔒 SÉCURITÉ UI
+   🚀 INIT
    ================================================== */
 document.addEventListener("DOMContentLoaded",()=>{
   if(!accessGranted){
     show("access");
+  }else{
+    header.style.display="flex";
+    footer.style.display="flex";
+    show("root");
   }
+  updateUI();
 });
-/* ==================================================
-   🚀 INIT
-   ================================================== */
-updateUI();
 </script>
-
-<style>
-/* ==================================================
-   ✨ ANIMATION PANIER (PULSE)
-   ================================================== */
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.08)}
-  100%{transform:scale(1)}
-}
-#cartBtn.pulse{
-  animation:pulse .3s ease;
-}
-
-/* ==================================================
-   🎉 CONFIRMATION COMMANDE (POP)
-   ================================================== */
-@keyframes pop{
-  0%{transform:scale(.7);opacity:0}
-  60%{transform:scale(1.15);opacity:1}
-  100%{transform:scale(1)}
-}
-.confirm-pop{
-  animation:pop .45s ease;
-}
-
-/* ==================================================
-   ✨ PETITES AMÉLIORATIONS VISUELLES
-   ================================================== */
-.card:hover{
-  transform:translateY(-2px);
-}
-.qty button:hover{
-  transform:scale(1.1);
-}
-</style>
 
 </body>
 </html>
+   
