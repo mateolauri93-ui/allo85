@@ -3,216 +3,587 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ALLO85 – Mini App Telegram</title>
+<title>ALLO85 – Mini App Telegram Premium</title>
 
 <style>
-:root{
---bg:#0e1117;
---card:#161b22;
---accent:#1f6feb;
---success:#2ea043;
---error:#f85149;
---text:#e6edf3;
---muted:#8b949e;
---radius:14px;
---speed:.35s;
+/* =====================================================
+   VARIABLES & BASE
+===================================================== */
+:root {
+  --bg-main: #0b0f14;
+  --bg-grad-1: #0e1117;
+  --bg-grad-2: #0a0d12;
+  --card: #161b22;
+  --card-soft: #1c222b;
+  --accent: #3b82f6;
+  --accent-soft: #1f6feb;
+  --success: #2ea043;
+  --error: #f85149;
+  --warning: #d29922;
+  --text-main: #e6edf3;
+  --text-muted: #8b949e;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
+  --speed-fast: .2s;
+  --speed: .35s;
+  --speed-slow: .6s;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-body{background:linear-gradient(180deg,#0e1117,#0b0f14);color:var(--text)}
-.app{max-width:520px;margin:auto;padding:20px}
-.screen{display:none;animation:fade .35s ease}
-.screen.active{display:block}
-.card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,.35)}
-h1{font-size:28px;text-align:center;margin-bottom:6px}
-h2{font-size:18px;margin-bottom:12px}
-p{font-size:14px;color:var(--muted);line-height:1.4}
-button{border:none;border-radius:var(--radius);padding:14px;font-size:15px;font-weight:600;cursor:pointer;transition:.25s}
-button.primary{background:linear-gradient(135deg,#1f6feb,#3b82f6);color:#fff}
-button.secondary{background:#21262d;color:#fff}
-button.danger{background:#21262d;color:var(--error)}
-button:active{transform:scale(.97)}
-button:disabled{opacity:.5;cursor:not-allowed}
-.actions{display:flex;flex-direction:column;gap:12px}
-input,textarea,select{
-width:100%;background:#0d1117;border:1px solid #30363d;
-border-radius:10px;padding:12px;color:#fff;font-size:14px
+/* =====================================================
+   RESET
+===================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+    "Helvetica Neue", sans-serif;
 }
-nav{display:flex;justify-content:space-between;margin-top:16px}
-.badge{font-size:12px;padding:4px 8px;border-radius:20px;background:#21262d;color:var(--muted)}
-.status{text-align:center;margin-top:12px;font-size:14px}
-.success{color:var(--success)}
-.error{color:var(--error)}
 
-@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+body {
+  background: linear-gradient(180deg,var(--bg-grad-1),var(--bg-grad-2));
+  color: var(--text-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* =====================================================
+   APP LAYOUT
+===================================================== */
+.app {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+header.app-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+header.app-header h1 {
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+header.app-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* =====================================================
+   SCREENS & ROUTER
+===================================================== */
+.screen {
+  display: none;
+  animation: fadeIn var(--speed) ease;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* =====================================================
+   CARDS & UI
+===================================================== */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
+
+.card.soft {
+  background: var(--card-soft);
+}
+
+.card h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+button {
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--speed-fast);
+}
+
+button.primary {
+  background: linear-gradient(135deg,var(--accent),var(--accent-soft));
+  color: #fff;
+}
+
+button.secondary {
+  background: #21262d;
+  color: var(--text-main);
+}
+
+button.danger {
+  background: #21262d;
+  color: var(--error);
+}
+
+button.small {
+  padding: 10px;
+  font-size: 13px;
+}
+
+button:active {
+  transform: scale(.97);
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+/* =====================================================
+   ACTIONS / STACKS
+===================================================== */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+/* =====================================================
+   FORM ELEMENTS
+===================================================== */
+input, textarea, select {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 10px;
+}
+
+textarea { resize: vertical; }
+
+/* =====================================================
+   BADGES / STATUS
+===================================================== */
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: #21262d;
+  color: var(--text-muted);
+}
+
+.status {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+.status.success { color: var(--success); }
+.status.error { color: var(--error); }
+.status.warning { color: var(--warning); }
+
+/* =====================================================
+   NAV FOOTER
+===================================================== */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 28px;
+}
+
+/* =====================================================
+   LISTS
+===================================================== */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.list-item {
+  background: #0d1117;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background var(--speed-fast);
+}
+
+.list-item:hover {
+  background: #161b22;
+}
+
+/* =====================================================
+   LOADER
+===================================================== */
+.loader {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #30363d;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 </style>
 </head>
 
 <body>
 <div class="app">
 
+<header class="app-header">
+  <h1>ALLO85</h1>
+  <p>Mini-application Telegram professionnelle</p>
+</header>
+
 <!-- SPLASH -->
-<section id="splash" class="screen active">
+<section id="screen-splash" class="screen active">
   <div class="card">
-    <h1>ALLO85</h1>
-    <p style="text-align:center">Mini-application Telegram professionnelle</p>
-    <div class="actions" style="margin-top:20px">
-      <button class="primary" onclick="go('home')">Entrer</button>
+    <h2>Bienvenue</h2>
+    <p>Accède à l’interface ALLO85 et déclenche tes actions en quelques secondes.</p>
+    <div class="actions">
+      <button class="primary" onclick="Router.go('home')">Entrer</button>
     </div>
   </div>
 </section>
 
 <!-- HOME -->
-<section id="home" class="screen">
+<section id="screen-home" class="screen">
   <div class="card">
     <h2>Dashboard</h2>
-    <p>Choisis une action à effectuer.</p>
+    <p>Sélectionne une action.</p>
     <div class="actions">
-      <button class="primary" onclick="selectAction('Demande urgente')">🚨 Demande urgente</button>
-      <button class="primary" onclick="selectAction('Commande standard')">📦 Commande standard</button>
-      <button class="primary" onclick="selectAction('Information')">ℹ️ Information</button>
-      <button class="secondary" onclick="go('history')">📜 Historique</button>
-      <button class="secondary" onclick="go('about')">À propos</button>
+      <button class="primary" onclick="Actions.start('urgence')">🚨 Demande urgente</button>
+      <button class="primary" onclick="Actions.start('commande')">📦 Commande</button>
+      <button class="primary" onclick="Actions.start('info')">ℹ️ Information</button>
+      <button class="secondary" onclick="Router.go('history')">📜 Historique</button>
+      <button class="secondary" onclick="Router.go('settings')">⚙️ Paramètres</button>
+      <button class="secondary" onclick="Router.go('about')">À propos</button>
     </div>
   </div>
 </section>
 
 <!-- FORM -->
-<section id="form" class="screen">
+<section id="screen-form" class="screen">
   <div class="card">
-    <h2 id="formTitle"></h2>
-    <p>Complète les informations ci-dessous.</p>
+    <h2 id="form-title"></h2>
+    <p>Renseigne les informations.</p>
 
-    <input id="name" placeholder="Ton nom">
-    <textarea id="message" placeholder="Message / Détails" rows="4" style="margin-top:10px"></textarea>
+    <input id="input-name" placeholder="Nom">
+    <textarea id="input-message" rows="4" placeholder="Message / Détails"></textarea>
 
-    <div class="actions" style="margin-top:16px">
-      <button class="primary" onclick="confirm()">Continuer</button>
-      <button class="secondary" onclick="go('home')">Annuler</button>
+    <div class="actions">
+      <button class="primary" onclick="Flow.confirm()">Continuer</button>
+      <button class="secondary" onclick="Router.go('home')">Annuler</button>
     </div>
   </div>
 </section>
 
 <!-- CONFIRM -->
-<section id="confirm" class="screen">
+<section id="screen-confirm" class="screen">
   <div class="card">
     <h2>Confirmation</h2>
-    <p>Vérifie avant envoi.</p>
-    <div class="badge" id="confirmData"></div>
-
-    <div class="actions" style="margin-top:16px">
-      <button class="primary" onclick="send()">Envoyer</button>
-      <button class="secondary" onclick="go('form')">Modifier</button>
+    <div class="badge" id="confirm-preview"></div>
+    <div class="actions">
+      <button class="primary" onclick="Flow.send()">Envoyer</button>
+      <button class="secondary" onclick="Router.go('form')">Modifier</button>
     </div>
   </div>
 </section>
 
 <!-- RESULT -->
-<section id="result" class="screen">
+<section id="screen-result" class="screen">
   <div class="card">
-    <h2 id="resultTitle"></h2>
-    <p id="resultMsg"></p>
-    <div class="actions" style="margin-top:16px">
-      <button class="primary" onclick="go('home')">Retour accueil</button>
+    <h2 id="result-title"></h2>
+    <p id="result-text"></p>
+    <div class="actions">
+      <button class="primary" onclick="Router.go('home')">Retour accueil</button>
     </div>
   </div>
 </section>
 
 <!-- HISTORY -->
-<section id="history" class="screen">
+<section id="screen-history" class="screen">
   <div class="card">
     <h2>Historique</h2>
-    <div id="historyList"></div>
-    <div class="actions" style="margin-top:16px">
-      <button class="secondary" onclick="go('home')">Retour</button>
+    <div id="history-list" class="list"></div>
+    <div class="actions">
+      <button class="secondary" onclick="Router.go('home')">Retour</button>
+    </div>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section id="screen-settings" class="screen">
+  <div class="card">
+    <h2>Paramètres</h2>
+    <p>Préférences locales.</p>
+    <div class="actions">
+      <button class="danger" onclick="Settings.clear()">Effacer historique</button>
+      <button class="secondary" onclick="Router.go('home')">Retour</button>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about" class="screen">
+<section id="screen-about" class="screen">
   <div class="card">
     <h2>À propos</h2>
     <p>
-      ALLO85 est une mini-app Telegram autonome, rapide et sécurisée.
-      Toutes les actions sont enregistrées localement et envoyées via Telegram WebApp.
+      ALLO85 est une mini-app Telegram autonome, conçue pour être rapide,
+      fiable et évolutive. Toutes les données sont stockées localement
+      et envoyées via Telegram WebApp.
     </p>
-    <div class="actions" style="margin-top:16px">
-      <button class="secondary" onclick="go('home')">Retour</button>
+    <div class="actions">
+      <button class="secondary" onclick="Router.go('home')">Retour</button>
     </div>
   </div>
 </section>
 
+<div class="footer">
+  © ALLO85 – Telegram WebApp
 </div>
 
+</div>
 <script>
-const tg = window.Telegram ? window.Telegram.WebApp : null;
-if(tg){tg.ready();tg.expand();}
-
-let state={action:null,name:"",message:""};
-
-function go(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-if(id==="history") renderHistory();
+/* =====================================================
+   TELEGRAM INIT
+===================================================== */
+const TelegramApp = window.Telegram ? window.Telegram.WebApp : null;
+if (TelegramApp) {
+  TelegramApp.ready();
+  TelegramApp.expand();
 }
 
-function selectAction(a){
-state.action=a;
-document.getElementById('formTitle').innerText=a;
-go('form');
-}
-
-function confirm(){
-state.name=document.getElementById('name').value;
-state.message=document.getElementById('message').value;
-document.getElementById('confirmData').innerText=
-`Action: ${state.action}\nNom: ${state.name}\nMessage: ${state.message}`;
-go('confirm');
-}
-
-function send(){
-const payload={
-app:"ALLO85",
-action:state.action,
-name:state.name,
-message:state.message,
-time:Date.now()
+/* =====================================================
+   STATE MANAGER
+===================================================== */
+const Store = {
+  state: {
+    action: null,
+    name: "",
+    message: "",
+    loading: false,
+    offline: false
+  },
+  set(key, value) {
+    this.state[key] = value;
+  },
+  get(key) {
+    return this.state[key];
+  },
+  reset() {
+    this.state = {
+      action: null,
+      name: "",
+      message: "",
+      loading: false,
+      offline: false
+    };
+  }
 };
 
-try{
-if(tg) tg.sendData(JSON.stringify(payload));
-saveHistory(payload);
-showResult(true);
-}catch(e){showResult(false);}
-}
+/* =====================================================
+   ROUTER SPA
+===================================================== */
+const Router = {
+  current: null,
+  go(screen) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    const target = document.getElementById("screen-" + screen);
+    if (target) {
+      target.classList.add("active");
+      this.current = screen;
+      if (screen === "history") History.render();
+    }
+  }
+};
 
-function showResult(ok){
-document.getElementById('resultTitle').innerText=ok?"Succès":"Erreur";
-document.getElementById('resultMsg').innerText=
-ok?"Action envoyée avec succès.":"Impossible d’envoyer.";
-go('result');
-}
+/* =====================================================
+   ACTIONS
+===================================================== */
+const Actions = {
+  start(type) {
+    Store.set("action", type);
+    document.getElementById("form-title").innerText =
+      type === "urgence" ? "Demande urgente" :
+      type === "commande" ? "Commande" : "Information";
+    Router.go("form");
+  }
+};
 
-function saveHistory(data){
-let h=JSON.parse(localStorage.getItem('allo85_history')||"[]");
-h.unshift(data);
-localStorage.setItem('allo85_history',JSON.stringify(h));
-}
+/* =====================================================
+   FLOW LOGIC
+===================================================== */
+const Flow = {
+  confirm() {
+    const name = document.getElementById("input-name").value.trim();
+    const message = document.getElementById("input-message").value.trim();
 
-function renderHistory(){
-let h=JSON.parse(localStorage.getItem('allo85_history')||"[]");
-const box=document.getElementById('historyList');
-box.innerHTML=h.length?"":
-"<p>Aucune action enregistrée.</p>";
-h.forEach(e=>{
-const d=document.createElement('div');
-d.className="badge";
-d.style.marginBottom="8px";
-d.innerText=`${new Date(e.time).toLocaleString()} – ${e.action}`;
-box.appendChild(d);
+    if (!name || !message) {
+      alert("Tous les champs sont obligatoires");
+      return;
+    }
+
+    Store.set("name", name);
+    Store.set("message", message);
+
+    document.getElementById("confirm-preview").innerText =
+      `Action : ${Store.get("action")}
+Nom : ${name}
+Message : ${message}`;
+
+    Router.go("confirm");
+  },
+
+  send() {
+    if (Store.get("loading")) return;
+
+    Store.set("loading", true);
+
+    const payload = {
+      app: "ALLO85",
+      action: Store.get("action"),
+      name: Store.get("name"),
+      message: Store.get("message"),
+      timestamp: Date.now()
+    };
+
+    try {
+      if (TelegramApp) {
+        TelegramApp.sendData(JSON.stringify(payload));
+      } else {
+        Store.set("offline", true);
+      }
+
+      History.save(payload);
+      UI.showResult(true);
+    } catch (e) {
+      UI.showResult(false);
+    }
+
+    Store.set("loading", false);
+  }
+};
+
+/* =====================================================
+   UI FEEDBACK
+===================================================== */
+const UI = {
+  showResult(success) {
+    document.getElementById("result-title").innerText =
+      success ? "Succès" : "Erreur";
+    document.getElementById("result-text").innerText =
+      success
+        ? "Action envoyée et enregistrée."
+        : "Une erreur est survenue lors de l’envoi.";
+    Router.go("result");
+  }
+};
+
+/* =====================================================
+   HISTORY MANAGER
+===================================================== */
+const History = {
+  key: "allo85_history",
+
+  load() {
+    return JSON.parse(localStorage.getItem(this.key) || "[]");
+  },
+
+  save(entry) {
+    const history = this.load();
+    history.unshift(entry);
+    localStorage.setItem(this.key, JSON.stringify(history));
+  },
+
+  clear() {
+    localStorage.removeItem(this.key);
+    alert("Historique effacé");
+  },
+
+  render() {
+    const list = document.getElementById("history-list");
+    const history = this.load();
+    list.innerHTML = "";
+
+    if (!history.length) {
+      list.innerHTML = "<p>Aucune action enregistrée.</p>";
+      return;
+    }
+
+    history.forEach(item => {
+      const el = document.createElement("div");
+      el.className = "list-item";
+      el.innerText =
+        `${new Date(item.timestamp).toLocaleString()}
+${item.action} – ${item.name}`;
+      list.appendChild(el);
+    });
+  }
+};
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+const Settings = {
+  clear() {
+    if (confirm("Effacer tout l’historique ?")) {
+      History.clear();
+    }
+  }
+};
+
+/* =====================================================
+   OFFLINE SIMULATION
+===================================================== */
+window.addEventListener("offline", () => {
+  Store.set("offline", true);
 });
-}
+window.addEventListener("online", () => {
+  Store.set("offline", false);
+});
+
+/* =====================================================
+   BOOT
+===================================================== */
+Router.go("splash");
 </script>
 </body>
 </html>
