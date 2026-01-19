@@ -2,1195 +2,217 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ALLO85</title>
-
-<!-- ==================================================
-     📦 DÉPENDANCES EXTERNES
-     ==================================================
-     - Telegram WebApp SDK
-     - Google Fonts
-     ⚠️ Ne pas modifier les URLs
-================================================== -->
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ALLO85 – Mini App Telegram</title>
 
 <style>
-
-/* ==================================================
-   🔧 CONFIGURATION GLOBALE
-   ==================================================
-   Ces variables sont utilisées dans TOUTE l’UI.
-   Toute modification ici impacte l’ensemble de l’app.
-================================================== */
 :root{
-  --card:#ffffff;
-  --text:#1f2937;
-  --accent:#ffd56b;
-  --bg-opacity:1;
+--bg:#0e1117;
+--card:#161b22;
+--accent:#1f6feb;
+--success:#2ea043;
+--error:#f85149;
+--text:#e6edf3;
+--muted:#8b949e;
+--radius:14px;
+--speed:.35s;
 }
 
-/* ==================================================
-   🧱 BASE HTML & BODY
-   ==================================================
-   - Aucun overflow caché volontairement
-   - Les transitions globales sont centralisées ici
-================================================== */
-body{
-  margin:0;
-  font-family:Inter,sans-serif;
-  color:var(--text);
-  background:#fff;
-  position:relative;
-  transition:background .4s,color .4s;
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
+body{background:linear-gradient(180deg,#0e1117,#0b0f14);color:var(--text)}
+.app{max-width:520px;margin:auto;padding:20px}
+.screen{display:none;animation:fade .35s ease}
+.screen.active{display:block}
+.card{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 10px 25px rgba(0,0,0,.35)}
+h1{font-size:28px;text-align:center;margin-bottom:6px}
+h2{font-size:18px;margin-bottom:12px}
+p{font-size:14px;color:var(--muted);line-height:1.4}
+button{border:none;border-radius:var(--radius);padding:14px;font-size:15px;font-weight:600;cursor:pointer;transition:.25s}
+button.primary{background:linear-gradient(135deg,#1f6feb,#3b82f6);color:#fff}
+button.secondary{background:#21262d;color:#fff}
+button.danger{background:#21262d;color:var(--error)}
+button:active{transform:scale(.97)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.actions{display:flex;flex-direction:column;gap:12px}
+input,textarea,select{
+width:100%;background:#0d1117;border:1px solid #30363d;
+border-radius:10px;padding:12px;color:#fff;font-size:14px
 }
+nav{display:flex;justify-content:space-between;margin-top:16px}
+.badge{font-size:12px;padding:4px 8px;border-radius:20px;background:#21262d;color:var(--muted)}
+.status{text-align:center;margin-top:12px;font-size:14px}
+.success{color:var(--success)}
+.error{color:var(--error)}
 
-/* ==================================================
-   🎨 BACKGROUNDS & AMBIANCES
-   ==================================================
-   ⚠️ Le système de fond repose sur body::before
-   ⚠️ NE PAS déplacer vers un div
-================================================== */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  opacity:var(--bg-opacity);
-  background:
-    linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
-    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
-    center/cover no-repeat;
-  filter:blur(6px) saturate(1.08);
-  transform:scale(1.05);
-  transition:opacity .45s ease;
-  z-index:-2;
-}
-
-/* ==================================================
-   🍫 FOND CHOCOLAT
-================================================== */
-body.bg-choco::before{
-  background:
-    linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
-    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
-    center/cover no-repeat;
-}
-
-/* ==================================================
-   🥦 FOND GREEN
-================================================== */
-body.bg-green::before{
-  background:
-    linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
-    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
-    center/cover no-repeat;
-}
-
-/* ==================================================
-   🌙 MODE NUIT
-   ==================================================
-   - N’affecte PAS la logique
-   - Seulement les couleurs et le filtre
-================================================== */
-body.night{color:#f8fafc}
-
-body.night::before{
-  background:
-    linear-gradient(rgba(2,6,23,.75),rgba(2,6,23,.75)),
-    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
-    center/cover no-repeat;
-  filter:blur(8px);
-}
-
-body.night.bg-choco::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
-    center/cover no-repeat;
-}
-
-body.night.bg-green::before{
-  background:
-    linear-gradient(rgba(2,6,23,.78),rgba(2,6,23,.78)),
-    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
-    center/cover no-repeat;
-}
-
-/* ==================================================
-   🏠 ÉCRAN D’ACCUEIL
-   ==================================================
-   ⚠️ Ce bloc est CRITIQUE
-   - Doit rester en position fixed
-   - Ne dépend d’aucun JS au chargement
-================================================== */
-#welcome{
-  position:fixed;
-  inset:0;
-  background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
-  z-index:100;
-}
-
-#welcome-hitbox{
-  position:absolute;
-  width:300px;
-  height:100px;
-  left:50%;
-  top:75%;
-  transform:translate(-50%,-50%);
-}
-
-/* Animation de sortie accueil */
-.welcome-hide{animation:welcomeOut .45s forwards}
-
-@keyframes welcomeOut{
-  to{opacity:0;transform:scale(1.05)}
-}
-
-/* ==================================================
-   🧱 STRUCTURE GÉNÉRALE
-================================================== */
-.app{
-  max-width:420px;
-  margin:auto;
-  min-height:100vh;
-}
-
-/* ==================================================
-   🔝 HEADER & FOOTER
-   ==================================================
-   ⚠️ Cachés par défaut
-   ⚠️ Activés UNIQUEMENT après enterApp()
-================================================== */
-header,footer{
-  position:fixed;
-  left:0;right:0;
-  max-width:420px;
-  margin:auto;
-  background:rgba(255,255,255,.82);
-  backdrop-filter:blur(8px);
-  display:flex;
-  align-items:center;
-  z-index:10;
-}
-
-header{
-  top:0;
-  height:56px;
-  justify-content:space-between;
-  padding:0 14px;
-  display:none;
-}
-
-footer{
-  bottom:0;
-  height:64px;
-  justify-content:space-between;
-  padding:0 16px;
-  display:none;
-}
-
-header strong{
-  font-family:Fredoka;
-  font-size:18px;
-}
-
-header button,
-footer button{
-  border:none;
-  border-radius:999px;
-  padding:8px 16px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-
-header button:active,
-footer button:active{
-  transform:scale(.94);
-}
-
-/* ==================================================
-   📄 PAGES
-   ==================================================
-   Toutes les pages utilisent le même système :
-   - display:none
-   - .active => display:block
-================================================== */
-.page{
-  display:none;
-  padding:96px 20px 150px;
-  animation:pageIn .25s ease;
-}
-
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
-}
-
-.page.active{display:block}
-
-/* ==================================================
-   🎛️ UI DE BASE
-================================================== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-}
-
-/* ==================================================
-   🏠 ACCUEIL PRINCIPAL
-================================================== */
-.home-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:24px;
-}
-
-.home-card{
-  font-size:56px;
-  padding:34px 20px;
-  border-radius:34px;
-}
-
-/* ==================================================
-   🧱 CARTES
-================================================== */
-.card{
-  background:rgba(255,255,255,.78);
-  border-radius:26px;
-  padding:20px;
-  text-align:center;
-  font-family:Fredoka;
-  box-shadow:0 20px 40px rgba(0,0,0,.12);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-
-.card:active{
-  transform:scale(.97);
-  box-shadow:0 12px 26px rgba(0,0,0,.18);
-}
-
-.price{
-  font-size:22px;
-  margin:6px 0;
-}
-
-/* ==================================================
-   🔢 QUANTITÉS
-================================================== */
-.qty{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  margin-top:10px;
-}
-
-.qty button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
-  background:var(--accent);
-  font-size:18px;
-  transition:transform .15s ease;
-}
-
-.qty button:active{
-  transform:scale(.85);
-}
-
-/* ==================================================
-   📌 NOTICES
-================================================== */
-.notice{
-  background:rgba(255,255,255,.7);
-  backdrop-filter:blur(6px);
-  border-radius:18px;
-  padding:14px;
-  margin-top:16px;
-}
-
-/* ==================================================
-   ☰ MENU SERVICES
-================================================== */
-#services{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:50;
-}
-
-#services .box{
-  background:var(--card);
-  border-radius:28px;
-  padding:26px;
-  width:82%;
-}
-
-#services button{
-  width:100%;
-  margin:10px 0;
-  padding:14px;
-  border:none;
-  border-radius:999px;
-  background:var(--accent);
-  font-family:Fredoka;
-  transition:transform .15s ease;
-}
-
-#services button:active{
-  transform:scale(.96);
-}
-
-/* ==================================================
-   🎁 BARRE CADEAU
-================================================== */
-.gift-bar{
-  position:fixed;
-  left:50%;
-  bottom:74px;
-  transform:translateX(-50%);
-  width:90%;
-  max-width:380px;
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(8px);
-  border-radius:18px;
-  padding:12px 14px;
-  box-shadow:0 12px 28px rgba(0,0,0,.18);
-  font-family:Fredoka;
-  z-index:9;
-}
-
-.gift-text{
-  font-size:14px;
-  text-align:center;
-}
-
-.gift-track{
-  width:100%;
-  height:10px;
-  background:rgba(0,0,0,.1);
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:6px;
-}
-
-.gift-progress{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,#ffd56b,#ffb703);
-  border-radius:999px;
-  transition:width .35s ease;
-}
-
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 </style>
 </head>
 
 <body>
-<body>
-
-<!-- ==================================================
-     🏠 ÉCRAN D’ACCUEIL
-     ================================================== -->
-<div id="welcome">
-  <div id="welcome-hitbox" onclick="enterApp()"></div>
-</div>
-
-<!-- ==================================================
-     📱 APPLICATION
-     ================================================== -->
 <div class="app">
 
-<!-- ==================================================
-     🔐 PAGE D’ACCÈS PAR CODE (BLOCAGE)
-     ================================================== -->
-<section id="access" class="page active">
-
+<!-- SPLASH -->
+<section id="splash" class="screen active">
   <div class="card">
-    <h2>🔐 Accès sécurisé</h2>
+    <h1>ALLO85</h1>
+    <p style="text-align:center">Mini-application Telegram professionnelle</p>
+    <div class="actions" style="margin-top:20px">
+      <button class="primary" onclick="go('home')">Entrer</button>
+    </div>
+  </div>
+</section>
 
-    <p style="font-size:14px">
-      Entre ton <b>code d’accès</b> ou un <b>code de parrainage valide</b>
+<!-- HOME -->
+<section id="home" class="screen">
+  <div class="card">
+    <h2>Dashboard</h2>
+    <p>Choisis une action à effectuer.</p>
+    <div class="actions">
+      <button class="primary" onclick="selectAction('Demande urgente')">🚨 Demande urgente</button>
+      <button class="primary" onclick="selectAction('Commande standard')">📦 Commande standard</button>
+      <button class="primary" onclick="selectAction('Information')">ℹ️ Information</button>
+      <button class="secondary" onclick="go('history')">📜 Historique</button>
+      <button class="secondary" onclick="go('about')">À propos</button>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section id="form" class="screen">
+  <div class="card">
+    <h2 id="formTitle"></h2>
+    <p>Complète les informations ci-dessous.</p>
+
+    <input id="name" placeholder="Ton nom">
+    <textarea id="message" placeholder="Message / Détails" rows="4" style="margin-top:10px"></textarea>
+
+    <div class="actions" style="margin-top:16px">
+      <button class="primary" onclick="confirm()">Continuer</button>
+      <button class="secondary" onclick="go('home')">Annuler</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIRM -->
+<section id="confirm" class="screen">
+  <div class="card">
+    <h2>Confirmation</h2>
+    <p>Vérifie avant envoi.</p>
+    <div class="badge" id="confirmData"></div>
+
+    <div class="actions" style="margin-top:16px">
+      <button class="primary" onclick="send()">Envoyer</button>
+      <button class="secondary" onclick="go('form')">Modifier</button>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" class="screen">
+  <div class="card">
+    <h2 id="resultTitle"></h2>
+    <p id="resultMsg"></p>
+    <div class="actions" style="margin-top:16px">
+      <button class="primary" onclick="go('home')">Retour accueil</button>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history" class="screen">
+  <div class="card">
+    <h2>Historique</h2>
+    <div id="historyList"></div>
+    <div class="actions" style="margin-top:16px">
+      <button class="secondary" onclick="go('home')">Retour</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="screen">
+  <div class="card">
+    <h2>À propos</h2>
+    <p>
+      ALLO85 est une mini-app Telegram autonome, rapide et sécurisée.
+      Toutes les actions sont enregistrées localement et envoyées via Telegram WebApp.
     </p>
-
-    <input
-      id="accessInput"
-      type="text"
-      placeholder="Code d’accès"
-      style="
-        width:100%;
-        padding:12px;
-        border-radius:12px;
-        border:1px solid #ddd;
-        font-size:16px;
-        text-align:center;
-        margin-top:10px;
-      "
-    >
-
-    <button
-      onclick="checkAccess()"
-      style="
-        width:100%;
-        margin-top:14px;
-        padding:14px;
-        border:none;
-        border-radius:999px;
-        background:var(--accent);
-        font-family:Fredoka;
-        font-size:16px;
-      "
-    >
-      Valider
-    </button>
-
-    <p id="accessError"
-       style="display:none;color:red;font-size:14px;margin-top:10px">
-      ❌ Code invalide
-    </p>
-
-  </div>
-
-</section>
-
-<!-- ==================================================
-     🔝 HEADER
-     ================================================== -->
-<header id="header">
-  <button onclick="goBack()">⬅</button>
-  <strong>ALLO85</strong>
-  <button onclick="toggleServices()">☰</button>
-</header>
-
-<!-- ==================================================
-     🛒 FOOTER PANIER
-     ================================================== -->
-<footer id="footer">
-  <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
-  <button id="cartBtn" onclick="go('cart')">Panier</button>
-</footer>
-
-<!-- ==================================================
-     🏠 PAGE PRINCIPALE
-     ================================================== -->
-<section id="root" class="page active">
-  <div class="home-grid">
-    <div class="card home-card" onclick="goChoco()">🍫</div>
-    <div class="card home-card" onclick="goGreen()">🥦</div>
+    <div class="actions" style="margin-top:16px">
+      <button class="secondary" onclick="go('home')">Retour</button>
+    </div>
   </div>
 </section>
 
-<!-- ==================================================
-     🍫 CATÉGORIES CHOCOLAT
-     ================================================== -->
-<section id="choco" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
-    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
-  </div>
-</section>
-
-<!-- ==================================================
-     🥦 CATÉGORIES GREEN
-     ================================================== -->
-<section id="green" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
-  </div>
-</section>
-
-<!-- ==================================================
-     📦 LISTES PRODUITS
-     ================================================== -->
-<section id="jaune" class="page">
-  <h2>🟡 Jaune</h2>
-  <div class="grid" id="jauneList"></div>
-</section>
-
-<section id="filtre" class="page">
-  <h2>🔍 Filtré</h2>
-  <div class="grid" id="filtreList"></div>
-</section>
-
-<section id="cali" class="page">
-  <h2>🇺🇸 Cali</h2>
-  <div class="grid" id="caliList"></div>
-</section>
-
-<!-- ==================================================
-     🛒 PANIER
-     ================================================== -->
-<section id="cart" class="page">
-  <h2>🛒 Panier</h2>
-  <div id="cartItems"></div>
-
-  <div class="notice">
-    <label>
-      <input type="radio" name="del" checked onclick="setDelivery(false)">
-      Sur place
-    </label><br>
-    <label>
-      <input type="radio" name="del" onclick="setDelivery(true)">
-      Livraison +20€
-    </label>
-  </div>
-
-  <textarea
-    id="address"
-    placeholder="Adresse de livraison"
-    style="display:none;width:100%;margin-top:10px">
-  </textarea>
-
-  <p><b>Total : <span id="total">0</span> €</b></p>
-
-  <button
-    onclick="sendOrder()"
-    style="width:100%;padding:14px;border:none;border-radius:999px;background:var(--accent);font-family:Fredoka">
-    Confirmer la commande
-  </button>
-</section>
-
-<!-- ==================================================
-     ⭐ AVANTAGES
-     ================================================== -->
-<section id="advantages" class="page">
-  <h2>⭐ Avantages</h2>
-
-  <div class="card">
-    <p><b>Niveau :</b></p>
-    <h3 id="levelText"></h3>
-    <p><b>Commandes :</b> <span id="orderCount"></span></p>
-  </div>
-
-  <div class="notice">
-    🎁 <b>Code parrain :</b><br>
-    <span id="refCode"></span>
-  </div>
-
-  <div class="notice">
-    Invite 5 amis à commander chez <b>ALLO85</b>.<br>
-    Lorsqu’ils passent commande, tu gagnes un avantage.
-  </div>
-</section>
-
-<!-- ==================================================
-     🎉 CONFIRMATION
-     ================================================== -->
-<section id="confirm" class="page">
-  <div class="card">
-    <h2 class="confirm-pop">🎉 Commande prête !</h2>
-    <button onclick="openAllo()">📨 Ouvrir le chat ALLO85</button>
-  </div>
-</section>
-
-<!-- ==================================================
-     🎁 BARRE CADEAU
-     ================================================== -->
-<div class="gift-bar" id="giftBar" style="display:none">
-  <div class="gift-text" id="giftText"></div>
-  <div class="gift-track">
-    <div class="gift-progress" id="giftProgress"></div>
-  </div>
 </div>
 
-</div><!-- FIN .app -->
+<script>
+const tg = window.Telegram ? window.Telegram.WebApp : null;
+if(tg){tg.ready();tg.expand();}
 
-<!-- ==================================================
-     ☰ MENU SERVICES
-     ================================================== -->
-<div id="services">
-  <div class="box">
-    <button onclick="goWelcome()">🏠 Accueil</button>
-    <button onclick="go('advantages');toggleServices()">⭐ Avantages</button>
-    <button onclick="toggleNight()">🌙 Mode nuit</button>
-    <button onclick="toggleServices()">Fermer</button>
-  </div>
-</div>
-
-   <script>
-/* ==================================================
-   📦 CATALOGUE PRODUITS
-   ================================================== */
-const catalog={
-  jaune:[
-    {g:"4g",p:20},
-    {g:"10g",p:50},
-    {g:"20g",p:90}
-  ],
-  filtre:[
-    {g:"2.5g",p:20},
-    {g:"5g",p:40},
-    {g:"10g",p:70}
-  ],
-  cali:[
-    {g:"2.4g",p:20},
-    {g:"5g",p:50},
-    {g:"10g",p:80}
-  ]
-};
-
-/* ==================================================
-   🧠 ÉTAT GLOBAL
-   ================================================== */
-
-// code maître
-const MASTER_CODE="HELLOALLO85";
-
-// pile de navigation
-let stack=["root"];
-
-// panier
-let cart=JSON.parse(localStorage.getItem("cart")||"[]");
-
-// livraison
-let delivery=false;
-
-// commandes
-let orders=Number(localStorage.getItem("orders")||0);
-
-// code parrain (DOIT être déclaré avant checkAccess)
-let ref=localStorage.getItem("ref") ||
-  ("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
-localStorage.setItem("ref",ref);
-
-// accès
-let accessGranted=localStorage.getItem("accessGranted")==="true";
-
-/* ==================================================
-   🔐 SYSTÈME D’ACCÈS
-   ================================================== */
-function checkAccess(){
-  const input=document.getElementById("accessInput").value
-    .trim().toUpperCase();
-  const error=document.getElementById("accessError");
-
-  const allowedCodes=[
-    MASTER_CODE,
-    ref
-  ];
-
-  if(allowedCodes.includes(input)){
-    localStorage.setItem("accessGranted","true");
-    accessGranted=true;
-    error.style.display="none";
-    show("root");
-  }else{
-    error.style.display="block";
-  }
-}
-
-/* ==================================================
-   🌈 TRANSITION DES FONDS
-   ================================================== */
-function transitionBg(className){
-  document.documentElement.style
-    .setProperty("--bg-opacity","0");
-  setTimeout(()=>{
-    document.body.classList.remove(
-      "bg-choco","bg-green"
-    );
-    if(className){
-      document.body.classList.add(className);
-    }
-    document.documentElement.style
-      .setProperty("--bg-opacity","1");
-  },200);
-}
-
-/* ==================================================
-   🧭 NAVIGATION
-   ================================================== */
-function show(id){
-
-  if(!accessGranted && id!=="access"){
-    id="access";
-  }
-
-  document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
-
-  document.getElementById(id)
-    .classList.add("active");
-
-  if(id==="advantages"){
-    document.getElementById("levelText").innerText=level();
-    document.getElementById("orderCount").innerText=orders;
-    document.getElementById("refCode").innerText=ref;
-  }
-}
+let state={action:null,name:"",message:""};
 
 function go(id){
-  if(!accessGranted && id!=="access") return;
-  stack.push(id);
-  show(id);
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+if(id==="history") renderHistory();
 }
 
-function goBack(){
-  if(!accessGranted) return;
-
-  if(stack.length>1){
-    stack.pop();
-    show(stack[stack.length-1]);
-  }
-
-  if(stack.length===1){
-    transitionBg(null);
-  }
+function selectAction(a){
+state.action=a;
+document.getElementById('formTitle').innerText=a;
+go('form');
 }
 
-/* ==================================================
-   🍫 / 🥦 CATÉGORIES
-   ================================================== */
-function goChoco(){
-  transitionBg("bg-choco");
-  go("choco");
+function confirm(){
+state.name=document.getElementById('name').value;
+state.message=document.getElementById('message').value;
+document.getElementById('confirmData').innerText=
+`Action: ${state.action}\nNom: ${state.name}\nMessage: ${state.message}`;
+go('confirm');
 }
 
-function goGreen(){
-  transitionBg("bg-green");
-  go("green");
+function send(){
+const payload={
+app:"ALLO85",
+action:state.action,
+name:state.name,
+message:state.message,
+time:Date.now()
+};
+
+try{
+if(tg) tg.sendData(JSON.stringify(payload));
+saveHistory(payload);
+showResult(true);
+}catch(e){showResult(false);}
 }
 
-/* ==================================================
-   🏠 ACCUEIL
-   ================================================== */
-function enterApp(){
-  document.getElementById("welcome")
-    .classList.add("welcome-hide");
-  setTimeout(()=>{
-    document.getElementById("welcome")
-      .style.display="none";
-    document.getElementById("header")
-      .style.display="flex";
-    document.getElementById("footer")
-      .style.display="flex";
-  },450);
+function showResult(ok){
+document.getElementById('resultTitle').innerText=ok?"Succès":"Erreur";
+document.getElementById('resultMsg').innerText=
+ok?"Action envoyée avec succès.":"Impossible d’envoyer.";
+go('result');
 }
 
-function goWelcome(){
-  stack=["root"];
-  show("root");
-  transitionBg(null);
-  document.getElementById("header").style.display="none";
-  document.getElementById("footer").style.display="none";
-  const w=document.getElementById("welcome");
-  w.style.display="block";
-  w.classList.remove("welcome-hide");
-  document.getElementById("services").style.display="none";
+function saveHistory(data){
+let h=JSON.parse(localStorage.getItem('allo85_history')||"[]");
+h.unshift(data);
+localStorage.setItem('allo85_history',JSON.stringify(h));
 }
 
-/* ==================================================
-   ☰ SERVICES
-   ================================================== */
-function toggleServices(){
-  const s=document.getElementById("services");
-  s.style.display=s.style.display==="flex"
-    ? "none"
-    : "flex";
-}
-
-function toggleNight(){
-  document.body.classList.toggle("night");
-}
-
-/* ==================================================
-   🛒 PRODUITS
-   ================================================== */
-function renderProducts(list,id){
-  const el=document.getElementById(id);
-  el.innerHTML="";
-
-  list.forEach(p=>{
-    const key=id+p.g;
-    const it=cart.find(i=>i.k===key);
-
-    el.innerHTML+=`
-      <div class="card">
-        <div>${p.g}</div>
-        <div class="price">${p.p}€</div>
-        <div class="qty">
-          ${
-            it
-            ? `<button onclick="chg('${key}',-1)">−</button>
-               ${it.q}
-               <button onclick="chg('${key}',1)">+</button>`
-            : `<button onclick="add('${key}','${id}','${p.g}',${p.p})">
-                 Ajouter
-               </button>`
-          }
-        </div>
-      </div>`;
-  });
-}
-
-/* ==================================================
-   ➕ / ➖ PANIER
-   ================================================== */
-function add(k,t,g,p){
-  cart.push({k,t,g,p,q:1});
-  save();
-  pulseCart();
-
-  if(window.Telegram?.WebApp){
-    Telegram.WebApp.HapticFeedback
-      .impactOccurred("light");
-  }
-}
-
-function chg(k,d){
-  const i=cart.find(x=>x.k===k);
-  if(!i) return;
-
-  i.q+=d;
-  if(i.q<=0){
-    cart=cart.filter(x=>x.k!==k);
-  }
-  save();
-  pulseCart();
-}
-
-function save(){
-  localStorage.setItem("cart",JSON.stringify(cart));
-  updateUI();
-}
-
-/* ==================================================
-   🎁 BARRE CADEAU
-   ================================================== */
-function updateGiftBar(total){
-  const bar=document.getElementById("giftBar");
-  const prog=document.getElementById("giftProgress");
-  const txt=document.getElementById("giftText");
-
-  const goal=150;
-  bar.style.display="block";
-
-  if(total>=goal){
-    prog.style.width="100%";
-    txt.innerHTML="🎉 <b>Cadeau débloqué !</b>";
-  }else{
-    const percent=Math.min((total/goal)*100,100);
-    prog.style.width=percent+"%";
-    txt.innerHTML=
-      `🎁 Plus que <b>${goal-total}€</b> pour débloquer un cadeau`;
-  }
-}
-
-/* ==================================================
-   🔄 MISE À JOUR UI
-   ================================================== */
-function updateUI(){
-  renderProducts(catalog.jaune,"jauneList");
-  renderProducts(catalog.filtre,"filtreList");
-  renderProducts(catalog.cali,"caliList");
-
-  let c=0,t=0;
-  document.getElementById("cartItems").innerHTML="";
-
-  cart.forEach(i=>{
-    c+=i.q;
-    t+=i.q*i.p;
-
-    document.getElementById("cartItems").innerHTML+=`
-      <div class="card">
-        <div><b>${i.g} ${i.t}</b></div>
-        <div class="price">${i.q*i.p}€</div>
-        <div class="qty">
-          <button onclick="chg('${i.k}',-1)">−</button>
-          ${i.q}
-          <button onclick="chg('${i.k}',1)">+</button>
-        </div>
-      </div>`;
-  });
-
-  if(delivery) t+=20;
-
-  document.getElementById("cartCount").innerText=c;
-  document.getElementById("cartTotal").innerText=t+"€";
-  document.getElementById("total").innerText=t;
-
-  updateGiftBar(t);
-}
-
-/* ==================================================
-   💥 ANIMATION PANIER
-   ================================================== */
-function pulseCart(){
-  const btn=document.getElementById("cartBtn");
-  btn.classList.remove("pulse");
-  void btn.offsetWidth;
-  btn.classList.add("pulse");
-}
-
-function setDelivery(v){
-  delivery=v;
-  document.getElementById("address")
-    .style.display=v?"block":"none";
-  updateUI();
-}
-
-/* ==================================================
-   📤 COMMANDE
-   ================================================== */
-function sendOrder(){
-  if(cart.length===0){
-    alert("Panier vide");
-    return;
-  }
-
-  if(delivery &&
-     !document.getElementById("address").value.trim()){
-    alert("Adresse requise");
-    return;
-  }
-
-  orders++;
-  localStorage.setItem("orders",orders);
-
-  let msg=
-`🧾 COMMANDE ALLO85
-⭐ ${level()} (${orders})
-🎁 ${ref}
-
-`;
-
-  cart.forEach(i=>{
-    msg+=`• ${i.q}× ${i.g} ${i.t} — ${i.q*i.p}€\n`;
-  });
-
-  msg+=delivery
-    ? `\n🚚 Livraison +20€\n${document.getElementById("address").value}\n`
-    : `\n📍 Sur place\n`;
-
-  msg+=`\n💰 Total : ${document.getElementById("total").innerText}€`;
-
-  navigator.clipboard.writeText(msg);
-
-  cart=[];
-  save();
-  document.getElementById("address").value="";
-  show("confirm");
-}
-
-function openAllo(){
-  window.open("https://t.me/allo856","_blank");
-}
-
-/* ==================================================
-   🚀 INIT
-   ================================================== */
-document.addEventListener("DOMContentLoaded",()=>{
-  if(!accessGranted){
-    show("access");
-  }
-  updateUI();
+function renderHistory(){
+let h=JSON.parse(localStorage.getItem('allo85_history')||"[]");
+const box=document.getElementById('historyList');
+box.innerHTML=h.length?"":
+"<p>Aucune action enregistrée.</p>";
+h.forEach(e=>{
+const d=document.createElement('div');
+d.className="badge";
+d.style.marginBottom="8px";
+d.innerText=`${new Date(e.time).toLocaleString()} – ${e.action}`;
+box.appendChild(d);
 });
+}
 </script>
-
-   <script>
-/* ==================================================
-   🐞 MODE DEBUG / CONFIGURATION
-   ==================================================
-   - Désactivé par défaut
-   - Ne jamais activer en production sans raison
-================================================== */
-const DEBUG_MODE = false;
-
-/* ==================================================
-   📒 SYSTÈME DE LOGS INTERNES
-   ==================================================
-   - Stockage local
-   - Limité en taille
-   - Utile pour debug et audit
-================================================== */
-const LOG_LIMIT = 200;
-const LOG_KEY = "allo85_logs";
-
-function getLogs(){
-  try{
-    return JSON.parse(localStorage.getItem(LOG_KEY)) || [];
-  }catch(e){
-    return [];
-  }
-}
-
-function addLog(type,message,data=null){
-  if(!DEBUG_MODE) return;
-
-  const logs = getLogs();
-  logs.push({
-    time: new Date().toISOString(),
-    type,
-    message,
-    data
-  });
-
-  if(logs.length > LOG_LIMIT){
-    logs.shift();
-  }
-
-  localStorage.setItem(LOG_KEY,JSON.stringify(logs));
-}
-
-/* ==================================================
-   📦 HISTORIQUE DES COMMANDES
-   ==================================================
-   - Persiste même après reload
-   - Base pour stats / fidélité
-================================================== */
-const HISTORY_KEY = "allo85_order_history";
-
-function getOrderHistory(){
-  try{
-    return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
-  }catch(e){
-    return [];
-  }
-}
-
-function saveOrderToHistory(order){
-  const history = getOrderHistory();
-  history.push(order);
-  localStorage.setItem(HISTORY_KEY,JSON.stringify(history));
-}
-
-/* ==================================================
-   ⭐ SYSTÈME DE NIVEAUX UTILISATEUR
-   ==================================================
-   - Basé sur nombre de commandes
-   - Facilement extensible
-================================================== */
-const LEVELS = [
-  {name:"Bronze",min:0},
-  {name:"Argent",min:3},
-  {name:"Or",min:7},
-  {name:"Platine",min:15}
-];
-
-function level(){
-  let current = LEVELS[0].name;
-  LEVELS.forEach(l=>{
-    if(orders >= l.min){
-      current = l.name;
-    }
-  });
-  return current;
-}
-
-function getNextLevel(){
-  for(let i=0;i<LEVELS.length;i++){
-    if(orders < LEVELS[i].min){
-      return LEVELS[i];
-    }
-  }
-  return null;
-}
-
-/* ==================================================
-   🛡️ PROTECTIONS UX & SÉCURITÉ DOUCE
-   ==================================================
-   - Anti double-clic
-   - Vérifications silencieuses
-================================================== */
-let orderLocked = false;
-
-const originalSendOrder = sendOrder;
-sendOrder = function(){
-  if(orderLocked){
-    addLog("warn","Double validation bloquée");
-    return;
-  }
-  orderLocked = true;
-
-  originalSendOrder();
-
-  setTimeout(()=>{
-    orderLocked = false;
-  },1500);
-};
-
-const originalAdd = add;
-add = function(k,t,g,p){
-  if(!k || !t || !g || !p){
-    addLog("error","Produit invalide",arguments);
-    return;
-  }
-  originalAdd(k,t,g,p);
-};
-
-const originalChg = chg;
-chg = function(k,d){
-  if(typeof d !== "number"){
-    addLog("error","Quantité invalide",arguments);
-    return;
-  }
-  originalChg(k,d);
-};
-
-/* ==================================================
-   🧪 OUTILS DEBUG (NON EXPOSÉS)
-   ================================================== */
-function debugResetAll(){
-  if(!DEBUG_MODE) return;
-  localStorage.removeItem("cart");
-  localStorage.removeItem("orders");
-  localStorage.removeItem("accessGranted");
-  localStorage.removeItem(HISTORY_KEY);
-  localStorage.removeItem(LOG_KEY);
-  location.reload();
-}
-
-/* ==================================================
-   📊 HOOKS SUR ÉVÉNEMENTS EXISTANTS
-================================================== */
-(function(){
-  addLog("info","Application chargée");
-
-  const originalEnterApp = enterApp;
-  enterApp = function(){
-    addLog("info","Entrée dans l'application");
-    originalEnterApp();
-  };
-
-  const originalCheckAccess = checkAccess;
-  checkAccess = function(){
-    addLog("info","Tentative d'accès");
-    originalCheckAccess();
-  };
-
-  const originalSave = save;
-  save = function(){
-    addLog("info","Panier sauvegardé",cart);
-    originalSave();
-  };
-
-  const originalOpenAllo = openAllo;
-  openAllo = function(){
-    addLog("info","Ouverture du chat Telegram");
-    originalOpenAllo();
-  };
-
-  const originalSend = originalSendOrder;
-  sendOrder = function(){
-    addLog("info","Commande envoyée",{
-      items:cart.length,
-      delivery,
-      total:document.getElementById("total").innerText
-    });
-
-    saveOrderToHistory({
-      date: new Date().toISOString(),
-      items: cart,
-      total: document.getElementById("total").innerText,
-      delivery
-    });
-
-    originalSend();
-  };
-})();
-</script>
+</body>
+</html>
