@@ -1,265 +1,215 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>ALLO85 – Mini App Telegram Premium</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>ALLO – Premium Telegram App</title>
 
 <style>
-/* =====================================================
-   VARIABLES & BASE
-===================================================== */
-:root {
-  --bg-main: #0b0f14;
-  --bg-grad-1: #0e1117;
-  --bg-grad-2: #0a0d12;
-  --card: #161b22;
-  --card-soft: #1c222b;
-  --accent: #3b82f6;
-  --accent-soft: #1f6feb;
-  --success: #2ea043;
-  --error: #f85149;
-  --warning: #d29922;
-  --text-main: #e6edf3;
-  --text-muted: #8b949e;
-  --radius: 16px;
-  --radius-sm: 10px;
-  --shadow: 0 10px 30px rgba(0,0,0,.45);
-  --speed-fast: .2s;
-  --speed: .35s;
-  --speed-slow: .6s;
+/* =========================
+   THEME & VARIABLES
+========================= */
+:root{
+  --bg:#0b0f14;
+  --bg-soft:#0f141c;
+  --card:#161b22;
+  --card-soft:#1c222b;
+  --accent:#c9a24d;
+  --accent-2:#3b82f6;
+  --green:#2ea043;
+  --yellow:#facc15;
+  --orange:#fb923c;
+  --blue:#60a5fa;
+  --muted:#8b949e;
+  --text:#e6edf3;
+  --radius:18px;
+  --radius-sm:12px;
+  --shadow:0 12px 35px rgba(0,0,0,.45);
+  --speed:.3s;
 }
 
-/* =====================================================
+/* =========================
    RESET
-===================================================== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-    "Helvetica Neue", sans-serif;
+========================= */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 }
 
-body {
-  background: linear-gradient(180deg,var(--bg-grad-1),var(--bg-grad-2));
-  color: var(--text-main);
-  min-height: 100vh;
-  overflow-x: hidden;
+body{
+  background:linear-gradient(180deg,#0b0f14,#0a0d12);
+  color:var(--text);
+  min-height:100vh;
 }
 
-/* =====================================================
+/* =========================
    APP LAYOUT
-===================================================== */
-.app {
-  max-width: 540px;
-  margin: 0 auto;
-  padding: 20px 16px 40px;
+========================= */
+.app{
+  max-width:540px;
+  margin:auto;
+  padding:18px 14px 40px;
 }
 
-header.app-header {
-  text-align: center;
-  margin-bottom: 24px;
+header{
+  text-align:center;
+  margin-bottom:22px;
 }
 
-header.app-header h1 {
-  font-size: 30px;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
+header h1{
+  font-size:32px;
+  letter-spacing:1px;
 }
 
-header.app-header p {
-  font-size: 14px;
-  color: var(--text-muted);
+header p{
+  font-size:14px;
+  color:var(--muted);
 }
 
-/* =====================================================
-   SCREENS & ROUTER
-===================================================== */
-.screen {
-  display: none;
-  animation: fadeIn var(--speed) ease;
+/* =========================
+   NAV BAR
+========================= */
+.nav{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:18px;
 }
 
-.screen.active {
-  display: block;
+.nav button{
+  flex:1;
+  padding:12px;
+  border-radius:14px;
+  border:none;
+  background:#21262d;
+  color:var(--text);
+  font-size:14px;
+  cursor:pointer;
 }
 
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(12px); }
-  to   { opacity:1; transform:translateY(0); }
+/* =========================
+   SCREENS
+========================= */
+.screen{
+  display:none;
+  animation:fade .3s ease;
+}
+.screen.active{display:block}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1}
 }
 
-/* =====================================================
-   CARDS & UI
-===================================================== */
-.card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 18px;
-  box-shadow: var(--shadow);
+/* =========================
+   CARDS
+========================= */
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:var(--shadow);
 }
 
-.card.soft {
-  background: var(--card-soft);
+.card.soft{background:var(--card-soft)}
+
+.card h2{
+  font-size:20px;
+  margin-bottom:10px;
 }
 
-.card h2 {
-  font-size: 20px;
-  margin-bottom: 12px;
+.card p{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.4;
 }
 
-.card p {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.45;
-}
-
-/* =====================================================
+/* =========================
    BUTTONS
-===================================================== */
-button {
-  border: none;
-  border-radius: var(--radius);
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--speed-fast);
+========================= */
+button{
+  border:none;
+  border-radius:14px;
+  padding:14px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:transform .15s,opacity .15s;
+}
+button:active{transform:scale(.97)}
+button:disabled{opacity:.5}
+
+.primary{background:linear-gradient(135deg,var(--accent),#f5d57a);color:#000}
+.secondary{background:#21262d;color:var(--text)}
+
+.jaune{background:var(--yellow);color:#000}
+.filtrer{background:var(--orange);color:#000}
+.frozen{background:var(--blue);color:#000}
+
+/* =========================
+   STACKS
+========================= */
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:14px;
 }
 
-button.primary {
-  background: linear-gradient(135deg,var(--accent),var(--accent-soft));
-  color: #fff;
+/* =========================
+   LIST ITEMS
+========================= */
+.item{
+  background:#0d1117;
+  border-radius:12px;
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
 }
 
-button.secondary {
-  background: #21262d;
-  color: var(--text-main);
+.item span{font-size:14px}
+
+/* =========================
+   BADGES
+========================= */
+.badge{
+  font-size:12px;
+  padding:5px 10px;
+  border-radius:20px;
+  background:#21262d;
+  color:var(--muted);
 }
 
-button.danger {
-  background: #21262d;
-  color: var(--error);
+/* =========================
+   PROGRESS
+========================= */
+.progress{
+  background:#21262d;
+  border-radius:20px;
+  height:10px;
+  overflow:hidden;
+  margin-top:8px;
+}
+.progress span{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,var(--accent),#f5d57a);
+  width:0%;
 }
 
-button.small {
-  padding: 10px;
-  font-size: 13px;
-}
-
-button:active {
-  transform: scale(.97);
-}
-
-button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-/* =====================================================
-   ACTIONS / STACKS
-===================================================== */
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.row {
-  display: flex;
-  gap: 10px;
-}
-
-/* =====================================================
-   FORM ELEMENTS
-===================================================== */
-input, textarea, select {
-  width: 100%;
-  background: #0d1117;
-  border: 1px solid #30363d;
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  font-size: 14px;
-  color: #fff;
-  margin-top: 10px;
-}
-
-textarea { resize: vertical; }
-
-/* =====================================================
-   BADGES / STATUS
-===================================================== */
-.badge {
-  display: inline-block;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  background: #21262d;
-  color: var(--text-muted);
-}
-
-.status {
-  text-align: center;
-  margin-top: 14px;
-  font-size: 14px;
-}
-
-.status.success { color: var(--success); }
-.status.error { color: var(--error); }
-.status.warning { color: var(--warning); }
-
-/* =====================================================
-   NAV FOOTER
-===================================================== */
-.footer {
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 28px;
-}
-
-/* =====================================================
-   LISTS
-===================================================== */
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.list-item {
-  background: #0d1117;
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background var(--speed-fast);
-}
-
-.list-item:hover {
-  background: #161b22;
-}
-
-/* =====================================================
-   LOADER
-===================================================== */
-.loader {
-  width: 32px;
-  height: 32px;
-  border: 3px solid #30363d;
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* =========================
+   FOOTER
+========================= */
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:26px;
 }
 </style>
 </head>
@@ -267,323 +217,236 @@ textarea { resize: vertical; }
 <body>
 <div class="app">
 
-<header class="app-header">
-  <h1>ALLO85</h1>
-  <p>Mini-application Telegram professionnelle</p>
+<header>
+  <h1>ALLO</h1>
+  <p>Expérience premium • rapide • maîtrisée</p>
 </header>
 
-<!-- SPLASH -->
-<section id="screen-splash" class="screen active">
-  <div class="card">
-    <h2>Bienvenue</h2>
-    <p>Accède à l’interface ALLO85 et déclenche tes actions en quelques secondes.</p>
-    <div class="actions">
-      <button class="primary" onclick="Router.go('home')">Entrer</button>
-    </div>
-  </div>
-</section>
+<div class="nav">
+  <button onclick="go('home')">🏠</button>
+  <button onclick="go('fidelite')">⭐</button>
+  <button onclick="go('club')">🏆</button>
+  <button onclick="go('history')">📜</button>
+</div>
 
 <!-- HOME -->
-<section id="screen-home" class="screen">
+<section id="home" class="screen active">
   <div class="card">
-    <h2>Dashboard</h2>
-    <p>Sélectionne une action.</p>
-    <div class="actions">
-      <button class="primary" onclick="Actions.start('urgence')">🚨 Demande urgente</button>
-      <button class="primary" onclick="Actions.start('commande')">📦 Commande</button>
-      <button class="primary" onclick="Actions.start('info')">ℹ️ Information</button>
-      <button class="secondary" onclick="Router.go('history')">📜 Historique</button>
-      <button class="secondary" onclick="Router.go('settings')">⚙️ Paramètres</button>
-      <button class="secondary" onclick="Router.go('about')">À propos</button>
+    <h2>Accueil</h2>
+    <p>Choisis ton univers.</p>
+    <div class="stack">
+      <button class="primary" onclick="go('cat-choco')">🍫 Catégorie 🍫</button>
+      <button class="secondary" onclick="go('cat-green')">🥦 Catégorie 🥦</button>
     </div>
   </div>
 </section>
 
-<!-- FORM -->
-<section id="screen-form" class="screen">
+<!-- 🍫 -->
+<section id="cat-choco" class="screen">
   <div class="card">
-    <h2 id="form-title"></h2>
-    <p>Renseigne les informations.</p>
-
-    <input id="input-name" placeholder="Nom">
-    <textarea id="input-message" rows="4" placeholder="Message / Détails"></textarea>
-
-    <div class="actions">
-      <button class="primary" onclick="Flow.confirm()">Continuer</button>
-      <button class="secondary" onclick="Router.go('home')">Annuler</button>
+    <h2>🍫 Sélection</h2>
+    <div class="stack">
+      <button class="jaune" onclick="go('jaune')">🟡 Jaune – Standard</button>
+      <button class="filtrer" onclick="go('filtrer')">🔥 Filtrer – Premium</button>
+      <button class="frozen" onclick="go('frozen')">❄️ Frozen – Ultra</button>
+      <button class="secondary" onclick="go('home')">Retour</button>
     </div>
   </div>
 </section>
 
-<!-- CONFIRM -->
-<section id="screen-confirm" class="screen">
+<!-- 🥦 -->
+<section id="cat-green" class="screen">
   <div class="card">
-    <h2>Confirmation</h2>
-    <div class="badge" id="confirm-preview"></div>
-    <div class="actions">
-      <button class="primary" onclick="Flow.send()">Envoyer</button>
-      <button class="secondary" onclick="Router.go('form')">Modifier</button>
+    <h2>🥦 Origine</h2>
+    <div class="stack">
+      <button class="primary" onclick="go('spain')">🇪🇸 Cali Espagne</button>
+      <button class="secondary" onclick="go('usa')">🇺🇸 Cali USA</button>
+      <button class="secondary" onclick="go('home')">Retour</button>
     </div>
   </div>
 </section>
 
-<!-- RESULT -->
-<section id="screen-result" class="screen">
+<!-- PRICES PLACEHOLDER SCREENS -->
+<section id="jaune" class="screen"></section>
+<section id="filtrer" class="screen"></section>
+<section id="frozen" class="screen"></section>
+<section id="spain" class="screen"></section>
+<section id="usa" class="screen"></section>
+
+<!-- FIDELITE -->
+<section id="fidelite" class="screen">
   <div class="card">
-    <h2 id="result-title"></h2>
-    <p id="result-text"></p>
-    <div class="actions">
-      <button class="primary" onclick="Router.go('home')">Retour accueil</button>
-    </div>
+    <h2>⭐ Fidélité</h2>
+    <p>1€ = 1 point</p>
+    <div class="progress"><span id="progress-bar"></span></div>
+    <div class="badge" id="points">0 points</div>
+  </div>
+</section>
+
+<!-- CLUB -->
+<section id="club" class="screen">
+  <div class="card soft">
+    <h2>🏆 Club Avantages</h2>
+    <p>Espace premium réservé.</p>
+    <div class="badge">Accès contrôlé</div>
   </div>
 </section>
 
 <!-- HISTORY -->
-<section id="screen-history" class="screen">
+<section id="history" class="screen">
   <div class="card">
-    <h2>Historique</h2>
-    <div id="history-list" class="list"></div>
-    <div class="actions">
-      <button class="secondary" onclick="Router.go('home')">Retour</button>
-    </div>
-  </div>
-</section>
-
-<!-- SETTINGS -->
-<section id="screen-settings" class="screen">
-  <div class="card">
-    <h2>Paramètres</h2>
-    <p>Préférences locales.</p>
-    <div class="actions">
-      <button class="danger" onclick="Settings.clear()">Effacer historique</button>
-      <button class="secondary" onclick="Router.go('home')">Retour</button>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="screen-about" class="screen">
-  <div class="card">
-    <h2>À propos</h2>
-    <p>
-      ALLO85 est une mini-app Telegram autonome, conçue pour être rapide,
-      fiable et évolutive. Toutes les données sont stockées localement
-      et envoyées via Telegram WebApp.
-    </p>
-    <div class="actions">
-      <button class="secondary" onclick="Router.go('home')">Retour</button>
-    </div>
+    <h2>📜 Historique</h2>
+    <div id="history-list"></div>
   </div>
 </section>
 
 <div class="footer">
-  © ALLO85 – Telegram WebApp
+  © ALLO – Telegram App
 </div>
 
 </div>
 <script>
-/* =====================================================
-   TELEGRAM INIT
-===================================================== */
-const TelegramApp = window.Telegram ? window.Telegram.WebApp : null;
-if (TelegramApp) {
-  TelegramApp.ready();
-  TelegramApp.expand();
+/* =========================
+   TELEGRAM
+========================= */
+const TG = window.Telegram ? window.Telegram.WebApp : null;
+if (TG) {
+  TG.ready();
+  TG.expand();
 }
 
-/* =====================================================
-   STATE MANAGER
-===================================================== */
-const Store = {
-  state: {
-    action: null,
-    name: "",
-    message: "",
-    loading: false,
-    offline: false
-  },
-  set(key, value) {
-    this.state[key] = value;
-  },
-  get(key) {
-    return this.state[key];
-  },
-  reset() {
-    this.state = {
-      action: null,
-      name: "",
-      message: "",
-      loading: false,
-      offline: false
-    };
-  }
+/* =========================
+   ROUTER
+========================= */
+function go(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
+  if (id === "fidelite") updateFidelite();
+  if (id === "history") renderHistory();
+}
+
+/* =========================
+   DATA PRODUITS
+========================= */
+const PRODUCTS = {
+  jaune: [
+    [10,"2g"],[20,"4g"],[50,"10g"],[90,"20g"],[200,"50g"],[320,"100g"]
+  ],
+  filtrer: [
+    [10,"1,35g"],[20,"2,7g"],[70,"10g"],[130,"20g"],[350,"50g"],[650,"100g"]
+  ],
+  frozen: [
+    [20,"1,4g"],[70,"5g"],[130,"10g"],[300,"25g"],[550,"50g"],[900,"100g"]
+  ],
+  spain: [
+    [10,"1,25g"],[20,"2,5g"],[80,"10g"],[150,"20g"],[380,"50g"],[700,"100g"]
+  ]
 };
 
-/* =====================================================
-   ROUTER SPA
-===================================================== */
-const Router = {
-  current: null,
-  go(screen) {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    const target = document.getElementById("screen-" + screen);
-    if (target) {
-      target.classList.add("active");
-      this.current = screen;
-      if (screen === "history") History.render();
-    }
-  }
+/* =========================
+   STATE
+========================= */
+let state = {
+  category:null,
+  range:null,
+  price:0,
+  qty:"",
+  points: Number(localStorage.getItem("points") || 0),
+  history: JSON.parse(localStorage.getItem("history") || "[]")
 };
 
-/* =====================================================
-   ACTIONS
-===================================================== */
-const Actions = {
-  start(type) {
-    Store.set("action", type);
-    document.getElementById("form-title").innerText =
-      type === "urgence" ? "Demande urgente" :
-      type === "commande" ? "Commande" : "Information";
-    Router.go("form");
+/* =========================
+   RENDER LISTS
+========================= */
+function renderList(id, key, title) {
+  const screen = document.getElementById(id);
+  screen.innerHTML = `
+    <div class="card">
+      <h2>${title}</h2>
+      <div class="stack">
+        ${PRODUCTS[key].map(p=>`
+          <div class="item" onclick="select('${key}',${p[0]},'${p[1]}')">
+            <span>${p[1]}</span>
+            <strong>${p[0]} €</strong>
+          </div>`).join("")}
+        <button class="secondary" onclick="go('cat-${key==='spain'?'green':'choco'}')">Retour</button>
+      </div>
+    </div>`;
+}
+
+/* =========================
+   INIT LISTS
+========================= */
+renderList("jaune","jaune","🟡 Jaune – Standard");
+renderList("filtrer","filtrer","🔥 Filtrer – Premium");
+renderList("frozen","frozen","❄️ Frozen – Ultra Premium");
+renderList("spain","spain","🇪🇸 Cali Espagne – Gorilla Glue");
+
+document.getElementById("usa").innerHTML = `
+  <div class="card soft">
+    <h2>🇺🇸 Cali USA</h2>
+    <p>Coming soon</p>
+    <button class="secondary" onclick="go('cat-green')">Retour</button>
+  </div>`;
+
+/* =========================
+   SELECT & CONFIRM
+========================= */
+function select(range, price, qty) {
+  state.range = range;
+  state.price = price;
+  state.qty = qty;
+
+  const payload = {
+    app:"ALLO",
+    range,
+    price,
+    qty,
+    points: price,
+    date: new Date().toLocaleString()
+  };
+
+  if (TG) {
+    TG.sendData(JSON.stringify(payload));
   }
-};
 
-/* =====================================================
-   FLOW LOGIC
-===================================================== */
-const Flow = {
-  confirm() {
-    const name = document.getElementById("input-name").value.trim();
-    const message = document.getElementById("input-message").value.trim();
+  state.points += price;
+  state.history.unshift(payload);
 
-    if (!name || !message) {
-      alert("Tous les champs sont obligatoires");
-      return;
-    }
+  localStorage.setItem("points", state.points);
+  localStorage.setItem("history", JSON.stringify(state.history));
 
-    Store.set("name", name);
-    Store.set("message", message);
+  alert(`Commande envoyée ✅\n${qty} – ${price}€`);
+  go("home");
+}
 
-    document.getElementById("confirm-preview").innerText =
-      `Action : ${Store.get("action")}
-Nom : ${name}
-Message : ${message}`;
+/* =========================
+   FIDELITE
+========================= */
+function updateFidelite() {
+  document.getElementById("points").innerText = `${state.points} points`;
+  const paliers = [90,130,170,250,350];
+  const next = paliers.find(p=>p>state.points) || paliers[paliers.length-1];
+  const percent = Math.min(100, (state.points/next)*100);
+  document.getElementById("progress-bar").style.width = percent+"%";
+}
 
-    Router.go("confirm");
-  },
-
-  send() {
-    if (Store.get("loading")) return;
-
-    Store.set("loading", true);
-
-    const payload = {
-      app: "ALLO85",
-      action: Store.get("action"),
-      name: Store.get("name"),
-      message: Store.get("message"),
-      timestamp: Date.now()
-    };
-
-    try {
-      if (TelegramApp) {
-        TelegramApp.sendData(JSON.stringify(payload));
-      } else {
-        Store.set("offline", true);
-      }
-
-      History.save(payload);
-      UI.showResult(true);
-    } catch (e) {
-      UI.showResult(false);
-    }
-
-    Store.set("loading", false);
+/* =========================
+   HISTORY
+========================= */
+function renderHistory() {
+  const box = document.getElementById("history-list");
+  if (!state.history.length) {
+    box.innerHTML = "<p>Aucune commande.</p>";
+    return;
   }
-};
-
-/* =====================================================
-   UI FEEDBACK
-===================================================== */
-const UI = {
-  showResult(success) {
-    document.getElementById("result-title").innerText =
-      success ? "Succès" : "Erreur";
-    document.getElementById("result-text").innerText =
-      success
-        ? "Action envoyée et enregistrée."
-        : "Une erreur est survenue lors de l’envoi.";
-    Router.go("result");
-  }
-};
-
-/* =====================================================
-   HISTORY MANAGER
-===================================================== */
-const History = {
-  key: "allo85_history",
-
-  load() {
-    return JSON.parse(localStorage.getItem(this.key) || "[]");
-  },
-
-  save(entry) {
-    const history = this.load();
-    history.unshift(entry);
-    localStorage.setItem(this.key, JSON.stringify(history));
-  },
-
-  clear() {
-    localStorage.removeItem(this.key);
-    alert("Historique effacé");
-  },
-
-  render() {
-    const list = document.getElementById("history-list");
-    const history = this.load();
-    list.innerHTML = "";
-
-    if (!history.length) {
-      list.innerHTML = "<p>Aucune action enregistrée.</p>";
-      return;
-    }
-
-    history.forEach(item => {
-      const el = document.createElement("div");
-      el.className = "list-item";
-      el.innerText =
-        `${new Date(item.timestamp).toLocaleString()}
-${item.action} – ${item.name}`;
-      list.appendChild(el);
-    });
-  }
-};
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-const Settings = {
-  clear() {
-    if (confirm("Effacer tout l’historique ?")) {
-      History.clear();
-    }
-  }
-};
-
-/* =====================================================
-   OFFLINE SIMULATION
-===================================================== */
-window.addEventListener("offline", () => {
-  Store.set("offline", true);
-});
-window.addEventListener("online", () => {
-  Store.set("offline", false);
-});
-
-/* =====================================================
-   BOOT
-===================================================== */
-Router.go("splash");
+  box.innerHTML = state.history.map(h=>`
+    <div class="item">
+      <span>${h.qty} – ${h.range}</span>
+      <strong>${h.price}€</strong>
+    </div>`).join("");
+}
 </script>
 </body>
 </html>
