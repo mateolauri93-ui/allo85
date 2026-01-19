@@ -1,111 +1,115 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>ALLO – Premium Telegram App</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ALLO — Premium Experience</title>
 
 <style>
-/* =========================
-   THEME & VARIABLES
-========================= */
+/* ======================================================
+   THEME GLOBAL
+====================================================== */
 :root{
-  --bg:#0b0f14;
-  --bg-soft:#0f141c;
+  --bg-main:#0b0f14;
+  --bg-dark:#0a0d12;
   --card:#161b22;
   --card-soft:#1c222b;
-  --accent:#c9a24d;
-  --accent-2:#3b82f6;
-  --green:#2ea043;
+
+  --gold:#c9a24d;
+  --gold-soft:#f5d57a;
+
   --yellow:#facc15;
   --orange:#fb923c;
   --blue:#60a5fa;
-  --muted:#8b949e;
+  --green:#2ea043;
+
   --text:#e6edf3;
+  --muted:#8b949e;
+
   --radius:18px;
   --radius-sm:12px;
-  --shadow:0 12px 35px rgba(0,0,0,.45);
-  --speed:.3s;
+  --shadow:0 14px 40px rgba(0,0,0,.45);
+
+  --speed:.35s;
 }
 
-/* =========================
+/* ======================================================
    RESET
-========================= */
+====================================================== */
 *{
+  box-sizing:border-box;
   margin:0;
   padding:0;
-  box-sizing:border-box;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 }
-
 body{
-  background:linear-gradient(180deg,#0b0f14,#0a0d12);
+  background:linear-gradient(180deg,var(--bg-main),var(--bg-dark));
   color:var(--text);
   min-height:100vh;
 }
 
-/* =========================
+/* ======================================================
    APP LAYOUT
-========================= */
+====================================================== */
 .app{
   max-width:540px;
   margin:auto;
-  padding:18px 14px 40px;
+  padding:18px 14px 42px;
+  position:relative;
 }
 
+/* ======================================================
+   HEADER
+====================================================== */
 header{
   text-align:center;
-  margin-bottom:22px;
+  margin-bottom:18px;
 }
-
 header h1{
-  font-size:32px;
+  font-size:34px;
   letter-spacing:1px;
 }
-
 header p{
   font-size:14px;
   color:var(--muted);
 }
 
-/* =========================
+/* ======================================================
    NAV BAR
-========================= */
+====================================================== */
 .nav{
   display:flex;
-  justify-content:space-between;
   gap:8px;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
-
 .nav button{
   flex:1;
-  padding:12px;
-  border-radius:14px;
-  border:none;
   background:#21262d;
   color:var(--text);
+  border:none;
+  border-radius:14px;
+  padding:12px;
   font-size:14px;
   cursor:pointer;
 }
 
-/* =========================
-   SCREENS
-========================= */
+/* ======================================================
+   SCREENS & TRANSITIONS
+====================================================== */
 .screen{
   display:none;
-  animation:fade .3s ease;
+  animation:fade .35s ease;
 }
 .screen.active{display:block}
 
 @keyframes fade{
-  from{opacity:0;transform:translateY(10px)}
+  from{opacity:0;transform:translateY(12px)}
   to{opacity:1}
 }
 
-/* =========================
+/* ======================================================
    CARDS
-========================= */
+====================================================== */
 .card{
   background:var(--card);
   border-radius:var(--radius);
@@ -113,23 +117,21 @@ header p{
   margin-bottom:16px;
   box-shadow:var(--shadow);
 }
-
 .card.soft{background:var(--card-soft)}
 
 .card h2{
   font-size:20px;
   margin-bottom:10px;
 }
-
 .card p{
   font-size:14px;
   color:var(--muted);
-  line-height:1.4;
+  line-height:1.45;
 }
 
-/* =========================
+/* ======================================================
    BUTTONS
-========================= */
+====================================================== */
 button{
   border:none;
   border-radius:14px;
@@ -142,26 +144,28 @@ button{
 button:active{transform:scale(.97)}
 button:disabled{opacity:.5}
 
-.primary{background:linear-gradient(135deg,var(--accent),#f5d57a);color:#000}
-.secondary{background:#21262d;color:var(--text)}
+.primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold-soft));
+  color:#000;
+}
+.secondary{
+  background:#21262d;
+  color:var(--text);
+}
 
 .jaune{background:var(--yellow);color:#000}
 .filtrer{background:var(--orange);color:#000}
 .frozen{background:var(--blue);color:#000}
 
-/* =========================
-   STACKS
-========================= */
+/* ======================================================
+   STACKS & ITEMS
+====================================================== */
 .stack{
   display:flex;
   flex-direction:column;
   gap:12px;
   margin-top:14px;
 }
-
-/* =========================
-   LIST ITEMS
-========================= */
 .item{
   background:#0d1117;
   border-radius:12px;
@@ -169,47 +173,68 @@ button:disabled{opacity:.5}
   display:flex;
   justify-content:space-between;
   align-items:center;
-  cursor:pointer;
 }
 
-.item span{font-size:14px}
-
-/* =========================
+/* ======================================================
    BADGES
-========================= */
+====================================================== */
 .badge{
   font-size:12px;
-  padding:5px 10px;
+  padding:6px 10px;
   border-radius:20px;
   background:#21262d;
   color:var(--muted);
+  display:inline-block;
 }
 
-/* =========================
+/* ======================================================
    PROGRESS
-========================= */
+====================================================== */
 .progress{
+  height:10px;
   background:#21262d;
   border-radius:20px;
-  height:10px;
   overflow:hidden;
-  margin-top:8px;
+  margin-top:10px;
 }
 .progress span{
   display:block;
   height:100%;
-  background:linear-gradient(90deg,var(--accent),#f5d57a);
   width:0%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-soft));
 }
 
-/* =========================
+/* ======================================================
+   MODAL (GLOBAL)
+====================================================== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:50;
+}
+.modal.active{display:flex}
+
+.modal-content{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:22px;
+  width:90%;
+  max-width:420px;
+  box-shadow:var(--shadow);
+}
+
+/* ======================================================
    FOOTER
-========================= */
+====================================================== */
 .footer{
   text-align:center;
   font-size:12px;
   color:var(--muted);
-  margin-top:26px;
+  margin-top:28px;
 }
 </style>
 </head>
@@ -219,11 +244,12 @@ button:disabled{opacity:.5}
 
 <header>
   <h1>ALLO</h1>
-  <p>Expérience premium • rapide • maîtrisée</p>
+  <p>Premium • rapide • maîtrisé</p>
 </header>
 
 <div class="nav">
   <button onclick="go('home')">🏠</button>
+  <button onclick="go('cart')">🛒</button>
   <button onclick="go('fidelite')">⭐</button>
   <button onclick="go('club')">🏆</button>
   <button onclick="go('history')">📜</button>
@@ -246,9 +272,9 @@ button:disabled{opacity:.5}
   <div class="card">
     <h2>🍫 Sélection</h2>
     <div class="stack">
-      <button class="jaune" onclick="go('jaune')">🟡 Jaune – Standard</button>
-      <button class="filtrer" onclick="go('filtrer')">🔥 Filtrer – Premium</button>
-      <button class="frozen" onclick="go('frozen')">❄️ Frozen – Ultra</button>
+      <button class="jaune" onclick="go('jaune')">🟡 Jaune</button>
+      <button class="filtrer" onclick="go('filtrer')">🔥 Filtrer</button>
+      <button class="frozen" onclick="go('frozen')">❄️ Frozen</button>
       <button class="secondary" onclick="go('home')">Retour</button>
     </div>
   </div>
@@ -266,20 +292,30 @@ button:disabled{opacity:.5}
   </div>
 </section>
 
-<!-- PRICES PLACEHOLDER SCREENS -->
+<!-- PRICES -->
 <section id="jaune" class="screen"></section>
 <section id="filtrer" class="screen"></section>
 <section id="frozen" class="screen"></section>
 <section id="spain" class="screen"></section>
 <section id="usa" class="screen"></section>
 
+<!-- CART -->
+<section id="cart" class="screen">
+  <div class="card">
+    <h2>🛒 Panier</h2>
+    <div id="cart-list"></div>
+    <div class="stack">
+      <button class="primary" onclick="openConfirm()">Confirmer</button>
+    </div>
+  </div>
+</section>
+
 <!-- FIDELITE -->
 <section id="fidelite" class="screen">
   <div class="card">
     <h2>⭐ Fidélité</h2>
-    <p>1€ = 1 point</p>
-    <div class="progress"><span id="progress-bar"></span></div>
     <div class="badge" id="points">0 points</div>
+    <div class="progress"><span id="progress-bar"></span></div>
   </div>
 </section>
 
@@ -288,7 +324,7 @@ button:disabled{opacity:.5}
   <div class="card soft">
     <h2>🏆 Club Avantages</h2>
     <p>Espace premium réservé.</p>
-    <div class="badge">Accès contrôlé</div>
+    <div class="badge">Non membre</div>
   </div>
 </section>
 
@@ -300,153 +336,199 @@ button:disabled{opacity:.5}
   </div>
 </section>
 
+<!-- MODAL CONFIRM -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <h2>Confirmer la commande</h2>
+    <div id="confirm-content"></div>
+    <div class="stack">
+      <button class="primary" onclick="sendOrder()">Envoyer</button>
+      <button class="secondary" onclick="closeModal()">Annuler</button>
+    </div>
+  </div>
+</div>
+
 <div class="footer">
-  © ALLO – Telegram App
+  © ALLO — Telegram App
 </div>
 
 </div>
 <script>
-/* =========================
+/* ======================================================
    TELEGRAM
-========================= */
+====================================================== */
 const TG = window.Telegram ? window.Telegram.WebApp : null;
 if (TG) {
   TG.ready();
   TG.expand();
+  if (TG.HapticFeedback) TG.HapticFeedback.impactOccurred("light");
 }
 
-/* =========================
+/* ======================================================
    ROUTER
-========================= */
-function go(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  const el = document.getElementById(id);
-  if (el) el.classList.add("active");
-  if (id === "fidelite") updateFidelite();
-  if (id === "history") renderHistory();
+====================================================== */
+function go(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id)?.classList.add("active");
+  if(id==="cart") renderCart();
+  if(id==="fidelite") updateFidelite();
+  if(id==="history") renderHistory();
 }
 
-/* =========================
+/* ======================================================
    DATA PRODUITS
-========================= */
+====================================================== */
 const PRODUCTS = {
-  jaune: [
-    [10,"2g"],[20,"4g"],[50,"10g"],[90,"20g"],[200,"50g"],[320,"100g"]
-  ],
-  filtrer: [
-    [10,"1,35g"],[20,"2,7g"],[70,"10g"],[130,"20g"],[350,"50g"],[650,"100g"]
-  ],
-  frozen: [
-    [20,"1,4g"],[70,"5g"],[130,"10g"],[300,"25g"],[550,"50g"],[900,"100g"]
-  ],
-  spain: [
-    [10,"1,25g"],[20,"2,5g"],[80,"10g"],[150,"20g"],[380,"50g"],[700,"100g"]
-  ]
+  jaune:[[10,"2g"],[20,"4g"],[50,"10g"],[90,"20g"],[200,"50g"],[320,"100g"]],
+  filtrer:[[10,"1,35g"],[20,"2,7g"],[70,"10g"],[130,"20g"],[350,"50g"],[650,"100g"]],
+  frozen:[[20,"1,4g"],[70,"5g"],[130,"10g"],[300,"25g"],[550,"50g"],[900,"100g"]],
+  spain:[[10,"1,25g"],[20,"2,5g"],[80,"10g"],[150,"20g"],[380,"50g"],[700,"100g"]]
 };
 
-/* =========================
+/* ======================================================
    STATE
-========================= */
-let state = {
-  category:null,
-  range:null,
-  price:0,
-  qty:"",
-  points: Number(localStorage.getItem("points") || 0),
-  history: JSON.parse(localStorage.getItem("history") || "[]")
-};
+====================================================== */
+let cart = JSON.parse(localStorage.getItem("cart")||"[]");
+let orders = JSON.parse(localStorage.getItem("orders")||"[]");
+let points = Number(localStorage.getItem("points")||0);
 
-/* =========================
+/* ======================================================
    RENDER LISTS
-========================= */
-function renderList(id, key, title) {
-  const screen = document.getElementById(id);
-  screen.innerHTML = `
-    <div class="card">
-      <h2>${title}</h2>
-      <div class="stack">
-        ${PRODUCTS[key].map(p=>`
-          <div class="item" onclick="select('${key}',${p[0]},'${p[1]}')">
-            <span>${p[1]}</span>
-            <strong>${p[0]} €</strong>
-          </div>`).join("")}
-        <button class="secondary" onclick="go('cat-${key==='spain'?'green':'choco'}')">Retour</button>
-      </div>
-    </div>`;
+====================================================== */
+function renderList(id,key,title){
+  const s=document.getElementById(id);
+  s.innerHTML=`
+  <div class="card">
+    <h2>${title}</h2>
+    <div class="stack">
+      ${PRODUCTS[key].map(p=>`
+        <div class="item">
+          <span>${p[1]}</span>
+          <strong>${p[0]}€</strong>
+          <button class="secondary" onclick="addToCart('${key}',${p[0]},'${p[1]}')">+</button>
+        </div>`).join("")}
+      <button class="secondary" onclick="go('${key==="spain"?"cat-green":"cat-choco"}')">Retour</button>
+    </div>
+  </div>`;
 }
 
-/* =========================
-   INIT LISTS
-========================= */
-renderList("jaune","jaune","🟡 Jaune – Standard");
-renderList("filtrer","filtrer","🔥 Filtrer – Premium");
-renderList("frozen","frozen","❄️ Frozen – Ultra Premium");
-renderList("spain","spain","🇪🇸 Cali Espagne – Gorilla Glue");
+renderList("jaune","jaune","🟡 Jaune");
+renderList("filtrer","filtrer","🔥 Filtrer");
+renderList("frozen","frozen","❄️ Frozen");
+renderList("spain","spain","🇪🇸 Cali Espagne");
 
-document.getElementById("usa").innerHTML = `
-  <div class="card soft">
-    <h2>🇺🇸 Cali USA</h2>
-    <p>Coming soon</p>
-    <button class="secondary" onclick="go('cat-green')">Retour</button>
-  </div>`;
+document.getElementById("usa").innerHTML=`
+<div class="card soft">
+  <h2>🇺🇸 Cali USA</h2>
+  <p>Coming soon</p>
+  <button class="secondary" onclick="go('cat-green')">Retour</button>
+</div>`;
 
-/* =========================
-   SELECT & CONFIRM
-========================= */
-function select(range, price, qty) {
-  state.range = range;
-  state.price = price;
-  state.qty = qty;
+/* ======================================================
+   PANIER
+====================================================== */
+function addToCart(range,price,qty){
+  const item=cart.find(i=>i.range===range&&i.qty===qty);
+  if(item){item.count++;}
+  else cart.push({range,price,qty,count:1});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  if(TG?.HapticFeedback) TG.HapticFeedback.impactOccurred("light");
+}
 
-  const payload = {
-    app:"ALLO",
-    range,
-    price,
-    qty,
-    points: price,
-    date: new Date().toLocaleString()
+function renderCart(){
+  const box=document.getElementById("cart-list");
+  if(!cart.length){
+    box.innerHTML="<p>Panier vide.</p>";
+    return;
+  }
+  box.innerHTML=cart.map((i,idx)=>`
+    <div class="item">
+      <span>${i.qty} (${i.range})</span>
+      <strong>${i.price*i.count}€</strong>
+      <div>
+        <button onclick="changeQty(${idx},-1)">−</button>
+        <button onclick="changeQty(${idx},1)">+</button>
+      </div>
+    </div>`).join("");
+}
+
+function changeQty(i,d){
+  cart[i].count+=d;
+  if(cart[i].count<=0) cart.splice(i,1);
+  localStorage.setItem("cart",JSON.stringify(cart));
+  renderCart();
+}
+
+/* ======================================================
+   CONFIRM / SEND
+====================================================== */
+function openConfirm(){
+  if(!cart.length) return;
+  document.getElementById("modal").classList.add("active");
+  document.getElementById("confirm-content").innerHTML=
+    cart.map(i=>`${i.qty} x${i.count} — ${i.price*i.count}€`).join("<br>");
+}
+function closeModal(){
+  document.getElementById("modal").classList.remove("active");
+}
+
+function sendOrder(){
+  const total=cart.reduce((s,i)=>s+i.price*i.count,0);
+  const order={
+    id:Date.now(),
+    items:cart,
+    total,
+    status:"⏳ En attente",
+    date:new Date().toLocaleString()
   };
 
-  if (TG) {
-    TG.sendData(JSON.stringify(payload));
-  }
+  orders.unshift(order);
+  localStorage.setItem("orders",JSON.stringify(orders));
 
-  state.points += price;
-  state.history.unshift(payload);
+  if(TG) TG.sendData(JSON.stringify(order));
 
-  localStorage.setItem("points", state.points);
-  localStorage.setItem("history", JSON.stringify(state.history));
+  points+=total;
+  localStorage.setItem("points",points);
 
-  alert(`Commande envoyée ✅\n${qty} – ${price}€`);
+  cart=[];
+  localStorage.setItem("cart","[]");
+
+  closeModal();
   go("home");
 }
 
-/* =========================
+/* ======================================================
    FIDELITE
-========================= */
-function updateFidelite() {
-  document.getElementById("points").innerText = `${state.points} points`;
-  const paliers = [90,130,170,250,350];
-  const next = paliers.find(p=>p>state.points) || paliers[paliers.length-1];
-  const percent = Math.min(100, (state.points/next)*100);
-  document.getElementById("progress-bar").style.width = percent+"%";
+====================================================== */
+function updateFidelite(){
+  document.getElementById("points").innerText=`${points} points`;
+  const paliers=[90,130,170,250,350];
+  const next=paliers.find(p=>p>points)||paliers[paliers.length-1];
+  document.getElementById("progress-bar").style.width=
+    Math.min(100,(points/next)*100)+"%";
 }
 
-/* =========================
+/* ======================================================
    HISTORY
-========================= */
-function renderHistory() {
-  const box = document.getElementById("history-list");
-  if (!state.history.length) {
-    box.innerHTML = "<p>Aucune commande.</p>";
+====================================================== */
+function renderHistory(){
+  const box=document.getElementById("history-list");
+  if(!orders.length){
+    box.innerHTML="<p>Aucune commande.</p>";
     return;
   }
-  box.innerHTML = state.history.map(h=>`
+  box.innerHTML=orders.map(o=>`
     <div class="item">
-      <span>${h.qty} – ${h.range}</span>
-      <strong>${h.price}€</strong>
+      <span>${o.date}</span>
+      <strong>${o.total}€</strong>
+      <span>${o.status}</span>
     </div>`).join("");
 }
+
+/* ======================================================
+   INIT
+====================================================== */
+go("home");
 </script>
 </body>
 </html>
