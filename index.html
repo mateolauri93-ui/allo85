@@ -192,40 +192,22 @@ button:disabled{opacity:.5}
 }
 
 /* =====================================================
-   LANDING — HERO (INLINE IMAGE)
+   LANDING — HERO
 ===================================================== */
 .landing-hero{
   position:relative;
   min-height:100vh;
-  background:
-    radial-gradient(1200px 600px at 70% 10%, rgba(201,162,77,.25), transparent 60%),
-    linear-gradient(180deg,#0b0f14,#07090d);
-}
-.landing-hero::before{
-  content:"";
-  position:absolute;inset:0;
-  background-image:url('data:image/svg+xml;utf8,\
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">\
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">\
-<stop offset="0%" stop-color="%23c9a24d" stop-opacity="0.25"/>\
-<stop offset="100%" stop-color="%23000000" stop-opacity="0"/>\
-</linearGradient></defs>\
-<rect width="800" height="600" fill="url(%23g)"/>\
-<circle cx="600" cy="120" r="220" fill="%23f5d57a" fill-opacity="0.08"/>\
-<circle cx="200" cy="420" r="260" fill="%2360a5fa" fill-opacity="0.05"/>\
-</svg>');
-  background-size:cover;background-position:center;
-}
-.hero-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.75));
+  background:linear-gradient(180deg,#0b0f14,#07090d);
 }
 .hero-content{
-  position:relative;z-index:1;
+  position:relative;
   min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
 }
 .hero-content h1{font-size:48px;letter-spacing:3px}
 .hero-content p{color:var(--muted);margin:10px 0 28px}
@@ -234,7 +216,9 @@ button:disabled{opacity:.5}
    FOOTER
 ===================================================== */
 .footer{
-  text-align:center;font-size:12px;color:var(--muted);
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
   margin-top:24px;
 }
 </style>
@@ -249,7 +233,6 @@ button:disabled{opacity:.5}
 ========================= -->
 <section id="landing" class="screen active">
   <div class="landing-hero">
-    <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>ALLO</h1>
       <p>Expérience premium, rapide et maîtrisée</p>
@@ -301,7 +284,7 @@ button:disabled{opacity:.5}
   </section>
 
   <!-- =========================
-       CATEGORIES (STRUCTURE FIXE)
+       CATEGORIES
   ========================= -->
   <section id="cat-choco" class="screen">
     <div class="card">
@@ -326,7 +309,6 @@ button:disabled{opacity:.5}
     </div>
   </section>
 
-  <!-- PRICES SCREENS (FIXED CONTAINERS) -->
   <section id="jaune" class="screen"></section>
   <section id="filtrer" class="screen"></section>
   <section id="frozen" class="screen"></section>
@@ -334,7 +316,7 @@ button:disabled{opacity:.5}
   <section id="usa" class="screen"></section>
 
   <!-- =========================
-       CART / FIDELITE / CLUB / HISTORY
+       CART
   ========================= -->
   <section id="cart" class="screen">
     <div class="card">
@@ -370,15 +352,25 @@ button:disabled{opacity:.5}
   </section>
 
   <!-- =========================
-       MODAL CONFIRMATION
+       MODAL CONFIRMATION (MODIFIÉ)
   ========================= -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <h2>Confirmer la commande</h2>
       <div id="confirm-content"></div>
+
       <div class="stack">
-        <button class="primary" onclick="sendOrder()">Envoyer</button>
-        <button class="secondary" onclick="closeModal()">Annuler</button>
+        <button class="primary" onclick="copyOrderToClipboard()">
+          📋 Copier la commande
+        </button>
+
+        <button class="secondary" onclick="sendOrderViaTelegram()">
+          📩 Envoyer sur Telegram
+        </button>
+
+        <button class="secondary" onclick="closeModal()">
+          Annuler
+        </button>
       </div>
     </div>
   </div>
@@ -387,16 +379,6 @@ button:disabled{opacity:.5}
 </div>
 
 <script>
-/* =====================================================
-   TELEGRAM INIT
-===================================================== */
-const TG = window.Telegram ? window.Telegram.WebApp : null;
-if (TG) {
-  TG.ready();
-  TG.expand();
-  TG.HapticFeedback?.impactOccurred("light");
-}
-
 /* =====================================================
    ROUTER
 ===================================================== */
@@ -407,6 +389,7 @@ function go(id){
   if(id==="fidelite") updateFidelite();
   if(id==="history") renderHistory();
 }
+
 function enterApp(){
   document.getElementById("landing").classList.remove("active");
   document.getElementById("app-shell").style.display="block";
@@ -414,7 +397,7 @@ function enterApp(){
 }
 
 /* =====================================================
-   DATA PRODUITS (STABLE)
+   DATA PRODUITS
 ===================================================== */
 const PRODUCTS = {
   jaune:[[10,"2g"],[20,"4g"],[50,"10g"],[90,"20g"],[200,"50g"],[320,"100g"]],
@@ -426,17 +409,17 @@ const PRODUCTS = {
 /* =====================================================
    STATE
 ===================================================== */
-let cart = JSON.parse(localStorage.getItem("cart")||"[]");
-let orders = JSON.parse(localStorage.getItem("orders")||"[]");
-let pointsValid = Number(localStorage.getItem("pointsValid")||0);
-let pointsPending = Number(localStorage.getItem("pointsPending")||0);
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+let pointsValid = Number(localStorage.getItem("pointsValid") || 0);
+let pointsPending = Number(localStorage.getItem("pointsPending") || 0);
 
 /* =====================================================
-   RENDER CATALOGUES (FIX DEFINITIF)
+   CATALOGUES
 ===================================================== */
 function renderCatalogue(id,key,title){
-  const el=document.getElementById(id);
-  el.innerHTML=`
+  const el = document.getElementById(id);
+  el.innerHTML = `
     <div class="card">
       <h2>${title}</h2>
       <div class="stack">
@@ -445,17 +428,19 @@ function renderCatalogue(id,key,title){
             <span>${p[1]}</span>
             <strong>${p[0]}€</strong>
             <button class="secondary" onclick="addToCart('${key}',${p[0]},'${p[1]}')">+</button>
-          </div>`).join("")}
+          </div>
+        `).join("")}
         <button class="secondary" onclick="go('${key==="spain"?"cat-green":"cat-choco"}')">Retour</button>
       </div>
     </div>`;
 }
+
 renderCatalogue("jaune","jaune","🟡 Jaune — Standard");
 renderCatalogue("filtrer","filtrer","🔥 Filtrer — Premium");
 renderCatalogue("frozen","frozen","❄️ Frozen — Ultra");
 renderCatalogue("spain","spain","🇪🇸 Cali Espagne");
 
-document.getElementById("usa").innerHTML=`
+document.getElementById("usa").innerHTML = `
   <div class="card soft">
     <h2>🇺🇸 Cali USA</h2>
     <p>Coming soon</p>
@@ -465,179 +450,179 @@ document.getElementById("usa").innerHTML=`
 /* =====================================================
    PANIER
 ===================================================== */
-function addToCart(range,price,qty){
-  const found=cart.find(i=>i.range===range&&i.qty===qty);
-  found ? found.count++ : cart.push({range,price,qty,count:1});
-  localStorage.setItem("cart",JSON.stringify(cart));
-  TG?.HapticFeedback?.impactOccurred("light");
+function addToCart(range, price, qty){
+  const found = cart.find(i => i.range === range && i.qty === qty);
+  found ? found.count++ : cart.push({ range, price, qty, count: 1 });
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
+
 function renderCart(){
-  const box=document.getElementById("cart-list");
-  if(!cart.length){box.innerHTML="<p>Panier vide.</p>";return;}
-  box.innerHTML=cart.map((i,idx)=>`
+  const box = document.getElementById("cart-list");
+  if(!cart.length){
+    box.innerHTML = "<p>Panier vide.</p>";
+    return;
+  }
+
+  box.innerHTML = cart.map((i,idx)=>`
     <div class="item">
       <span>${i.qty} (${i.range})</span>
-      <strong>${i.price*i.count}€</strong>
+      <strong>${i.price * i.count}€</strong>
       <div>
         <button onclick="changeQty(${idx},-1)">−</button>
         <button onclick="changeQty(${idx},1)">+</button>
       </div>
-    </div>`).join("");
+    </div>
+  `).join("");
 }
+
 function changeQty(i,d){
-  cart[i].count+=d;
-  if(cart[i].count<=0) cart.splice(i,1);
-  localStorage.setItem("cart",JSON.stringify(cart));
+  cart[i].count += d;
+  if(cart[i].count <= 0) cart.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
 }
 
 /* =====================================================
-   CONFIRMATION / ENVOI
+   CONFIRMATION
 ===================================================== */
 function openConfirm(){
   if(!cart.length) return;
+
   document.getElementById("modal").classList.add("active");
-  document.getElementById("confirm-content").innerHTML=
-    cart.map(i=>`${i.qty} x${i.count} — ${i.price*i.count}€`).join("<br>");
+  document.getElementById("confirm-content").innerHTML =
+    cart.map(i => `${i.qty} x${i.count} — ${i.price * i.count}€`).join("<br>");
 }
+
 function closeModal(){
   document.getElementById("modal").classList.remove("active");
 }
 
 /* =====================================================
-   SEND ORDER — SEULE CORRECTION ICI
+   NOUVELLES FONCTIONS — ENVOI SIMPLE
 ===================================================== */
-function sendOrder(){
-  const total=cart.reduce((s,i)=>s+i.price*i.count,0);
-  const orderId="ALLO-"+Date.now();
-  const order={
-    id:orderId,
-    items:cart,
-    total,
-    status:"⏳ En attente",
-    date:new Date().toLocaleString()
-  };
+function generateOrderText(){
+  if(!cart.length) return "";
 
-  orders.unshift(order);
-  localStorage.setItem("orders",JSON.stringify(orders));
+  const total = cart.reduce((s,i)=>s + (i.price * i.count), 0);
 
-  pointsPending+=total;
-  localStorage.setItem("pointsPending",pointsPending);
+  let text = "🧾 COMMANDE ALLO\n\n";
+  cart.forEach(i=>{
+    text += `• ${i.qty} (${i.range}) x${i.count} — ${i.price * i.count}€\n`;
+  });
 
-  // ✅ CORRECTION UNIQUE : format attendu par le bot
-  if(TG){
-    TG.sendData(JSON.stringify({
-      type:"order",
-      order: order
-    }));
+  text += `\n💰 Total : ${total}€`;
+  text += `\n⏰ ${new Date().toLocaleString()}`;
+
+  return text;
+}
+
+function copyOrderToClipboard(){
+  const text = generateOrderText();
+  if(!text){
+    alert("Aucune commande à copier.");
+    return;
   }
 
-  cart=[];
-  localStorage.setItem("cart","[]");
-  closeModal();
-  go("dashboard");
+  navigator.clipboard.writeText(text)
+    .then(()=> alert("Commande copiée 📋\nColle-la dans Telegram"))
+    .catch(()=> alert("Erreur lors de la copie."));
+}
+
+function sendOrderViaTelegram(){
+  const text = generateOrderText();
+  if(!text){
+    alert("Aucune commande à envoyer.");
+    return;
+  }
+
+  const url = "https://t.me/share/url?text=" + encodeURIComponent(text);
+  window.open(url, "_blank");
 }
 
 /* =====================================================
-   FIDELITE
+   FIDELITE / HISTORIQUE (INCHANGÉ)
 ===================================================== */
 function updateFidelite(){
-  document.getElementById("points").innerText=
+  document.getElementById("points").innerText =
     `${pointsValid} validés • ${pointsPending} en attente`;
-  document.getElementById("points-mini").innerText=
+  document.getElementById("points-mini").innerText =
     `${pointsValid} pts`;
-  const paliers=[90,130,170,250,350];
-  const next=paliers.find(p=>p>pointsValid)||paliers[paliers.length-1];
-  document.getElementById("progress-bar").style.width=
-    Math.min(100,(pointsValid/next)*100)+"%";
-  document.getElementById("progress-mini").style.width=
-    Math.min(100,(pointsValid/next)*100)+"%";
+
+  const paliers = [90,130,170,250,350];
+  const next = paliers.find(p=>p>pointsValid) || paliers[paliers.length-1];
+  const pct = Math.min(100,(pointsValid/next)*100)+"%";
+
+  document.getElementById("progress-bar").style.width = pct;
+  document.getElementById("progress-mini").style.width = pct;
 }
 
-/* =====================================================
-   HISTORIQUE
-===================================================== */
 function renderHistory(){
-  const box=document.getElementById("history-list");
-  if(!orders.length){box.innerHTML="<p>Aucune commande.</p>";return;}
-  box.innerHTML=orders.map(o=>`
+  const box = document.getElementById("history-list");
+  if(!orders.length){
+    box.innerHTML = "<p>Aucune commande.</p>";
+    return;
+  }
+
+  box.innerHTML = orders.map(o=>`
     <div class="item">
-      <span>${o.date}</span>
-      <strong>${o.total}€</strong>
-      <span>${o.status}</span>
-    </div>`).join("");
+      <span>${o.date || ""}</span>
+      <strong>${o.total || ""}€</strong>
+      <span>${o.status || ""}</span>
+    </div>
+  `).join("");
 }
 
-/* =====================================================
-   INIT
-===================================================== */
 updateFidelite();
 </script>
+
 <script>
 /* =====================================================
-   VALIDATION MANUELLE (SANS BOT)
-   @allo856 = USER
+   VALIDATION MANUELLE (LOCALE)
+   - conservée pour ton historique interne
+   - aucune dépendance externe
 ===================================================== */
 
-/*
-PRINCIPE :
-- Les commandes arrivent chez @allo856 via Telegram (sendData)
-- @allo856 valide ou refuse MANUELLEMENT
-- L’utilisateur revient dans l’app et clique sur "Actualiser"
-- La validation est simulée proprement côté app (MVP réaliste)
-*/
-
-/* =====================================================
-   ACTION : ACTUALISER LES COMMANDES
-===================================================== */
 function refreshOrders(){
   if(!orders.length){
     alert("Aucune commande en attente.");
     return;
   }
 
-  // On prend la dernière commande en attente
   const pending = orders.find(o=>o.status==="⏳ En attente");
   if(!pending){
     alert("Aucune commande à valider.");
     return;
   }
 
-  // Simulation validation manuelle
-  // (dans la vraie vie : @allo856 a validé)
   pending.status = "✅ Validée";
 
-  // Points : en attente -> validés
-  pointsValid += pending.total;
-  pointsPending -= pending.total;
+  pointsValid += pending.total || 0;
+  pointsPending -= pending.total || 0;
   if(pointsPending < 0) pointsPending = 0;
 
-  localStorage.setItem("orders",JSON.stringify(orders));
-  localStorage.setItem("pointsValid",pointsValid);
-  localStorage.setItem("pointsPending",pointsPending);
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.setItem("pointsValid", pointsValid);
+  localStorage.setItem("pointsPending", pointsPending);
 
   updateFidelite();
   renderHistory();
 
-  // Notification utilisateur
   showValidationModal(pending);
 }
 
-/* =====================================================
-   MODAL VALIDATION
-===================================================== */
 function showValidationModal(order){
   const modal = document.createElement("div");
   modal.className = "modal active";
   modal.innerHTML = `
     <div class="modal-content">
       <h2>Commande validée</h2>
-      <p><strong>${order.total} points</strong> ont été ajoutés.</p>
-      <p>ID : ${order.id}</p>
+      <p><strong>${order.total || ""} points</strong> ont été ajoutés.</p>
+      <p>ID : ${order.id || ""}</p>
       <div class="stack">
         <button class="primary" onclick="this.closest('.modal').remove()">OK</button>
       </div>
-    </div>`;
+    </div>
+  `;
   document.body.appendChild(modal);
 }
 
@@ -658,15 +643,11 @@ function showValidationModal(order){
 })();
 
 /* =====================================================
-   GARDE-FOUS FINAL
+   GARDE-FOUS
 ===================================================== */
 window.addEventListener("error", e=>{
   console.error("ALLO ERROR:", e.message);
 });
-
-/* =====================================================
-   FIN DEFINITIVE
-===================================================== */
 </script>
 
 </body>
