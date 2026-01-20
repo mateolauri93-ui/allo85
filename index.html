@@ -535,8 +535,12 @@ function sendOrderViaTelegram(){
     return;
   }
 
-  const url = "https://t.me/share/url?text=" + encodeURIComponent(text);
-  window.open(url, "_blank");
+  const USERNAME = "allo856"; // ← TON @username SANS LE @
+
+  const url =
+    "https://t.me/" + USERNAME + "?text=" + encodeURIComponent(text);
+
+  window.location.href = url;
 }
 
 /* =====================================================
