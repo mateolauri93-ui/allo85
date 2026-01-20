@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>ALLO — Premium Experience</title>
 
 <style>
 /* =====================================================
-   THEME GLOBAL — FINAL
+   THEME GLOBAL
 ===================================================== */
 :root{
   --bg-main:#0b0f14;
@@ -21,15 +21,12 @@
   --yellow:#facc15;
   --orange:#fb923c;
   --blue:#60a5fa;
-  --green:#2ea043;
 
   --text:#e6edf3;
   --muted:#8b949e;
 
   --radius:18px;
-  --radius-sm:12px;
   --shadow:0 14px 40px rgba(0,0,0,.45);
-  --speed:.35s;
 }
 
 /* =====================================================
@@ -44,63 +41,23 @@ body{
 }
 
 /* =====================================================
-   APP WRAPPER
+   LAYOUT
 ===================================================== */
 .app{
   max-width:560px;
   margin:auto;
   min-height:100%;
-  padding:14px 14px 44px;
-  position:relative;
+  padding:14px;
 }
 
 /* =====================================================
-   SCREENS / ROUTER
+   SCREENS
 ===================================================== */
-.screen{display:none;animation:fade var(--speed) ease}
+.screen{display:none}
 .screen.active{display:block}
-@keyframes fade{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:none}
-}
 
 /* =====================================================
-   HEADER
-===================================================== */
-.header{
-  text-align:center;
-  padding:10px 0 14px;
-}
-.header h1{
-  font-size:34px;
-  letter-spacing:2px;
-}
-.header p{
-  font-size:14px;
-  color:var(--muted);
-}
-
-/* =====================================================
-   NAV
-===================================================== */
-.nav{
-  display:flex;
-  gap:8px;
-  margin-bottom:14px;
-}
-.nav button{
-  flex:1;
-  border:none;
-  border-radius:14px;
-  padding:12px;
-  background:#21262d;
-  color:var(--text);
-  font-size:14px;
-  cursor:pointer;
-}
-
-/* =====================================================
-   CARDS / UI
+   UI
 ===================================================== */
 .card{
   background:var(--card);
@@ -110,152 +67,121 @@ body{
   box-shadow:var(--shadow);
 }
 .card.soft{background:var(--card-soft)}
-.card h2{font-size:20px;margin-bottom:8px}
-.card h3{font-size:16px;margin-bottom:6px}
-.card p{font-size:14px;color:var(--muted);line-height:1.45}
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+.stack{display:flex;flex-direction:column;gap:12px}
+
 button{
-  border:none;border-radius:14px;
+  border:none;
+  border-radius:14px;
   padding:14px;
-  font-weight:600;
   font-size:15px;
+  font-weight:600;
   cursor:pointer;
-  transition:transform .15s,opacity .15s;
+  position:relative;
+  overflow:hidden;
 }
-button:active{transform:scale(.97)}
-button:disabled{opacity:.5}
+
 .primary{
   background:linear-gradient(135deg,var(--gold),var(--gold-soft));
   color:#000;
 }
-.secondary{background:#21262d;color:var(--text)}
-.jaune{background:var(--yellow);color:#000}
-.filtrer{background:var(--orange);color:#000}
-.frozen{background:var(--blue);color:#000}
-
-/* =====================================================
-   STACK / LIST
-===================================================== */
-.stack{display:flex;flex-direction:column;gap:12px;margin-top:12px}
-.item{
-  background:#0d1117;
-  border-radius:12px;
-  padding:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+.secondary{
+  background:#21262d;
+  color:var(--text);
 }
 
 /* =====================================================
-   BADGES / PROGRESS
+   UX FEEDBACK
 ===================================================== */
-.badge{
-  display:inline-block;
-  padding:6px 10px;
-  border-radius:999px;
-  font-size:12px;
-  background:#21262d;
+button.loading{
+  opacity:.7;
+  pointer-events:none;
+}
+button.loading::after{
+  content:"";
+  width:22px;
+  height:22px;
+  border:3px solid rgba(255,255,255,.4);
+  border-top-color:#fff;
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg) translate(-50%,-50%)}}
+
+button.success{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:#000;
+}
+
+.feedback{
+  font-size:13px;
+  text-align:center;
   color:var(--muted);
+  min-height:18px;
+  opacity:0;
+  transition:opacity .3s;
 }
-.progress{
-  height:10px;
-  border-radius:999px;
-  background:#21262d;
-  overflow:hidden;
-  margin-top:8px;
-}
-.progress span{
-  display:block;height:100%;width:0%;
-  background:linear-gradient(90deg,var(--gold),var(--gold-soft));
-}
+.feedback.visible{opacity:1}
 
 /* =====================================================
    MODAL
 ===================================================== */
 .modal{
-  position:fixed;inset:0;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,.6);
-  display:none;align-items:center;justify-content:center;
-  z-index:50;
+  display:none;
+  align-items:center;
+  justify-content:center;
 }
 .modal.active{display:flex}
 .modal-content{
-  width:92%;max-width:420px;
   background:var(--card);
   border-radius:var(--radius);
   padding:18px;
-  box-shadow:var(--shadow);
-}
-
-/* =====================================================
-   LANDING — HERO
-===================================================== */
-.landing-hero{
-  position:relative;
-  min-height:100vh;
-  background:linear-gradient(180deg,#0b0f14,#07090d);
-}
-.hero-content{
-  position:relative;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:24px;
-}
-.hero-content h1{font-size:48px;letter-spacing:3px}
-.hero-content p{color:var(--muted);margin:10px 0 28px}
-
-/* =====================================================
-   FOOTER
-===================================================== */
-.footer{
-  text-align:center;
-  font-size:12px;
-  color:var(--muted);
-  margin-top:24px;
+  width:92%;
+  max-width:420px;
 }
 </style>
 
-</head>
+   </head>
 
 <body>
 <div class="app">
 
 <!-- =========================
-     LANDING (PAGE D’ACCUEIL)
+     LANDING
 ========================= -->
 <section id="landing" class="screen active">
-  <div class="landing-hero">
-    <div class="hero-content">
-      <h1>ALLO</h1>
-      <p>Expérience premium, rapide et maîtrisée</p>
-      <button class="primary" onclick="enterApp()">Entrer dans l’expérience</button>
-    </div>
+  <div class="card">
+    <h1 style="text-align:center;font-size:42px;letter-spacing:3px">ALLO</h1>
+    <p style="text-align:center;color:var(--muted);margin:12px 0 24px">
+      Expérience premium, rapide et maîtrisée
+    </p>
+    <button class="primary" onclick="enterApp()" style="width:100%">
+      Entrer dans l’expérience
+    </button>
   </div>
 </section>
 
 <!-- =========================
-     HEADER + NAV (APP)
+     APP SHELL
 ========================= -->
 <div id="app-shell" style="display:none">
-  <div class="header">
-    <h1>ALLO</h1>
-    <p>Premium • rapide • maîtrisé</p>
-  </div>
 
-  <div class="nav">
-    <button onclick="go('dashboard')">🏠</button>
-    <button onclick="go('cart')">🛒</button>
-    <button onclick="go('fidelite')">⭐</button>
-    <button onclick="go('club')">🏆</button>
-    <button onclick="go('history')">📜</button>
+  <!-- =========================
+       NAVIGATION
+  ========================= -->
+  <div class="card">
+    <div class="stack">
+      <button class="secondary" onclick="go('dashboard')">🏠 Accueil</button>
+      <button class="secondary" onclick="go('cart')">🛒 Panier</button>
+      <button class="secondary" onclick="go('history')">📜 Historique</button>
+    </div>
   </div>
 
   <!-- =========================
@@ -263,87 +189,38 @@ button:disabled{opacity:.5}
   ========================= -->
   <section id="dashboard" class="screen">
     <div class="card">
-      <h2>Dashboard</h2>
-      <p>Choisis ton univers.</p>
+      <h2>Catalogue</h2>
       <div class="stack">
-        <button class="primary" onclick="go('cat-choco')">🍫 Catégorie 🍫</button>
-        <button class="secondary" onclick="go('cat-green')">🥦 Catégorie 🥦</button>
+        <button class="primary" onclick="go('jaune')">🟡 Jaune</button>
+        <button class="secondary" onclick="go('filtrer')">🔥 Filtrer</button>
+        <button class="secondary" onclick="go('frozen')">❄️ Frozen</button>
       </div>
-    </div>
-
-    <div class="card soft">
-      <h3>⭐ Fidélité</h3>
-      <div class="badge" id="points-mini">0 pts</div>
-      <div class="progress"><span id="progress-mini"></span></div>
-    </div>
-
-    <div class="card soft">
-      <h3>🏆 Club Avantages</h3>
-      <p class="muted">Statut : <strong>Non membre</strong></p>
     </div>
   </section>
 
   <!-- =========================
-       CATEGORIES
+       PRODUITS
   ========================= -->
-  <section id="cat-choco" class="screen">
-    <div class="card">
-      <h2>🍫 Sélection</h2>
-      <div class="stack">
-        <button class="jaune" onclick="go('jaune')">🟡 Jaune — Standard</button>
-        <button class="filtrer" onclick="go('filtrer')">🔥 Filtrer — Premium</button>
-        <button class="frozen" onclick="go('frozen')">❄️ Frozen — Ultra</button>
-        <button class="secondary" onclick="go('dashboard')">Retour</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="cat-green" class="screen">
-    <div class="card">
-      <h2>🥦 Origine</h2>
-      <div class="stack">
-        <button class="primary" onclick="go('spain')">🇪🇸 Cali Espagne</button>
-        <button class="secondary" onclick="go('usa')">🇺🇸 Cali USA</button>
-        <button class="secondary" onclick="go('dashboard')">Retour</button>
-      </div>
-    </div>
-  </section>
-
   <section id="jaune" class="screen"></section>
   <section id="filtrer" class="screen"></section>
   <section id="frozen" class="screen"></section>
-  <section id="spain" class="screen"></section>
-  <section id="usa" class="screen"></section>
 
   <!-- =========================
-       CART
+       PANIER
   ========================= -->
   <section id="cart" class="screen">
     <div class="card">
       <h2>🛒 Panier</h2>
       <div id="cart-list"></div>
       <div class="stack">
-        <button class="primary" onclick="openConfirm()">Confirmer</button>
+        <button class="primary" onclick="openConfirm()">Confirmer la commande</button>
       </div>
     </div>
   </section>
 
-  <section id="fidelite" class="screen">
-    <div class="card">
-      <h2>⭐ Fidélité</h2>
-      <div class="badge" id="points">0 points</div>
-      <div class="progress"><span id="progress-bar"></span></div>
-    </div>
-  </section>
-
-  <section id="club" class="screen">
-    <div class="card soft">
-      <h2>🏆 Club Avantages</h2>
-      <p>Espace premium réservé.</p>
-      <div class="badge">Non membre</div>
-    </div>
-  </section>
-
+  <!-- =========================
+       HISTORIQUE
+  ========================= -->
   <section id="history" class="screen">
     <div class="card">
       <h2>📜 Historique</h2>
@@ -352,21 +229,23 @@ button:disabled{opacity:.5}
   </section>
 
   <!-- =========================
-       MODAL CONFIRMATION (MODIFIÉ)
+       MODAL CONFIRMATION
   ========================= -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <h2>Confirmer la commande</h2>
-      <div id="confirm-content"></div>
+      <h2>Confirmation</h2>
+      <div id="confirm-content" style="margin:12px 0"></div>
 
       <div class="stack">
-        <button class="primary" onclick="copyOrderToClipboard()">
+        <button class="primary" onclick="copyOrderToClipboardUX(this)">
           📋 Copier la commande
         </button>
 
-        <button class="secondary" onclick="sendOrderViaTelegram()">
+        <button class="secondary" onclick="sendOrderViaTelegramUX(this)">
           📩 Envoyer sur Telegram
         </button>
+
+        <div id="ux-feedback" class="feedback"></div>
 
         <button class="secondary" onclick="closeModal()">
           Annuler
@@ -375,35 +254,46 @@ button:disabled{opacity:.5}
     </div>
   </div>
 
-  <div class="footer">© ALLO — Telegram App</div>
 </div>
-
 <script>
 /* =====================================================
-   ROUTER
+   NAVIGATION
 ===================================================== */
 function go(id){
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id)?.classList.add("active");
-  if(id==="cart") renderCart();
-  if(id==="fidelite") updateFidelite();
-  if(id==="history") renderHistory();
+  document.querySelectorAll(".screen").forEach(function(screen){
+    screen.classList.remove("active");
+  });
+  const target = document.getElementById(id);
+  if(target){
+    target.classList.add("active");
+  }
+  if(id === "cart"){ renderCart(); }
+  if(id === "history"){ renderHistory(); }
 }
 
 function enterApp(){
   document.getElementById("landing").classList.remove("active");
-  document.getElementById("app-shell").style.display="block";
+  document.getElementById("app-shell").style.display = "block";
   go("dashboard");
 }
 
 /* =====================================================
-   DATA PRODUITS
+   PRODUITS
 ===================================================== */
 const PRODUCTS = {
-  jaune:[[10,"2g"],[20,"4g"],[50,"10g"],[90,"20g"],[200,"50g"],[320,"100g"]],
-  filtrer:[[10,"1,35g"],[20,"2,7g"],[70,"10g"],[130,"20g"],[350,"50g"],[650,"100g"]],
-  frozen:[[20,"1,4g"],[70,"5g"],[130,"10g"],[300,"25g"],[550,"50g"],[900,"100g"]],
-  spain:[[10,"1,25g"],[20,"2,5g"],[80,"10g"],[150,"20g"],[380,"50g"],[700,"100g"]]
+  jaune: [
+    { price: 10, qty: "2g" },
+    { price: 20, qty: "4g" },
+    { price: 50, qty: "10g" }
+  ],
+  filtrer: [
+    { price: 20, qty: "2g" },
+    { price: 70, qty: "10g" }
+  ],
+  frozen: [
+    { price: 30, qty: "3g" },
+    { price: 90, qty: "10g" }
+  ]
 };
 
 /* =====================================================
@@ -411,73 +301,84 @@ const PRODUCTS = {
 ===================================================== */
 let cart = JSON.parse(localStorage.getItem("cart") || "[]");
 let orders = JSON.parse(localStorage.getItem("orders") || "[]");
-let pointsValid = Number(localStorage.getItem("pointsValid") || 0);
-let pointsPending = Number(localStorage.getItem("pointsPending") || 0);
 
 /* =====================================================
    CATALOGUES
 ===================================================== */
-function renderCatalogue(id,key,title){
+function renderCatalogue(id, key, title){
   const el = document.getElementById(id);
-  el.innerHTML = `
-    <div class="card">
-      <h2>${title}</h2>
-      <div class="stack">
-        ${PRODUCTS[key].map(p=>`
-          <div class="item">
-            <span>${p[1]}</span>
-            <strong>${p[0]}€</strong>
-            <button class="secondary" onclick="addToCart('${key}',${p[0]},'${p[1]}')">+</button>
-          </div>
-        `).join("")}
-        <button class="secondary" onclick="go('${key==="spain"?"cat-green":"cat-choco"}')">Retour</button>
+  let html = `<div class="card"><h2>${title}</h2><div class="stack">`;
+
+  PRODUCTS[key].forEach(function(product){
+    html += `
+      <div class="card soft">
+        <strong>${product.qty}</strong> — ${product.price}€
+        <button class="secondary" style="margin-top:8px"
+          onclick="addToCart('${key}','${product.qty}',${product.price})">
+          Ajouter
+        </button>
       </div>
-    </div>`;
+    `;
+  });
+
+  html += `<button class="secondary" onclick="go('dashboard')">Retour</button>`;
+  html += `</div></div>`;
+  el.innerHTML = html;
 }
 
-renderCatalogue("jaune","jaune","🟡 Jaune — Standard");
-renderCatalogue("filtrer","filtrer","🔥 Filtrer — Premium");
-renderCatalogue("frozen","frozen","❄️ Frozen — Ultra");
-renderCatalogue("spain","spain","🇪🇸 Cali Espagne");
-
-document.getElementById("usa").innerHTML = `
-  <div class="card soft">
-    <h2>🇺🇸 Cali USA</h2>
-    <p>Coming soon</p>
-    <button class="secondary" onclick="go('cat-green')">Retour</button>
-  </div>`;
+renderCatalogue("jaune","jaune","🟡 Jaune");
+renderCatalogue("filtrer","filtrer","🔥 Filtrer");
+renderCatalogue("frozen","frozen","❄️ Frozen");
 
 /* =====================================================
    PANIER
 ===================================================== */
-function addToCart(range, price, qty){
-  const found = cart.find(i => i.range === range && i.qty === qty);
-  found ? found.count++ : cart.push({ range, price, qty, count: 1 });
+function addToCart(range, qty, price){
+  const found = cart.find(function(item){
+    return item.range === range && item.qty === qty;
+  });
+
+  if(found){
+    found.count += 1;
+  }else{
+    cart.push({
+      range: range,
+      qty: qty,
+      price: price,
+      count: 1
+    });
+  }
+
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 function renderCart(){
   const box = document.getElementById("cart-list");
-  if(!cart.length){
+  if(cart.length === 0){
     box.innerHTML = "<p>Panier vide.</p>";
     return;
   }
 
-  box.innerHTML = cart.map((i,idx)=>`
-    <div class="item">
-      <span>${i.qty} (${i.range})</span>
-      <strong>${i.price * i.count}€</strong>
-      <div>
-        <button onclick="changeQty(${idx},-1)">−</button>
-        <button onclick="changeQty(${idx},1)">+</button>
+  let html = "";
+  cart.forEach(function(item, index){
+    html += `
+      <div class="card soft">
+        ${item.qty} (${item.range}) × ${item.count}<br>
+        <strong>${item.price * item.count}€</strong><br>
+        <button class="secondary" onclick="changeQty(${index},-1)">−</button>
+        <button class="secondary" onclick="changeQty(${index},1)">+</button>
       </div>
-    </div>
-  `).join("");
+    `;
+  });
+
+  box.innerHTML = html;
 }
 
-function changeQty(i,d){
-  cart[i].count += d;
-  if(cart[i].count <= 0) cart.splice(i,1);
+function changeQty(index, delta){
+  cart[index].count += delta;
+  if(cart[index].count <= 0){
+    cart.splice(index,1);
+  }
   localStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
 }
@@ -486,11 +387,15 @@ function changeQty(i,d){
    CONFIRMATION
 ===================================================== */
 function openConfirm(){
-  if(!cart.length) return;
+  if(cart.length === 0){ return; }
 
+  let html = "";
+  cart.forEach(function(item){
+    html += `${item.qty} × ${item.count} — ${item.price * item.count}€<br>`;
+  });
+
+  document.getElementById("confirm-content").innerHTML = html;
   document.getElementById("modal").classList.add("active");
-  document.getElementById("confirm-content").innerHTML =
-    cart.map(i => `${i.qty} x${i.count} — ${i.price * i.count}€`).join("<br>");
 }
 
 function closeModal(){
@@ -498,16 +403,18 @@ function closeModal(){
 }
 
 /* =====================================================
-   NOUVELLES FONCTIONS — ENVOI SIMPLE
+   GÉNÉRATION DU MESSAGE DE COMMANDE
 ===================================================== */
 function generateOrderText(){
-  if(!cart.length) return "";
+  if(cart.length === 0){ return ""; }
 
-  const total = cart.reduce((s,i)=>s + (i.price * i.count), 0);
-
+  let total = 0;
   let text = "🧾 COMMANDE ALLO\n\n";
-  cart.forEach(i=>{
-    text += `• ${i.qty} (${i.range}) x${i.count} — ${i.price * i.count}€\n`;
+
+  cart.forEach(function(item){
+    const lineTotal = item.price * item.count;
+    total += lineTotal;
+    text += `• ${item.qty} (${item.range}) × ${item.count} — ${lineTotal}€\n`;
   });
 
   text += `\n💰 Total : ${total}€`;
@@ -516,141 +423,148 @@ function generateOrderText(){
   return text;
 }
 
-function copyOrderToClipboard(){
+/* =====================================================
+   HISTORIQUE
+===================================================== */
+function renderHistory(){
+  const box = document.getElementById("history-list");
+  if(orders.length === 0){
+    box.innerHTML = "<p>Aucune commande.</p>";
+    return;
+  }
+
+  let html = "";
+  orders.forEach(function(order){
+    html += `
+      <div class="card soft">
+        ${order.text.replace(/\n/g,"<br>")}
+      </div>
+    `;
+  });
+
+  box.innerHTML = html;
+}
+</script>
+
+<script>
+/* =====================================================
+   UX — FEEDBACK UTILISATEUR (SANS BOT)
+===================================================== */
+
+/* =====================================================
+   HAPTIC FEEDBACK (SI DANS TELEGRAM)
+===================================================== */
+function hapticLight(){
+  if (window.Telegram &&
+      Telegram.WebApp &&
+      Telegram.WebApp.HapticFeedback){
+    Telegram.WebApp.HapticFeedback.impactOccurred("light");
+  }
+}
+
+/* =====================================================
+   ÉTATS DES BOUTONS
+===================================================== */
+function setButtonLoading(button, text){
+  button.dataset.originalText = button.innerHTML;
+  button.innerHTML = text;
+  button.classList.add("loading");
+}
+
+function setButtonSuccess(button, text){
+  button.classList.remove("loading");
+  button.classList.add("success");
+  button.innerHTML = text;
+}
+
+function resetButton(button){
+  button.classList.remove("loading");
+  button.classList.remove("success");
+  if(button.dataset.originalText){
+    button.innerHTML = button.dataset.originalText;
+  }
+}
+
+/* =====================================================
+   FEEDBACK TEXTE
+===================================================== */
+function showFeedback(message){
+  const feedback = document.getElementById("ux-feedback");
+  if(!feedback){ return; }
+
+  feedback.innerText = message;
+  feedback.classList.add("visible");
+
+  setTimeout(function(){
+    feedback.classList.remove("visible");
+  }, 2000);
+}
+
+/* =====================================================
+   COPIER LA COMMANDE — UX
+===================================================== */
+function copyOrderToClipboardUX(button){
+  hapticLight();
+  setButtonLoading(button, "Copie en cours…");
+
   const text = generateOrderText();
-  if(!text){
+  if(text === ""){
+    resetButton(button);
     alert("Aucune commande à copier.");
     return;
   }
 
   navigator.clipboard.writeText(text)
-    .then(()=> alert("Commande copiée 📋\nColle-la dans Telegram"))
-    .catch(()=> alert("Erreur lors de la copie."));
+    .then(function(){
+      setButtonSuccess(button, "✅ Commande copiée");
+      showFeedback("Commande copiée dans le presse-papiers 📋");
+      setTimeout(function(){
+        resetButton(button);
+      }, 1800);
+    })
+    .catch(function(){
+      resetButton(button);
+      alert("Impossible de copier la commande.");
+    });
 }
 
-function sendOrderViaTelegram(){
+/* =====================================================
+   ENVOI VERS UN UTILISATEUR TELEGRAM PRÉCIS — UX
+===================================================== */
+function sendOrderViaTelegramUX(button){
+  hapticLight();
+  setButtonLoading(button, "Ouverture de Telegram…");
+
   const text = generateOrderText();
-  if(!text){
+  if(text === ""){
+    resetButton(button);
     alert("Aucune commande à envoyer.");
     return;
   }
 
-  const USERNAME = "allo856"; // ← TON @username SANS LE @
+  /* ===============================
+     DESTINATAIRE TELEGRAM
+     ⚠️ SANS LE @
+  =============================== */
+  const TELEGRAM_USERNAME = "allo856";
 
   const url =
-    "https://t.me/" + USERNAME + "?text=" + encodeURIComponent(text);
+    "https://t.me/" +
+    TELEGRAM_USERNAME +
+    "?text=" +
+    encodeURIComponent(text);
 
-  window.location.href = url;
+  setTimeout(function(){
+    resetButton(button);
+    window.location.href = url;
+  }, 700);
 }
 
 /* =====================================================
-   FIDELITE / HISTORIQUE (INCHANGÉ)
+   SÉCURITÉ GLOBALE
 ===================================================== */
-function updateFidelite(){
-  document.getElementById("points").innerText =
-    `${pointsValid} validés • ${pointsPending} en attente`;
-  document.getElementById("points-mini").innerText =
-    `${pointsValid} pts`;
-
-  const paliers = [90,130,170,250,350];
-  const next = paliers.find(p=>p>pointsValid) || paliers[paliers.length-1];
-  const pct = Math.min(100,(pointsValid/next)*100)+"%";
-
-  document.getElementById("progress-bar").style.width = pct;
-  document.getElementById("progress-mini").style.width = pct;
-}
-
-function renderHistory(){
-  const box = document.getElementById("history-list");
-  if(!orders.length){
-    box.innerHTML = "<p>Aucune commande.</p>";
-    return;
-  }
-
-  box.innerHTML = orders.map(o=>`
-    <div class="item">
-      <span>${o.date || ""}</span>
-      <strong>${o.total || ""}€</strong>
-      <span>${o.status || ""}</span>
-    </div>
-  `).join("");
-}
-
-updateFidelite();
-</script>
-
-<script>
-/* =====================================================
-   VALIDATION MANUELLE (LOCALE)
-   - conservée pour ton historique interne
-   - aucune dépendance externe
-===================================================== */
-
-function refreshOrders(){
-  if(!orders.length){
-    alert("Aucune commande en attente.");
-    return;
-  }
-
-  const pending = orders.find(o=>o.status==="⏳ En attente");
-  if(!pending){
-    alert("Aucune commande à valider.");
-    return;
-  }
-
-  pending.status = "✅ Validée";
-
-  pointsValid += pending.total || 0;
-  pointsPending -= pending.total || 0;
-  if(pointsPending < 0) pointsPending = 0;
-
-  localStorage.setItem("orders", JSON.stringify(orders));
-  localStorage.setItem("pointsValid", pointsValid);
-  localStorage.setItem("pointsPending", pointsPending);
-
-  updateFidelite();
-  renderHistory();
-
-  showValidationModal(pending);
-}
-
-function showValidationModal(order){
-  const modal = document.createElement("div");
-  modal.className = "modal active";
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h2>Commande validée</h2>
-      <p><strong>${order.total || ""} points</strong> ont été ajoutés.</p>
-      <p>ID : ${order.id || ""}</p>
-      <div class="stack">
-        <button class="primary" onclick="this.closest('.modal').remove()">OK</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-}
-
-/* =====================================================
-   AJOUT BOUTON ACTUALISER (HISTORIQUE)
-===================================================== */
-(function addRefreshButton(){
-  const history = document.getElementById("history");
-  if(!history) return;
-
-  const btn = document.createElement("button");
-  btn.className = "secondary";
-  btn.style.marginTop = "12px";
-  btn.innerText = "🔄 Actualiser mes commandes";
-  btn.onclick = refreshOrders;
-
-  history.querySelector(".card").appendChild(btn);
-})();
-
-/* =====================================================
-   GARDE-FOUS
-===================================================== */
-window.addEventListener("error", e=>{
-  console.error("ALLO ERROR:", e.message);
+window.addEventListener("error", function(event){
+  console.error("ALLO ERROR:", event.message);
 });
 </script>
 
