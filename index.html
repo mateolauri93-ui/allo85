@@ -2,56 +2,130 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ALLO85</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+
+/* ==================================================
+   CONFIGURATION GLOBALE
+   ================================================== */
 :root{
-  --accent:#ffd56b;
-  --bg:#ffffff;
-  --card:rgba(255,255,255,.9);
-  --radius:22px;
+  --card:#ffffff;
   --text:#1f2937;
+  --accent:#ffd56b;
+  --bg-opacity:1;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-
+/* ==================================================
+   BASE BODY
+   ================================================== */
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto;
-  background:#fff;
+  margin:0;
+  font-family:Inter,sans-serif;
   color:var(--text);
+  background:#fff;
+  position:relative;
+  transition:background .4s,color .4s;
 }
 
+/* ==================================================
+   BACKGROUND GLOBAL
+   ================================================== */
 body::before{
   content:"";
   position:fixed;
   inset:0;
+  opacity:var(--bg-opacity);
   background:
-    linear-gradient(rgba(255,255,255,.65),rgba(255,255,255,.65)),
-    url("https://images.unsplash.com/photo-1504674900247-0877df9cc836")
+    linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),
+    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
     center/cover no-repeat;
-  filter:blur(8px);
-  z-index:-1;
+  filter:blur(6px) saturate(1.08);
+  transform:scale(1.05);
+  transition:opacity .45s ease;
+  z-index:-2;
 }
 
+body.bg-choco::before{
+  background:
+    linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
+    url("A17A37CD-8623-4AC5-8D4D-8C70E40B8CE8.PNG")
+    center/cover no-repeat;
+}
+
+body.bg-green::before{
+  background:
+    linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),
+    url("4080490D-A830-498B-B468-AD1F6A5B1BF8.PNG")
+    center/cover no-repeat;
+}
+
+body.night{
+  color:#f8fafc;
+}
+
+body.night::before{
+  background:
+    linear-gradient(rgba(2,6,23,.75),rgba(2,6,23,.75)),
+    url("5BFC6A16-05E8-43A3-9B5A-D8A85EFB53FF.PNG")
+    center/cover no-repeat;
+  filter:blur(8px);
+}
+
+/* ==================================================
+   ÉCRAN D’ACCUEIL
+   ================================================== */
+#welcome{
+  position:fixed;
+  inset:0;
+  background:url("2C3F23B0-CDD4-4FA3-B716-524EE845C6D6.PNG") center/cover no-repeat;
+  z-index:100;
+}
+
+#welcome-hitbox{
+  position:absolute;
+  width:300px;
+  height:100px;
+  left:50%;
+  top:75%;
+  transform:translate(-50%,-50%);
+}
+
+.welcome-hide{
+  animation:welcomeOut .45s forwards;
+}
+
+@keyframes welcomeOut{
+  to{
+    opacity:0;
+    transform:scale(1.05);
+  }
+}
+
+/* ==================================================
+   STRUCTURE
+   ================================================== */
 .app{
   max-width:420px;
   margin:auto;
   min-height:100vh;
-  padding-bottom:120px;
 }
 
+/* ==================================================
+   HEADER / FOOTER
+   ================================================== */
 header,footer{
   position:fixed;
   left:0;right:0;
   max-width:420px;
   margin:auto;
-  background:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.82);
   backdrop-filter:blur(8px);
-  display:none;
+  display:flex;
   align-items:center;
   z-index:10;
 }
@@ -61,41 +135,57 @@ header{
   height:56px;
   justify-content:space-between;
   padding:0 14px;
+  display:none;
 }
+
 footer{
   bottom:0;
   height:64px;
   justify-content:space-between;
   padding:0 16px;
+  display:none;
 }
 
-button{
-  border:none;
-  border-radius:999px;
-  padding:10px 16px;
-  background:var(--accent);
-  font-weight:600;
-}
-
+/* ==================================================
+   PAGES
+   ================================================== */
 .page{
   display:none;
-  padding:88px 16px 0;
-}
-.page.active{display:block}
-
-.card{
-  background:var(--card);
-  border-radius:var(--radius);
-  padding:18px;
-  margin-bottom:16px;
-  text-align:center;
-  box-shadow:0 14px 30px rgba(0,0,0,.15);
+  padding:96px 20px 150px;
+  animation:pageIn .25s ease;
 }
 
+.page.active{
+  display:block;
+}
+
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
+}
+
+/* ==================================================
+   UI
+   ================================================== */
 .grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:16px;
+}
+
+.card{
+  background:rgba(255,255,255,.78);
+  border-radius:26px;
+  padding:20px;
+  text-align:center;
+  font-family:Fredoka;
+  box-shadow:0 20px 40px rgba(0,0,0,.12);
+}
+
+.home-card{
+  font-size:56px;
+  padding:34px 20px;
+  border-radius:34px;
 }
 
 .qty{
@@ -104,212 +194,162 @@ button{
   align-items:center;
   gap:12px;
 }
+
 .qty button{
-  width:30px;height:30px;
+  width:30px;
+  height:30px;
+  border:none;
   border-radius:50%;
-  padding:0;
+  background:var(--accent);
+  font-size:18px;
 }
 
+.notice{
+  background:rgba(255,255,255,.7);
+  border-radius:18px;
+  padding:14px;
+  margin-top:16px;
+}
+
+/* ==================================================
+   SERVICES
+   ================================================== */
+#services{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+
+#services .box{
+  background:#fff;
+  border-radius:28px;
+  padding:26px;
+  width:82%;
+}
+
+/* ==================================================
+   BARRE CADEAU
+   ================================================== */
 .gift-bar{
   position:fixed;
-  bottom:74px;
   left:50%;
+  bottom:74px;
   transform:translateX(-50%);
   width:90%;
   max-width:380px;
-  background:rgba(255,255,255,.9);
+  background:rgba(255,255,255,.88);
   border-radius:18px;
   padding:12px;
-  box-shadow:0 10px 24px rgba(0,0,0,.2);
-  display:none;
+  z-index:9;
 }
+
 .gift-track{
   height:10px;
-  background:#eee;
+  background:#ddd;
   border-radius:999px;
   overflow:hidden;
 }
+
 .gift-progress{
   height:100%;
   width:0%;
   background:linear-gradient(90deg,#ffd56b,#ffb703);
 }
+
 </style>
 </head>
 
 <body>
 
-<section id="welcome" class="page active">
-  <div class="card">
-    <h1>ALLO85</h1>
-    <p>Commande rapide & maîtrisée</p>
-    <button onclick="enterApp()">Entrer</button>
-  </div>
-</section>
+<div id="welcome">
+  <div id="welcome-hitbox" onclick="enterApp()"></div>
+</div>
 
 <div class="app">
 
-<header id="header">
-  <button onclick="goBack()">⬅</button>
-  <strong>ALLO85</strong>
-  <button onclick="go('home')">🏠</button>
-</header>
-
-<footer id="footer">
-  <span>🛒 <b id="cartCount">0</b> · <b id="cartTotal">0€</b></span>
-  <button onclick="go('cart')">Panier</button>
-</footer>
-
-<section id="home" class="page">
-  <div class="card" onclick="go('choco')">🍫 Chocolat</div>
-  <div class="card" onclick="go('green')">🥦 Green</div>
-</section>
-
-<section id="choco" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('jaune')">🟡 Jaune</div>
-    <div class="card" onclick="go('filtre')">🔍 Filtré</div>
-  </div>
-</section>
-
-<section id="green" class="page">
-  <div class="grid">
-    <div class="card" onclick="go('cali')">🇺🇸 Cali</div>
-  </div>
-</section>
-
-<section id="jaune" class="page"><h2>🟡 Jaune</h2><div class="grid" id="jauneList"></div></section>
-<section id="filtre" class="page"><h2>🔍 Filtré</h2><div class="grid" id="filtreList"></div></section>
-<section id="cali" class="page"><h2>🇺🇸 Cali</h2><div class="grid" id="caliList"></div></section>
-
-<section id="cart" class="page">
-  <h2>🛒 Panier</h2>
-  <div id="cartItems"></div>
+<section id="access" class="page active">
   <div class="card">
-    <p><b>Total : <span id="total">0</span> €</b></p>
-    <button onclick="sendOrder()">Confirmer</button>
+    <h2>🔐 Accès sécurisé</h2>
+    <input id="accessInput" placeholder="Code">
+    <button onclick="checkAccess()">Valider</button>
+    <p id="accessError" style="display:none;color:red">Code invalide</p>
   </div>
 </section>
 
-<section id="confirm" class="page">
-  <div class="card">
-    <h2>✅ Commande copiée</h2>
-    <button onclick="openTelegram()">Ouvrir Telegram</button>
+<section id="root" class="page">
+  <div class="grid">
+    <div class="card home-card" onclick="goChoco()">🍫</div>
+    <div class="card home-card" onclick="goGreen()">🥦</div>
   </div>
 </section>
 
-</div>
-
-<div class="gift-bar" id="giftBar">
-  <p id="giftText"></p>
-  <div class="gift-track"><div class="gift-progress" id="giftProgress"></div></div>
 </div>
 
 <script>
-if(window.Telegram?.WebApp){
-  Telegram.WebApp.ready();
-  Telegram.WebApp.expand();
-}
+/* ==================================================
+   DONNÉES
+   ================================================== */
+const MASTER_CODE="HELLOALLO85";
+const DEBUG_MODE=false;
 
-const catalog={
-  jaune:[{g:"4g",p:20},{g:"10g",p:50},{g:"20g",p:90}],
-  filtre:[{g:"2.5g",p:20},{g:"5g",p:40},{g:"10g",p:70}],
-  cali:[{g:"2.4g",p:20},{g:"5g",p:50},{g:"10g",p:80}]
-};
-
-let stack=["home"];
 let cart=JSON.parse(localStorage.getItem("cart")||"[]");
+let orders=Number(localStorage.getItem("orders")||0);
+let ref=localStorage.getItem("ref")||
+("ALLO85-"+Math.random().toString(36).slice(2,7).toUpperCase());
+localStorage.setItem("ref",ref);
 
-function enterApp(){
-  welcome.style.display="none";
-  header.style.display="flex";
-  footer.style.display="flex";
-  show("home");
+let accessGranted=localStorage.getItem("accessGranted")==="true";
+
+/* ==================================================
+   ACCÈS
+   ================================================== */
+function checkAccess(){
+  const v=accessInput.value.trim().toUpperCase();
+  if(v===MASTER_CODE||v===ref){
+    accessGranted=true;
+    localStorage.setItem("accessGranted","true");
+    show("root");
+  }else{
+    accessError.style.display="block";
+  }
 }
 
+/* ==================================================
+   NAVIGATION
+   ================================================== */
 function show(id){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.getElementById(id).classList.add("active");
 }
-function go(id){stack.push(id);show(id)}
-function goBack(){if(stack.length>1){stack.pop();show(stack.at(-1))}}
 
-function render(list,id){
-  const el=document.getElementById(id);
-  el.innerHTML="";
-  list.forEach(p=>{
-    const k=id+p.g;
-    const it=cart.find(i=>i.k===k);
-    el.innerHTML+=`
-      <div class="card">
-        <div>${p.g}</div>
-        <div>${p.p}€</div>
-        <div class="qty">
-          ${it
-            ? `<button onclick="chg('${k}',-1)">−</button>${it.q}<button onclick="chg('${k}',1)">+</button>`
-            : `<button onclick="add('${k}','${p.g}',${p.p})">Ajouter</button>`
-          }
-        </div>
-      </div>`;
-  });
+function enterApp(){
+  welcome.classList.add("welcome-hide");
+  setTimeout(()=>welcome.style.display="none",450);
 }
 
-function add(k,g,p){cart.push({k,g,p,q:1});save()}
-function chg(k,d){
-  const i=cart.find(x=>x.k===k);
-  if(!i)return;
-  i.q+=d;
-  if(i.q<=0)cart=cart.filter(x=>x.k!==k);
-  save();
-}
-function save(){localStorage.setItem("cart",JSON.stringify(cart));update()}
-
-function update(){
-  render(catalog.jaune,"jauneList");
-  render(catalog.filtre,"filtreList");
-  render(catalog.cali,"caliList");
-
-  cartItems.innerHTML="";
-  let c=0,t=0;
-  cart.forEach(i=>{
-    c+=i.q;t+=i.q*i.p;
-    cartItems.innerHTML+=`
-      <div class="card">
-        ${i.g} — ${i.q*i.p}€
-        <div class="qty">
-          <button onclick="chg('${i.k}',-1)">−</button>${i.q}<button onclick="chg('${i.k}',1)">+</button>
-        </div>
-      </div>`;
-  });
-
-  cartCount.innerText=c;
-  cartTotal.innerText=t+"€";
-  total.innerText=t;
-
-  giftBar.style.display="block";
-  const pct=Math.min((t/150)*100,100);
-  giftProgress.style.width=pct+"%";
-  giftText.innerText=t>=150?"🎉 Cadeau débloqué":"🎁 Plus que "+(150-t)+"€";
+/* ==================================================
+   LOGS / HISTORIQUE / NIVEAUX (AJOUTS RÉELS)
+   ================================================== */
+const LOG_KEY="allo85_logs";
+function log(msg){
+  if(!DEBUG_MODE) return;
+  const l=JSON.parse(localStorage.getItem(LOG_KEY)||"[]");
+  l.push({t:Date.now(),msg});
+  localStorage.setItem(LOG_KEY,JSON.stringify(l));
 }
 
-function sendOrder(){
-  if(!cart.length)return alert("Panier vide");
-  let msg="🧾 COMMANDE ALLO85\n\n";
-  cart.forEach(i=>msg+=`• ${i.q}× ${i.g} — ${i.q*i.p}€\n`);
-  msg+=`\nTotal : ${total.innerText}€`;
-
-  navigator.clipboard.writeText(msg).then(()=>{
-    cart=[];
-    save();
-    show("confirm");
-  });
+const LEVELS=["Bronze","Argent","Or","Platine"];
+function level(){
+  if(orders>=15) return LEVELS[3];
+  if(orders>=7) return LEVELS[2];
+  if(orders>=3) return LEVELS[1];
+  return LEVELS[0];
 }
 
-function openTelegram(){
-  window.open("https://t.me/allo856","_blank");
-}
-
-update();
 </script>
 
 </body>
