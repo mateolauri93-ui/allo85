@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>ALLO — Premium Experience</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ALLO — Commande</title>
 
 <style>
 /* =====================================================
-   THEME GLOBAL — FINAL (IDENTIQUE)
+   THEME
 ===================================================== */
 :root{
   --bg-main:#0b0f14;
@@ -17,10 +17,6 @@
 
   --gold:#c9a24d;
   --gold-soft:#f5d57a;
-
-  --yellow:#facc15;
-  --orange:#fb923c;
-  --blue:#60a5fa;
 
   --text:#e6edf3;
   --muted:#8b949e;
@@ -41,36 +37,51 @@ body{
 }
 
 /* =====================================================
-   APP WRAPPER
+   LAYOUT
 ===================================================== */
 .app{
-  max-width:560px;
+  max-width:520px;
   margin:auto;
+  padding:16px;
   min-height:100%;
-  padding:14px 14px 44px;
 }
 
 /* =====================================================
-   SCREENS
+   TYPO
 ===================================================== */
-.screen{display:none}
-.screen.active{display:block}
+h1{
+  font-size:36px;
+  letter-spacing:3px;
+  text-align:center;
+}
+h2{
+  font-size:20px;
+  margin-bottom:10px;
+}
+p{
+  font-size:14px;
+  color:var(--muted);
+}
 
 /* =====================================================
-   UI
+   CARDS
 ===================================================== */
 .card{
   background:var(--card);
   border-radius:var(--radius);
   padding:18px;
-  margin-bottom:14px;
   box-shadow:var(--shadow);
+  margin-bottom:16px;
 }
-.card.soft{background:var(--card-soft)}
+.card.soft{
+  background:var(--card-soft);
+}
 
-.stack{display:flex;flex-direction:column;gap:12px}
-
+/* =====================================================
+   BUTTONS
+===================================================== */
 button{
+  width:100%;
   border:none;
   border-radius:14px;
   padding:14px;
@@ -88,21 +99,31 @@ button:active{
   background:linear-gradient(135deg,var(--gold),var(--gold-soft));
   color:#000;
 }
+
 .secondary{
   background:#21262d;
   color:var(--text);
 }
 
 /* =====================================================
-   FEEDBACK DISCRET (AJOUT SANS CHANGER L’UI)
+   STACK
 ===================================================== */
-button.loading{
-  opacity:0.6;
-  pointer-events:none;
+.stack{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
-button.success{
-  background:linear-gradient(135deg,#22c55e,#16a34a)!important;
-  color:#000;
+
+/* =====================================================
+   LIST ITEM
+===================================================== */
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#0d1117;
+  padding:12px;
+  border-radius:12px;
 }
 
 /* =====================================================
@@ -111,16 +132,19 @@ button.success{
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.65);
   display:none;
   align-items:center;
   justify-content:center;
+  z-index:50;
 }
-.modal.active{display:flex}
+.modal.active{
+  display:flex;
+}
 .modal-content{
   background:var(--card);
   border-radius:var(--radius);
-  padding:18px;
+  padding:20px;
   width:92%;
   max-width:420px;
 }
@@ -130,84 +154,52 @@ button.success{
 <body>
 <div class="app">
 
-<!-- =========================
-     LANDING (PAGE D’ACCUEIL)
-========================= -->
-<section id="landing" class="screen active">
+  <!-- =========================
+       HEADER
+  ========================= -->
   <div class="card">
-    <h1 style="text-align:center;font-size:42px;letter-spacing:3px">ALLO</h1>
-    <p style="text-align:center;color:var(--muted);margin:12px 0 24px">
-      Expérience premium, rapide et maîtrisée
+    <h1>ALLO</h1>
+    <p style="text-align:center;margin-top:6px">
+      Commande rapide & maîtrisée
     </p>
-    <button class="primary" style="width:100%" onclick="enterApp()">
-      Entrer dans l’expérience
-    </button>
-  </div>
-</section>
-
-<!-- =========================
-     APP
-========================= -->
-<div id="app-shell" style="display:none">
-
-  <!-- NAV -->
-  <div class="card">
-    <div class="stack">
-      <button class="secondary" onclick="go('dashboard')">🏠 Accueil</button>
-      <button class="secondary" onclick="go('cart')">🛒 Panier</button>
-      <button class="secondary" onclick="go('history')">📜 Historique</button>
-    </div>
   </div>
 
-  <!-- DASHBOARD -->
-  <section id="dashboard" class="screen">
-    <div class="card">
-      <h2>Catalogue</h2>
-      <div class="stack">
-        <button class="primary" onclick="go('jaune')">🟡 Jaune</button>
-        <button class="secondary" onclick="go('filtrer')">🔥 Filtrer</button>
-        <button class="secondary" onclick="go('frozen')">❄️ Frozen</button>
-      </div>
+  <!-- =========================
+       CATALOGUE
+  ========================= -->
+  <section id="catalogue" class="card">
+    <h2>Catalogue</h2>
+    <div class="stack" id="product-list">
+      <!-- produits injectés en JS -->
     </div>
   </section>
 
-  <!-- PRODUITS -->
-  <section id="jaune" class="screen"></section>
-  <section id="filtrer" class="screen"></section>
-  <section id="frozen" class="screen"></section>
-
-  <!-- PANIER -->
-  <section id="cart" class="screen">
-    <div class="card">
-      <h2>🛒 Panier</h2>
-      <div id="cart-list"></div>
-      <div class="stack">
-        <button class="primary" onclick="openConfirm()">
-          Confirmer la commande
-        </button>
-      </div>
+  <!-- =========================
+       PANIER
+  ========================= -->
+  <section id="cart" class="card">
+    <h2>Panier</h2>
+    <div id="cart-list"></div>
+    <div class="stack" style="margin-top:14px">
+      <button class="primary" id="open-confirm">
+        Confirmer la commande
+      </button>
     </div>
   </section>
 
-  <!-- HISTORIQUE -->
-  <section id="history" class="screen">
-    <div class="card">
-      <h2>📜 Historique</h2>
-      <div id="history-list"></div>
-    </div>
-  </section>
-
-  <!-- MODAL CONFIRMATION -->
-  <div id="modal" class="modal">
+  <!-- =========================
+       MODAL CONFIRMATION
+  ========================= -->
+  <div class="modal" id="confirm-modal">
     <div class="modal-content">
-      <h2>Confirmer la commande</h2>
+      <h2>Confirmation</h2>
       <div id="confirm-content" style="margin:12px 0"></div>
 
       <div class="stack">
-        <button class="primary" onclick="sendOrderViaTelegram(this)">
-          📩 Envoyer sur Telegram
+        <button class="primary" id="send-telegram">
+          Envoyer sur Telegram
         </button>
-        <button class="secondary" onclick="closeModal()">
+        <button class="secondary" id="close-modal">
           Annuler
         </button>
       </div>
@@ -217,254 +209,166 @@ button.success{
 </div>
 <script>
 /* =====================================================
-   NAVIGATION
+   DONNÉES PRODUITS
 ===================================================== */
-function go(id){
-  document.querySelectorAll(".screen").forEach(function(s){
-    s.classList.remove("active");
-  });
-  const el = document.getElementById(id);
-  if(el){
-    el.classList.add("active");
-  }
-  if(id === "cart"){ renderCart(); }
-  if(id === "history"){ renderHistory(); }
-}
-
-function enterApp(){
-  document.getElementById("landing").classList.remove("active");
-  document.getElementById("app-shell").style.display = "block";
-  go("dashboard");
-}
-
-/* =====================================================
-   PRODUITS (IDENTIQUE)
-===================================================== */
-const PRODUCTS = {
-  jaune: [
-    { price: 10, qty: "2g" },
-    { price: 20, qty: "4g" },
-    { price: 50, qty: "10g" }
-  ],
-  filtrer: [
-    { price: 20, qty: "2g" },
-    { price: 70, qty: "10g" }
-  ],
-  frozen: [
-    { price: 30, qty: "3g" },
-    { price: 90, qty: "10g" }
-  ]
-};
+const PRODUCTS = [
+  { id: 1, name: "Jaune", qty: "2g", price: 10 },
+  { id: 2, name: "Jaune", qty: "4g", price: 20 },
+  { id: 3, name: "Jaune", qty: "10g", price: 50 },
+  { id: 4, name: "Filtrer", qty: "2g", price: 20 },
+  { id: 5, name: "Filtrer", qty: "10g", price: 70 },
+  { id: 6, name: "Frozen", qty: "3g", price: 30 },
+  { id: 7, name: "Frozen", qty: "10g", price: 90 }
+];
 
 /* =====================================================
    STATE
 ===================================================== */
-let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+let cart = [];
 
 /* =====================================================
-   CATALOGUES
+   RENDER PRODUITS
 ===================================================== */
-function renderCatalogue(id, key, title){
-  const el = document.getElementById(id);
-  let html = `<div class="card"><h2>${title}</h2><div class="stack">`;
+function renderProducts(){
+  const list = document.getElementById("product-list");
+  list.innerHTML = "";
 
-  PRODUCTS[key].forEach(function(p){
-    html += `
-      <div class="card soft">
-        <strong>${p.qty}</strong> — ${p.price}€
-        <button class="secondary" style="margin-top:8px"
-          onclick="addToCart('${key}','${p.qty}',${p.price})">
-          Ajouter
-        </button>
-      </div>
+  PRODUCTS.forEach(product => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <span>${product.name} ${product.qty}</span>
+      <strong>${product.price}€</strong>
+      <button class="secondary">Ajouter</button>
     `;
+
+    div.querySelector("button").addEventListener("click", () => {
+      addToCart(product);
+    });
+
+    list.appendChild(div);
   });
-
-  html += `<button class="secondary" onclick="go('dashboard')">Retour</button>`;
-  html += `</div></div>`;
-  el.innerHTML = html;
 }
-
-renderCatalogue("jaune","jaune","🟡 Jaune");
-renderCatalogue("filtrer","filtrer","🔥 Filtrer");
-renderCatalogue("frozen","frozen","❄️ Frozen");
 
 /* =====================================================
    PANIER
 ===================================================== */
-function addToCart(range, qty, price){
-  const found = cart.find(function(i){
-    return i.range === range && i.qty === qty;
-  });
-
+function addToCart(product){
+  const found = cart.find(p => p.id === product.id);
   if(found){
     found.count += 1;
-  }else{
-    cart.push({
-      range: range,
-      qty: qty,
-      price: price,
-      count: 1
-    });
+  } else {
+    cart.push({ ...product, count: 1 });
   }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
 }
 
 function renderCart(){
   const box = document.getElementById("cart-list");
+  box.innerHTML = "";
 
   if(cart.length === 0){
-    box.innerHTML = "<p>Panier vide.</p>";
+    box.innerHTML = "<p style='color:var(--muted)'>Panier vide.</p>";
     return;
   }
 
-  let html = "";
-  cart.forEach(function(i, idx){
-    html += `
-      <div class="card soft">
-        ${i.qty} (${i.range}) × ${i.count}<br>
-        <strong>${i.price * i.count}€</strong><br>
-        <button class="secondary" onclick="changeQty(${idx},-1)">−</button>
-        <button class="secondary" onclick="changeQty(${idx},1)">+</button>
-      </div>
+  cart.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <span>${item.name} ${item.qty} × ${item.count}</span>
+      <strong>${item.price * item.count}€</strong>
     `;
+    box.appendChild(div);
   });
-
-  box.innerHTML = html;
-}
-
-function changeQty(index, delta){
-  cart[index].count += delta;
-  if(cart[index].count <= 0){
-    cart.splice(index,1);
-  }
-  localStorage.setItem("cart", JSON.stringify(cart));
-  renderCart();
 }
 
 /* =====================================================
-   CONFIRMATION
+   MODAL
 ===================================================== */
-function openConfirm(){
-  if(cart.length === 0){ return; }
+const modal = document.getElementById("confirm-modal");
+const openConfirmBtn = document.getElementById("open-confirm");
+const closeModalBtn = document.getElementById("close-modal");
+const confirmContent = document.getElementById("confirm-content");
 
-  let html = "";
-  cart.forEach(function(i){
-    html += `${i.qty} × ${i.count} — ${i.price * i.count}€<br>`;
-  });
-
-  document.getElementById("confirm-content").innerHTML = html;
-  document.getElementById("modal").classList.add("active");
-}
-
-function closeModal(){
-  document.getElementById("modal").classList.remove("active");
-}
-
-/* =====================================================
-   ENVOI TELEGRAM (LOGIQUE SIMPLE ET PROPRE)
-===================================================== */
-function sendOrderViaTelegram(button){
+openConfirmBtn.addEventListener("click", () => {
   if(cart.length === 0){
-    alert("Aucune commande à envoyer.");
+    alert("Panier vide.");
     return;
   }
 
-  const total = cart.reduce(function(sum,i){
-    return sum + i.price * i.count;
-  }, 0);
-
-  let text = "🧾 COMMANDE ALLO\n\n";
-  cart.forEach(function(i){
-    text += `• ${i.qty} (${i.range}) × ${i.count} — ${i.price * i.count}€\n`;
+  confirmContent.innerHTML = "";
+  cart.forEach(item => {
+    const line = document.createElement("div");
+    line.textContent =
+      `${item.name} ${item.qty} × ${item.count} — ${item.price * item.count}€`;
+    confirmContent.appendChild(line);
   });
-  text += `\n💰 Total : ${total}€`;
-  text += `\n⏰ ${new Date().toLocaleString()}`;
 
-  const USERNAME = "allo856"; // sans @
+  modal.classList.add("active");
+});
+
+closeModalBtn.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+/* =====================================================
+   INIT
+===================================================== */
+renderProducts();
+</script>
+<script>
+/* =====================================================
+   ENVOI DE LA COMMANDE SUR TELEGRAM
+   - Sans bot
+   - Sans serveur
+   - Vers un utilisateur précis
+===================================================== */
+
+const sendTelegramBtn = document.getElementById("send-telegram");
+
+sendTelegramBtn.addEventListener("click", () => {
+  if(cart.length === 0){
+    alert("Panier vide.");
+    return;
+  }
+
+  /* ===== Feedback visuel simple ===== */
+  sendTelegramBtn.disabled = true;
+  sendTelegramBtn.textContent = "Ouverture de Telegram…";
+  sendTelegramBtn.style.opacity = "0.7";
+
+  /* ===== Génération du message ===== */
+  let total = 0;
+  let message = "🧾 COMMANDE ALLO\n\n";
+
+  cart.forEach(item => {
+    const lineTotal = item.price * item.count;
+    total += lineTotal;
+    message += `• ${item.name} ${item.qty} × ${item.count} — ${lineTotal}€\n`;
+  });
+
+  message += `\n💰 Total : ${total}€`;
+  message += `\n⏰ ${new Date().toLocaleString()}`;
+
+  /* ===== Destinataire Telegram ===== */
+  const TELEGRAM_USERNAME = "allo856"; // SANS @
+
   const url =
-    "https://t.me/" + USERNAME + "?text=" + encodeURIComponent(text);
+    "https://t.me/" +
+    TELEGRAM_USERNAME +
+    "?text=" +
+    encodeURIComponent(message);
 
-  window.location.href = url;
-}
+  /* ===== Lancement Telegram ===== */
+  setTimeout(() => {
+    window.location.href = url;
 
-/* =====================================================
-   HISTORIQUE (LOCAL)
-===================================================== */
-function renderHistory(){
-  const box = document.getElementById("history-list");
-  if(orders.length === 0){
-    box.innerHTML = "<p>Aucune commande.</p>";
-    return;
-  }
-
-  let html = "";
-  orders.forEach(function(o){
-    html += `<div class="card soft">${o}</div>`;
-  });
-
-  box.innerHTML = html;
-}
-</script>
-<script>
-/* =====================================================
-   FEEDBACK VISUEL MINIMAL (AJOUT PROPRE)
-===================================================== */
-
-/* =====================================================
-   APPLIQUER UN ÉTAT DE CHARGEMENT AU BOUTON
-===================================================== */
-function setLoading(button){
-  if(!button) return;
-  button.classList.add("loading");
-}
-
-/* =====================================================
-   APPLIQUER UN ÉTAT DE SUCCÈS AU BOUTON
-===================================================== */
-function setSuccess(button){
-  if(!button) return;
-  button.classList.remove("loading");
-  button.classList.add("success");
-}
-
-/* =====================================================
-   RÉINITIALISER LE BOUTON
-===================================================== */
-function resetButton(button){
-  if(!button) return;
-  button.classList.remove("loading");
-  button.classList.remove("success");
-}
-
-/* =====================================================
-   SURCHARGE PROPRE DE L’ENVOI TELEGRAM
-   (MÊME LOGIQUE, + FEEDBACK)
-===================================================== */
-const originalSendOrderViaTelegram = sendOrderViaTelegram;
-
-sendOrderViaTelegram = function(button){
-  if(!cart.length){
-    alert("Aucune commande à envoyer.");
-    return;
-  }
-
-  setLoading(button);
-
-  setTimeout(function(){
-    setSuccess(button);
-    originalSendOrderViaTelegram(button);
-  }, 300);
-};
-</script>
-<script>
-/* =====================================================
-   GARDE-FOUS GLOBAL
-===================================================== */
-window.addEventListener("error", function(event){
-  console.error("ALLO ERROR:", event.message);
+    // reset visuel (au cas où)
+    sendTelegramBtn.disabled = false;
+    sendTelegramBtn.textContent = "Envoyer sur Telegram";
+    sendTelegramBtn.style.opacity = "1";
+  }, 600);
 });
 </script>
 
